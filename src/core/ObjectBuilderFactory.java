@@ -324,8 +324,11 @@ public class ObjectBuilderFactory
 		manager.Register("map", new CommandMap(KittyRole.General, KittyRating.Safe));
 		manager.Register("rpstart", new CommandRPStart(KittyRole.General, KittyRating.Safe));
 		manager.Register("rpend", new CommandRPEnd(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String[] {"tony", "stark", "dontfeelgood", "dontfeelsogood"}, new CommandStark(KittyRole.General, KittyRating.Safe));
+		manager.Register(new String[] {"tony", "stark", "dontfeelgood", "dontfeelsogood", "snap"}, new CommandStark(KittyRole.General, KittyRating.Safe));
 		manager.Register("blur", new CommandBlurry(KittyRole.General, KittyRating.Safe));
+		
+		manager.Register("derp", new CommandDerpi(KittyRole.General, KittyRating.Filtered));
+		manager.Register("e621", new CommandE621(KittyRole.General, KittyRating.Filtered));
 		
 		return manager;
 	}

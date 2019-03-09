@@ -35,7 +35,7 @@ public class Main extends ListenerAdapter
 		ObjectBuilderFactory.ConstructRPManager();
 		stats = ObjectBuilderFactory.ConstructStats(commandManager);
 		
-		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
+		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.Token).buildBlocking();
 		kitty.getPresence().setGame(Game.playing("with a new build"));
 		kitty.addEventListener(new Main());
 	}

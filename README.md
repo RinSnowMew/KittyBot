@@ -1,2 +1,2 @@
-# KittyBot
-Fun and useful Discord bot
+# Kitty Sandbox!
+This is an eclipse project, you can just open the whole repo in Eclipse!

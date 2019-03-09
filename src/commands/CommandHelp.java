@@ -26,10 +26,10 @@ public class CommandHelp extends Command
 		if(help == null)
 		{
 			help = "You can get help with a specific command by typing `!help command`!"
-					+ "\nYou can also look at <https://www.rinsnowmew.com/bot/info/#commands>"
+					+ "\nYou can also look at <https://www.kittybot.net/info/#commands>"
 					+ "\nGeneral Commands: `boop, roll, choose, help, info, vote, "
 					+ "results, showpoll, wolfram, cplus, java,"
-					+ "beans, role, bet, yeet`";
+					+ "beans, role, derp, e621, bet, yeet`";
 		}
 		else
 		{
