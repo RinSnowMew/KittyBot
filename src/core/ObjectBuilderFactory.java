@@ -290,7 +290,6 @@ public class ObjectBuilderFactory
 		
 		CommandManager manager = new CommandManager();
 		
-		manager.Register("test", new CommandTesting(KittyRole.Dev, KittyRating.Safe));
 		manager.Register("work", new CommandDoWork(KittyRole.Dev, KittyRating.Safe));
 		manager.Register("shutdown", new CommandShutdown(KittyRole.Dev, KittyRating.Safe));
 		manager.Register("stats", new CommandStats(KittyRole.Dev, KittyRating.Safe));
@@ -326,6 +325,7 @@ public class ObjectBuilderFactory
 		manager.Register("rpend", new CommandRPEnd(KittyRole.General, KittyRating.Safe));
 		manager.Register(new String[] {"tony", "stark", "dontfeelgood", "dontfeelsogood", "snap"}, new CommandStark(KittyRole.General, KittyRating.Safe));
 		manager.Register("blur", new CommandBlurry(KittyRole.General, KittyRating.Safe));
+		manager.Register(new String [] {"eightball", "8ball"}, new CommandEightBall(KittyRole.General, KittyRating.Safe));
 		
 		manager.Register("derp", new CommandDerpi(KittyRole.General, KittyRating.Filtered));
 		manager.Register("e621", new CommandE621(KittyRole.General, KittyRating.Filtered));
