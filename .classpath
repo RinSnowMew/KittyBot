@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="lib/JDA-3.7.1_385-withDependencies.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.23.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.7.25.jar"/>
+	<classpathentry kind="lib" path="F:/Shared/Coding/Java/workspace/ProKitty/lib/twitter4j-core-4.0.7-javadoc.jar"/>
+	<classpathentry kind="lib" path="F:/Shared/Coding/Java/workspace/ProKitty/lib/twitter4j-core-4.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

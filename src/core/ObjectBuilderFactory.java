@@ -295,6 +295,7 @@ public class ObjectBuilderFactory
 		manager.Register("stats", new CommandStats(KittyRole.Dev, KittyRating.Safe));
 		manager.Register("invite", new CommandInvite(KittyRole.Dev, KittyRating.Safe));
 		manager.Register("buildHelp", new CommandHelpBuilder(KittyRole.Dev, KittyRating.Safe));
+		manager.Register("tweet", new CommandTweet(KittyRole.Dev, KittyRating.Safe));
 		
 		manager.Register("rating", new CommandRating(KittyRole.Admin, KittyRating.Safe));
 		manager.Register("indicator", new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));

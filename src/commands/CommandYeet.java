@@ -91,7 +91,7 @@ public class CommandYeet extends Command
 	public static final boolean VERBOSE = false;
 	public static final int NONE = -1;
 	public static final int PIXEL_BYTE_LENGTH = 4; // 32-bit PNG, RGBA
-	public static final String YEET_BASE_PATH = "yeet/frames/";
+	public static final String YEET_BASE_PATH = "assets/yeet/frames/";
 	public static final int YEET_BASE_SIZE = 24;
 	public static final int YEET_FPS = 18;
 	
