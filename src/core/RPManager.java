@@ -47,7 +47,7 @@ public class RPManager
 	
 	public File endRP(KittyChannel channel, KittyUser user) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		if(logs.containsKey(Long.parseLong(channel.uniqueID)))
+		if(!logs.containsKey(Long.parseLong(channel.uniqueID)))
 		{
 			return null; 
 		}
