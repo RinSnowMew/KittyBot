@@ -1,7 +1,8 @@
 package network;
 
 import com.google.gson.Gson;
-import core.*;
+import dataStructures.GenericImage;
+import offline.Ref;
 import utils.*;
 
 /**
@@ -24,7 +25,7 @@ public class NetworkE621
 	private static final Gson jsonParser_ = new Gson();
 	private static final String API_ROOT = "https://e621.net/post/index.json?";
 	private static int maxSearchResults_ = 10;
-	private static String[] blacklist = {"theallseeingeye","scat","diaper","cub"};
+	private static String[] blacklist = Ref.e621Blacklist;
 	private class E621ResponseObject
 	{
 		// public varaibles matching the case and the type we want for JSON.

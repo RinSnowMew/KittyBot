@@ -1,6 +1,7 @@
 package commands;
 
 import core.Command;
+import core.Localizer;
 import core.rpg.RPGFramework;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
@@ -22,7 +23,7 @@ public class CommandRPG extends Command
 	}
 	
 	@Override
-	public String HelpText() { return "Admin+ command only right now - experimental text RPG! Format is !rpg <rpg command>"; };
+	public String HelpText() { return Localizer.Stub("Admin+ command only right now - experimental text RPG! Format is !rpg <rpg command>"); };
 	
 	
 	@Override
@@ -42,7 +43,7 @@ public class CommandRPG extends Command
 		
 		if(result == null)
 		{
-			res.Call("Invalid RPG Command!");
+			res.Call(Localizer.Stub("Invalid RPG Command!"));
 			return;
 		}
 		

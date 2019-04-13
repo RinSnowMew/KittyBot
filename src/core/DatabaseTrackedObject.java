@@ -1,5 +1,7 @@
 package core;
 
+// Objects inheriting from this are capable of being stored in and 
+// have their data populated from database entries.
 public abstract class DatabaseTrackedObject
 {
 	private boolean isDirty;
@@ -26,10 +28,8 @@ public abstract class DatabaseTrackedObject
 		isDirty = false;
 	}
 	
-	// TODO(wisp): Not the best way to handle this, potentially consider
-	// using an object factory that looks up how to serialize and
-	// deserialize based on the type of the thing being tracked.
-	// For now, this is fine. 
+	// Consider an object factory instead of dedicated serialization methods
+	// if this starts to become impractical. For now, it works.
 	public abstract String Serialize();
 	public abstract void DeSerialzie(String string);
 }

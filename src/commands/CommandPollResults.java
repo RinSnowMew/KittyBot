@@ -10,7 +10,7 @@ public class CommandPollResults extends Command
 	public CommandPollResults(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Will show current results of a poll and percentages of votes per choice"; }
+	public String HelpText() { return Localizer.Stub("Will show current results of a poll and percentages of votes per choice"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -26,8 +26,7 @@ public class CommandPollResults extends Command
 		
 		for(int i = 0; i < votes.size(); i++)
 		{
-			
-			results += votes.get(i).votes + " people voted for `" + votes.get(i).choice + "` with `" + (int)(((double)votes.get(i).votes) / ((double)totalVotes) * 100) + "%`!\n";
+			results += String.format(Localizer.Stub("%s people voted for %s `%s` with `%s%` !\n "), votes.get(i).votes, votes.get(i).choice, (int)(((double)votes.get(i).votes) / ((double)totalVotes) * 100));
 		}
 		
 		res.Call(results);

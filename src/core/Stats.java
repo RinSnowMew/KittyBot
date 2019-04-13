@@ -8,7 +8,8 @@ import core.CommandManager.ThreadData;
 import utils.GlobalLog;
 import utils.LogFilter;
 
-// NOTE(wisp): This is a class designed to be asked about various kittybot stats
+// This is a class designed to be asked about various kittybot stats.
+// It follows a singleton pattern, and is accessable from anywhere internally.
 public class Stats
 {
 	public static String botName = "KittyBot";

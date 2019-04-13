@@ -8,8 +8,7 @@ import dataStructures.UserInput;
 
 public class CommandThread  extends Thread
 {
-	// Pile of variables
-	// TODO(wisp): Consider packaging this up into a thread arguments object potentially...?
+	// Pile of variables. This may be packaged later as thread arguments.
 	CommandManager manager;
 	UserInput input; 
 	KittyGuild guild;

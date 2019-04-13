@@ -3,6 +3,7 @@ package commands;
 import java.io.File;
 import java.io.IOException;
 import core.Command;
+import core.Localizer;
 import dataStructures.*;
 import network.*;
 import utils.ImageUtils;
@@ -14,13 +15,13 @@ public class CommandWolfram extends Command
 	public CommandWolfram(KittyRole level, KittyRating rating) { super(level, rating);}
 	
 	@Override
-	public String HelpText() { return "Will query wolframalpha with your question and give a full image output of the answer"; }
+	public String HelpText() { return Localizer.Stub("Will query wolframalpha with your question and give a full image output of the answer"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		if(input.args == null || input.args.trim().length() == 0)
-			res.Call("You need to provide some arguments!");
+			res.Call(Localizer.Stub("You need to provide some arguments!"));
 		
 		try 
 		{
@@ -30,7 +31,7 @@ public class CommandWolfram extends Command
 		} 
 		catch (IOException e) 
 		{
-			res.Call("Something went wrong!");
+			res.Call(Localizer.Stub("Something went wrong!"));
 		}
 	}
 }

@@ -1,5 +1,6 @@
-package core;
+package dataStructures;
 
+// This is a structure representing an image reponse for handing around.
 public class GenericImage 
 {
 	private String artist; 

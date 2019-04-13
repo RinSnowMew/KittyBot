@@ -1,6 +1,7 @@
 package commands;
 
 import core.Command;
+import core.Localizer;
 import core.CommandManager.ThreadData;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
@@ -16,7 +17,7 @@ public class CommandStats extends Command
 	public CommandStats(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Displays the actively running KittyBot application information"; }
+	public String HelpText() { return Localizer.Stub("Displays the actively running KittyBot application information"); }
 	
 	// Called when the command is run!
 	@Override 

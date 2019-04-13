@@ -1,6 +1,7 @@
 package commands;
 
 import core.Command;
+import core.Localizer;
 import dataStructures.*;
 
 public class CommandBetBeans extends Command
@@ -8,8 +9,7 @@ public class CommandBetBeans extends Command
 	public CommandBetBeans(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Allows you to bet your beans, set your amount after the command! Warning: House always wins!"
-			+ "\nSets of 3 will get 5x, 4 will get 10x, and 5 will get 1000x"; }
+	public String HelpText() { return Localizer.Stub("Allows you to bet your beans, set your amount after the command! Warning! House always wins!\nSets of 3 will get 5x, 4 will get 10x, and 5 will get 1000x"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -22,19 +22,19 @@ public class CommandBetBeans extends Command
 			bet = Integer.parseInt(input.args);
 			if(bet < 50)
 			{
-				res.Call("Please bet with at least 50 beans!");
+				res.Call(Localizer.Stub("Please bet with at least 50 beans!"));
 				return;
 			}
 		}
 		catch (NumberFormatException e)
 		{
-			res.Call("That's not a valid bet!");
+			res.Call(Localizer.Stub("That's not a valid bet!"));
 			return;
 		}
 		
 		if(user.GetBeans() < bet)
 		{
-			res.Call("You don't have enough beans!");
+			res.Call(Localizer.Stub("You don't have enough beans!"));
 			return;
 		}
 		
@@ -49,12 +49,12 @@ public class CommandBetBeans extends Command
 		
 		if(win == 0)
 			{
-				res.Call("Sorry, you didn't win, try again!");
+				res.Call(Localizer.Stub("Sorry, you didn't win, try again!"));
 				return;
 			}
 		
 		user.ChangeBeans(bet*win);
-		res.Call("You won " + (bet*win) + " beans!");
+		res.Call(String.format(Localizer.Stub("You won %s beans!"), "" + (bet*win)));
 	}
 	
 	private int getWinning(int [] slots)

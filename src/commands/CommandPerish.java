@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import core.Command;
+import core.Localizer;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -22,7 +23,7 @@ public class CommandPerish  extends Command
 	public CommandPerish(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Adds a red, 'a n g e r y' overlay to your icon or the icon of a friend you mentioned"; };
+	public String HelpText() { return Localizer.Stub("Adds a red, 'a n g e r y' overlay to your icon or the icon of a friend you mentioned"); };
 	
 	private static Long num = 0l;
 	

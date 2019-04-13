@@ -31,10 +31,8 @@ public class DatabaseManager
 		driver.Connect();
 	}
 	
-	// Thumbs through registered objects and syncs them with the database.
-	// TODO(wisp) Right now this just syncs on the main thread, but we will
-	// want to have upkeep commands queue up for a dedicated database thread
-	// in the future to offload the wait times.
+	// Thumbs through registered objects and syncs them with the database. 
+	// Consider moving this operation to a separate thread.
 	public void Upkeep()
 	{
 		for(int i = 0 ; i < trackedObjects.size(); ++i)

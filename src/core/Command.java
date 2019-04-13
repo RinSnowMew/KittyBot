@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -42,7 +41,7 @@ public abstract class Command
 			return false;
 		}
 		
-		//TODO(wisp, rin): ADD CHANNEL CHECK HERE
+		//TODO: ADD CHANNEL CHECK HERE
 		
 		if(user.GetRole().getValue() >= roleLevel.getValue())
 		{

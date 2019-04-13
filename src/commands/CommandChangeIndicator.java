@@ -1,6 +1,7 @@
 package commands;
 
 import core.Command;
+import core.Localizer;
 import dataStructures.*;
 
 public class CommandChangeIndicator extends Command
@@ -8,7 +9,7 @@ public class CommandChangeIndicator extends Command
 	public CommandChangeIndicator(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Changes the command indicator to any single character. By default, it's '!'. If more than one character is provided, the first one is used!"; }
+	public String HelpText() { return Localizer.Stub("Changes the command indicator to any single character. By default, it's '!'. If more than one character is provided, the first one is used!"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -21,6 +22,6 @@ public class CommandChangeIndicator extends Command
 		}
 		
 		guild.SetCommandIndicator(arg.substring(0, 1));
-		res.Call("Indicator changed to `" + guild.GetCommandIndicator() +"`!");
+		res.Call(String.format(Localizer.Stub("Indicator changed to `%s`"), guild.GetCommandIndicator()));
 	}
 }

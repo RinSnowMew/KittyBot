@@ -20,6 +20,7 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 import core.Command;
+import core.Localizer;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -38,7 +39,7 @@ public class CommandYeet extends Command
 	private static Long num = 0l;
 	
 	@Override
-	public String HelpText() { return "Yeet yourself or yeet a friend with @!"; }
+	public String HelpText() { return Localizer.Stub("Yeet yourself or yeet a friend with @!"); }
 	
 	// Called when the command is run!
 	@Override 

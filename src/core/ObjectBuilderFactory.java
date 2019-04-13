@@ -31,13 +31,10 @@ public class ObjectBuilderFactory
 	// Stats tracking and whatnot... for setting stats too internally potentially
 	private static Stats stats;
 	
-	//RPManger for tracking RP system
+	// RPManger for tracking RP system
 	private static RPManager rpManager; 
 	
-	// NOTE(wisp): This is designed to initialize at the last possible second.
-	// The idea behind this is that there may be other things that may need 
-	// time to initialize before the factory can use them, and this guarantees 
-	// they get the time they need.
+	// Lazy initialization style for 
 	private static boolean hasInitialized;
 	private static Semaphore initMutex = new Semaphore(1);
 	private static void LazyInit()
@@ -50,8 +47,7 @@ public class ObjectBuilderFactory
 			initMutex.acquire();
 			try
 			{
-				// NOTE(wisp): Actually put all the init code here.
-				// In the future, this is where we would read from something external.
+				// Initialization here. This is where we could read from something external.
 				guildCache = new HashMap<String, KittyGuild>();
 				userCache = new HashMap<String, KittyUser>();
 				channelCache = new HashMap<String, KittyChannel>();

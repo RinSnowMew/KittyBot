@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import core.Command;
+import core.Localizer;
 import core.Stats;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
@@ -25,7 +26,7 @@ public class CommandHelpBuilder extends Command {
 	}
 
 	@Override
-	public String HelpText() { return "Emit help for all commands as formatted HTML"; }
+	public String HelpText() { return Localizer.Stub("Emit help for all commands as formatted HTML"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -95,7 +96,7 @@ public class CommandHelpBuilder extends Command {
 			roleStr = roleStr.substring(0, 1).toUpperCase() + roleStr.toLowerCase().substring(1);
 			
 			// Section header
-			accumulated += headerStart + roleStr + " commands" + headerEnd;
+			accumulated += headerStart + roleStr + " " + Localizer.Stub("commands") + headerEnd;
 			accumulated += sectionStart;
 			
 			// Section content

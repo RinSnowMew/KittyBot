@@ -2,6 +2,7 @@ package commands;
 
 import core.Command;
 import core.DatabaseManager;
+import core.Localizer;
 import core.Stats;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
@@ -17,7 +18,7 @@ public class CommandShutdown extends Command
 	public CommandShutdown(KittyRole level, KittyRating rating) { super(level, rating); }
 
 	@Override
-	public String HelpText() { return "Stops kitty. `-s` or `safe` as an argument attempts to sync off the database before shutdown."; }
+	public String HelpText() { return Localizer.Stub("Stops kitty. `-s` or `safe` as an argument attempts to sync off the database before shutdown."); }
 	
 	// Called when the command is run!
 	@Override 
@@ -41,12 +42,12 @@ public class CommandShutdown extends Command
 		if(isSafe)
 		{
 			DatabaseManager.instance.Upkeep(); // Force upkeep, this works so long as on main thread.
-			res.CallImmediate("Forced shutdown, database synced before abandoning threads.");
+			res.CallImmediate(Localizer.Stub("Forced shutdown, database synced before abandoning threads."));
 			System.exit(0);
 		}
 		else
 		{
-			res.CallImmediate("Forced immediate shutdown, threads abandoned without sync.");
+			res.CallImmediate(Localizer.Stub("Forced immediate shutdown, threads abandoned without sync."));
 			System.exit(0);
 		}
 	}

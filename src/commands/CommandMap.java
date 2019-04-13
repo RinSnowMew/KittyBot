@@ -3,6 +3,7 @@ package commands;
 import java.util.Random;
 
 import core.Command;
+import core.Localizer;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -22,7 +23,7 @@ public class CommandMap extends Command
 	public CommandMap(KittyRole roleLevel, KittyRating contentRating) { super(roleLevel, contentRating); }
 	
 	@Override
-	public String HelpText() { return "Generates a map! You can pass additional information if you want with the flags `-s<seed> -w<width> -h<height>`. If one of the fields isn't provided, its default will be used. Note that adjusting the width and height impacts the map outcomes.\n\nDefault seed: Random,\nDefault Width: 35(max "+ MaxWidth + "),\nDefault Height: 25(max " + MaxHeight + ")"; }
+	public String HelpText() { return String.format(Localizer.Stub("Generates a map! You can pass additional information if you want with the flags `-s<seed> -w<width> -h<height>`. If one of the fields isn't provided, its default will be used. Note that adjusting the width and height impacts the map outcomes.\n\nDefault seed: Random,\nDefault Width: 35(max %s),\nDefault Height: 25(max %s)"), "" + MaxWidth, "" + MaxHeight); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res) 
@@ -59,7 +60,7 @@ public class CommandMap extends Command
 		}
 		catch(NumberFormatException e) 
 		{
-			res.Call("Invalid arguments provided!");
+			res.Call(Localizer.Stub("Invalid arguments provided!"));
 			return;
 		} 
 		
@@ -75,8 +76,10 @@ public class CommandMap extends Command
 		}
 		
 		// Response header creation
-		header += "Using mapgen v0.1\n";
-		header += "Seed: `" + seed + "`, Width: `"+ width +"`, Height: `"+ height + "`\n";
+		header += Localizer.Stub("Using mapgen v0.1") + "\n";
+		header += Localizer.Stub("Seed") + ": `" + seed + "`, ";
+		header += Localizer.Stub("Width") + "`"+ width +"`, ";
+		header += Localizer.Stub("Height") + ": `"+ height + "`\n";
 		
 		// Response body creation
 		body += "```\n";
