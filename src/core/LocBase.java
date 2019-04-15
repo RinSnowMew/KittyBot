@@ -8,32 +8,40 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import dataStructures.SectionedKeyValueStore;
+import dataStructures.TaggedPairStore;
 import utils.FileUtils;
 import utils.GlobalLog;
 import utils.LogFilter;
 
 // A quick-and-dirty localization tool that scrapes the project for calls to itself, then
-// generates/updates a file externally (phrases.config) with all the stub values as keys that 
-// can then be localized.
-public class Localizer
+// generates/updates a file externally with all the stub values as keys that are localized.
+public abstract class LocBase
 {
+	// Pre-defined values 
+	public static final String KittySourceDirectory = "./src";
+	
 	// Filename
-	public final static String filename = "localization.config"; 
-	public final static String functionName = "Localizer.Stub";
+	public final String filename; // Example: "localization.config"; 
+	public final String functionName; // Example: "Localizer.Stub";
 	
 	// Local translation storage
-	private static SectionedKeyValueStore stringStore; 
+	protected TaggedPairStore stringStore; 
 	
 	// Logging
-	private static void Log(String str) { GlobalLog.Log(LogFilter.Strings, str); }
-	private static void Warn(String str) { GlobalLog.Warn(LogFilter.Strings, str); }
-	private static void Error(String str) { GlobalLog.Error(LogFilter.Strings, str); }
+	private void Log(String str) { GlobalLog.Log(LogFilter.Strings, str); }
+	private void Warn(String str) { GlobalLog.Warn(LogFilter.Strings, str); }
+	private void Error(String str) { GlobalLog.Error(LogFilter.Strings, str); }
 	
+	// Ok... so this is an array because if it's not an array, the parser will parse the string 
+	public LocBase(String filename, String functionName)
+	{
+		this.filename = filename;
+		this.functionName = functionName;
+	}
 	
 	// Structure used for holding a pair of strings and any other info we need 
 	// about localized information that is being looked up.
-	private static class LocInfo
+	private class LocInfo
 	{
 		public String file;
 		public String phrase;
@@ -46,7 +54,7 @@ public class Localizer
 	}
 	
 	// Do processing on each path in the scraped directory here, assuming it's .java
-	public static void StripForContents(Path path, ArrayList<LocInfo> strings)
+	public void StripForContents(Path path, ArrayList<LocInfo> strings)
 	{
 		String filename = path.getFileName().toString();
 		if(filename.contains(".java"))
@@ -58,10 +66,11 @@ public class Localizer
 			for(int i = 1; i < split.length; ++i)
 			{
 				int loc = split[i].indexOf(")");
+				String noWhitespace = split[i].replaceAll("\\s+","");
 				
 				if(loc != -1)
 				{
-					if(split[i].charAt(loc - 1) == '"' && split[i].charAt(loc - 2) != '\\')
+					if(noWhitespace.charAt(noWhitespace.indexOf(")") - 1) == '"' && split[i].charAt(loc - 2) != '\\')
 					{
 						// At this point, we find the first ), then verify there's a ") behind it, and that
 						// the " is not an escaped character.
@@ -71,7 +80,7 @@ public class Localizer
 							
 							strings.add(new LocInfo(filename.substring(0, filename.lastIndexOf('.')), toLocalize));
 							
-							Log("Found stubbed phrase in " + path + " : " + toLocalize);
+							Log("Found lookup call in " + path + ": " + toLocalize);
 						}
 						catch(IndexOutOfBoundsException e)
 						{
@@ -86,20 +95,20 @@ public class Localizer
 	// Nothing for now, but in the future will return a parsed and localized version of
 	// the string in question if one can be found. If the localized string is empty, 
 	// returns a the key instead which is the default phrase.
-	public static String Stub(String input)
+	public String GetKey(String input)
 	{
 		if(stringStore == null)
 			return input;
 		
 		String value = stringStore.GetKey(input);
-		if(value == null || value.length() < 1)
+		if(value == null || value.trim().length() < 1)
 			return input;
 		
 		return value;
 	}
 	
 	// Reads a file to string, adapted from https://stackoverflow.com/a/326440/5383198
-	static String ReadFileAsString(String path, Charset encoding)
+	private String ReadFileAsString(String path, Charset encoding)
 	{
 		try
 		{
@@ -116,9 +125,9 @@ public class Localizer
 
 	// Update localization from the disk on file. Creates the file if it doesn't exist.
 	// This file is internally formatted as an ini file.
-	public static void UpdateLocFromDisk()
+	public void UpdateLocFromDisk()
 	{
-		Log("Attempting to read localization file");
+		Log("Attempting to read localization file: " + filename);
 		
 		try
 		{
@@ -129,10 +138,8 @@ public class Localizer
 				File file = new File(filename);
 				file.createNewFile();
 			}
-			else
-			{
-				stringStore = new SectionedKeyValueStore(fileContents);
-			}
+			
+			stringStore = new TaggedPairStore(fileContents);
 		}
 		catch(IOException e)
 		{
@@ -142,7 +149,7 @@ public class Localizer
 	
 	// Rewrites out at the specified filename with existing stubs.
 	// This preserves existing localized phrases.
-	public static void SaveLocToDisk()
+	public void SaveLocToDisk()
 	{
 		Log("Attempting to write updated localization file");
 		
@@ -158,13 +165,25 @@ public class Localizer
 		}
 	}
 
+	private void TryStripSpecified(Path path, ArrayList<LocInfo> toFill)
+	{
+		try
+		{
+			StripForContents(path, toFill);
+		}
+		catch(Exception e)
+		{
+			Error("issue with file: " + path.toString());
+		}
+	}
+	
 	// Scrape the project and generate all the possible localizeable phrases.
 	// This stubs out phrases to be localized.
-	public static void ScrapeAll()
+	public void ScrapeAll()
 	{
 		ArrayList<LocInfo> localizeList = new ArrayList<LocInfo>();
-		FileUtils.AcquireAllFiles(".\\src").forEach((path) -> StripForContents(path, localizeList));
-		
+		FileUtils.AcquireAllFiles(KittySourceDirectory).forEach((path) -> TryStripSpecified(path, localizeList));
+				
 		for(LocInfo toStub : localizeList)
 			stringStore.AddKeyValue(toStub.file, toStub.phrase, toStub.phrase);
 	}

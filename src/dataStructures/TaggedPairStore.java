@@ -18,25 +18,25 @@ import java.util.function.Consumer;
 // Note that the sections are NOT designed to allow for duplicate keys across them. 
 // This is a restriction of the structure, but can be changed later potentially. 
 // The only value not allowed in a key or value is the KeyValueSplit.
-public class SectionedKeyValueStore
+public class TaggedPairStore
 {
 	// Variables
 	public final char SectionStart = '[';
 	public final char SectionEnd = ']';
-	public final char KeyValueLineSeparator = '\n';
-	public final String KeyValueSplit = "=";
+	public final char PairLineSeparator = '\n';
+	public final String PairSplit = "=";
 	
 	// [Key: SectionName, [Key: KeyString, Value: ValueString]]
-	private HashMap<String, HashMap<String, String>> sectionKeyValue;
+	private HashMap<String, HashMap<String, String>> taggedPairs;
 	
 	// [Key: KeyString, Value: ValueString]]
-	private HashMap<String, String> keyValue;
+	private HashMap<String, String> allPairs;
 	
 	// String constructor that parses the input string into the object
-	public SectionedKeyValueStore(String input)
+	public TaggedPairStore(String input)
 	{
-		sectionKeyValue = new HashMap<String, HashMap<String, String>>();
-		keyValue = new HashMap<String, String>();
+		taggedPairs = new HashMap<String, HashMap<String, String>>();
+		allPairs = new HashMap<String, String>();
 		Parse(input);
 	}
 	
@@ -44,7 +44,7 @@ public class SectionedKeyValueStore
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void ForEach(BiConsumer<? super String, Pair<? super String, ? super String>> action)
 	{
-		Iterator it = sectionKeyValue.entrySet().iterator();
+		Iterator it = taggedPairs.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Map.Entry pair = (Map.Entry)it.next();
@@ -62,7 +62,7 @@ public class SectionedKeyValueStore
 	@SuppressWarnings({"rawtypes"})
 	public void ForEach(Consumer<Pair<? super String, ? super String>> action)
 	{
-		Iterator it = keyValue.entrySet().iterator();
+		Iterator it = allPairs.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Map.Entry pair = (Map.Entry)it.next();
@@ -79,11 +79,11 @@ public class SectionedKeyValueStore
 		String out = "";
 		
 		// Iterates over the sections and 
-		Iterator it = sectionKeyValue.entrySet().iterator();
+		Iterator it = taggedPairs.entrySet().iterator();
 		while (it.hasNext())
 		{
 			Map.Entry pair = (Map.Entry)it.next();
-			out += ("" + SectionStart + pair.getKey() + SectionEnd + KeyValueLineSeparator);
+			out += ("" + SectionStart + pair.getKey() + SectionEnd + PairLineSeparator);
 			
 			Iterator internal = ((HashMap<String, String>)pair.getValue()).entrySet().iterator();
 			while(internal.hasNext())
@@ -93,12 +93,12 @@ public class SectionedKeyValueStore
 				String value = (String)internalPair.getValue();
 				
 				if(key == value)
-					out += (key + KeyValueSplit) + KeyValueLineSeparator;
+					out += (key + PairSplit) + PairLineSeparator;
 				else
-					out += (key + KeyValueSplit + value) + KeyValueLineSeparator;
+					out += (key + PairSplit + value) + PairLineSeparator;
 			}
 			
-			out += KeyValueLineSeparator;
+			out += PairLineSeparator;
 		}
 		
 		return out;
@@ -109,6 +109,9 @@ public class SectionedKeyValueStore
 	// account of some characters having specific regex meanings.
 	private void Parse(String input)
 	{
+		if(input == null)
+			return;
+		
 		String[] sections = input.split("\\" + SectionStart);
 
 		for(int sec = 0; sec < sections.length; ++sec)
@@ -128,21 +131,21 @@ public class SectionedKeyValueStore
 				
 			// Parse out the pairs within the section, split them all out. 
 			String unparsedPairs = section.substring(pos + 1);
-			String[] pairs = unparsedPairs.split("\\" + KeyValueLineSeparator);
+			String[] pairs = unparsedPairs.split("\\" + PairLineSeparator);
 			
 			// Parse out valid key-value pairs, and store them in the specified section.
 			// At this point, we can be guarenteed that sectionName is in the Hashmap.
 			for(int pair = 0; pair < pairs.length; ++pair)
 			{
 				String line = pairs[pair];
-				int splitPos = line.indexOf(KeyValueSplit);
+				int splitPos = line.indexOf(PairSplit);
 				if(splitPos < 0)
 					continue;
 				
 				String key = line.substring(0, splitPos);
-				String value = line.substring(splitPos + KeyValueSplit.length());
-				sectionKeyValue.get(sectionName).putIfAbsent(key, value);
-				keyValue.putIfAbsent(key, value);
+				String value = line.substring(splitPos + PairSplit.length());
+				taggedPairs.get(sectionName).putIfAbsent(key, value);
+				allPairs.putIfAbsent(key, value);
 			}
 		}
 	}
@@ -162,28 +165,28 @@ public class SectionedKeyValueStore
 	public void AddKeyValue(String sectionName, String key, String value)
 	{
 		AddSection(sectionName);
-		sectionKeyValue.get(sectionName).putIfAbsent(key, value);
-		keyValue.putIfAbsent(key, value);
+		taggedPairs.get(sectionName).putIfAbsent(key, value);
+		allPairs.putIfAbsent(key, value);
 	}
 	
 	// Adds a given section to the hashmap if it's not already present
 	public void AddSection(String sectionName)
 	{
-		sectionKeyValue.putIfAbsent(sectionName, new HashMap<String, String>());
+		taggedPairs.putIfAbsent(sectionName, new HashMap<String, String>());
 	}
 	
 	// Returns a HashMap of Keys to Values for a given section
 	@SuppressWarnings("unchecked")
 	public HashMap<String, String> GetSection(String sectionName)
 	{
-		return (HashMap<String, String>) sectionKeyValue.get(sectionName).clone();
+		return (HashMap<String, String>) taggedPairs.get(sectionName).clone();
 	}
 
 	// Look up a global key
 	public String GetKey(String key)
 	{
-		if(keyValue.containsKey(key))
-			return keyValue.get(key);
+		if(allPairs.containsKey(key))
+			return allPairs.get(key);
 		
 		return null;
 	}

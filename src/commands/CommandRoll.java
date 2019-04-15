@@ -16,7 +16,7 @@ public class CommandRoll extends Command
 	public CommandRoll(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return Localizer.Stub("Based on input of xdy where x is number of dice and y is faces kitty will roll that amount of dice, display the individual rolls and total"); } 
+	public String HelpText() { return LocStrings.Stub("RollInfo"); } 
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -27,7 +27,7 @@ public class CommandRoll extends Command
 		}
 		catch(Exception e)
 		{
-			res.Call(Localizer.Stub("Didn't work ;3;"));
+			res.Call(LocStrings.Stub("RollError"));
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 public class FileUtils
 {
 	// Reads all lines from a file as a string
+	public static String ReadContent(File file) { return ReadContent(file.toPath()); }
 	public static String ReadContent(Path filePath)
 	{
 		StringBuilder contentBuilder = new StringBuilder();
@@ -24,7 +26,7 @@ public class FileUtils
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			GlobalLog.Error(LogFilter.Util, e.getMessage());
 		}
 		
 		return contentBuilder.toString();
@@ -35,13 +37,18 @@ public class FileUtils
 	{
 		ArrayList<Path> items = new ArrayList<Path>();
 		
+		File tmpDir = new File(startingDir);
+		if(!tmpDir.exists())
+			return new ArrayList<Path>();
+		
+		
 		try
 		{
 			Files.find(Paths.get(startingDir), 999, (path, attributes) -> attributes.isRegularFile()).forEach(items::add);
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			GlobalLog.Error(LogFilter.Util, e.getMessage());
 		}
 		
 		return items;

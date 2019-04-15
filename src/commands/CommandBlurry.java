@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import core.Command;
-import core.Localizer;
+import core.LocStrings;
 import dataStructures.*;
 import utils.ImageUtils;
 
@@ -17,7 +17,7 @@ public class CommandBlurry extends Command
 	public CommandBlurry(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return Localizer.Stub("Blurs your icon or the icon of a friend you mentioned"); };
+	public String HelpText() { return LocStrings.Stub("BlurryInfo"); };
 	
 	private static Long num = 0l;
 	

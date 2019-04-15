@@ -13,7 +13,7 @@ public class GlobalLog
 	}
 	
 	public static void Log(String msg) { Write(log, LogFilter.Debug, msg); } 
-	public static void Warn(String msg) {Write(warn, LogFilter.Debug, msg); }
+	public static void Warn(String msg) { Write(warn, LogFilter.Debug, msg); }
 	public static void Error(String msg) { Write(error, LogFilter.Debug, msg); }
 	public static void Fatal(String msg) throws Exception { Write(fatal, LogFilter.Debug, msg); throw new Exception(msg); }
 	

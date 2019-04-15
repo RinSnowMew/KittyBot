@@ -60,7 +60,7 @@ public class CommandBoop extends Command
 	}
 
 	@Override
-	public String HelpText() { return Localizer.Stub("Kitty will react with a counter"); }
+	public String HelpText() { return LocStrings.Stub("BoopInfo"); }
 	
 	// Called when the command is run!
 	@Override 
@@ -69,14 +69,14 @@ public class CommandBoop extends Command
 		if(input.mentions == null)
 		{
 			boopTracker.ApplyBoop();
-			res.Call(String.format(Localizer.Stub("Woah! %s booped me! That's %s total!"), user.name, boopTracker.HowMany()));
+			res.Call(String.format(LocStrings.Stub("BoopStandard"), user.name, boopTracker.HowMany()));
 		}
 		else
 		{
 			if(input.mentions.length == 1)
 			{
 				boopTracker.ApplyBoop();
-				res.Call(String.format(Localizer.Stub("%s booped %s!"), user.name, input.mentions[0].name));
+				res.Call(String.format(LocStrings.Stub("BoopPerson"), user.name, input.mentions[0].name));
 				return;
 			}
 			
@@ -90,7 +90,7 @@ public class CommandBoop extends Command
 					booped +=  "and " + input.mentions[i].name;
 			}
 			
-			res.Call(String.format(Localizer.Stub("%s booped several others - %s!"), user.name, booped));
+			res.Call(String.format(LocStrings.Stub("BoopMultiple"), user.name, booped));
 		}
 	}
 }

@@ -3,7 +3,7 @@ package commands;
 import java.util.Random;
 
 import core.Command;
-import core.Localizer;
+import core.LocStrings;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -23,7 +23,7 @@ public class CommandMap extends Command
 	public CommandMap(KittyRole roleLevel, KittyRating contentRating) { super(roleLevel, contentRating); }
 	
 	@Override
-	public String HelpText() { return String.format(Localizer.Stub("Generates a map! You can pass additional information if you want with the flags `-s<seed> -w<width> -h<height>`. If one of the fields isn't provided, its default will be used. Note that adjusting the width and height impacts the map outcomes.\n\nDefault seed: Random,\nDefault Width: 35(max %s),\nDefault Height: 25(max %s)"), "" + MaxWidth, "" + MaxHeight); }
+	public String HelpText() { return String.format(LocStrings.Stub("MapInfo"), "" + MaxWidth, "" + MaxHeight); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res) 
@@ -60,7 +60,7 @@ public class CommandMap extends Command
 		}
 		catch(NumberFormatException e) 
 		{
-			res.Call(Localizer.Stub("Invalid arguments provided!"));
+			res.Call(LocStrings.Stub("MapInvalid"));
 			return;
 		} 
 		
@@ -76,10 +76,10 @@ public class CommandMap extends Command
 		}
 		
 		// Response header creation
-		header += Localizer.Stub("Using mapgen v0.1") + "\n";
-		header += Localizer.Stub("Seed") + ": `" + seed + "`, ";
-		header += Localizer.Stub("Width") + "`"+ width +"`, ";
-		header += Localizer.Stub("Height") + ": `"+ height + "`\n";
+		header += LocStrings.Stub("MapVersion") + "\n";
+		header += LocStrings.Stub("MapSeed") + ": `" + seed + "`, ";
+		header += LocStrings.Stub("MapWidth") + "`"+ width +"`, ";
+		header += LocStrings.Stub("MapHeight") + ": `"+ height + "`\n";
 		
 		// Response body creation
 		body += "```\n";

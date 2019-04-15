@@ -1,7 +1,9 @@
 package commands;
 
+import java.util.Random;
+
 import core.Command;
-import core.Localizer;
+import core.LocStrings;
 import dataStructures.*;
 
 public class CommandBetBeans extends Command
@@ -9,7 +11,7 @@ public class CommandBetBeans extends Command
 	public CommandBetBeans(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return Localizer.Stub("Allows you to bet your beans, set your amount after the command! Warning! House always wins!\nSets of 3 will get 5x, 4 will get 10x, and 5 will get 1000x"); }
+	public String HelpText() { return LocStrings.Stub("BetBeansInfo"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -22,19 +24,19 @@ public class CommandBetBeans extends Command
 			bet = Integer.parseInt(input.args);
 			if(bet < 50)
 			{
-				res.Call(Localizer.Stub("Please bet with at least 50 beans!"));
+				res.Call(LocStrings.Stub("BetBeansLowBet"));
 				return;
 			}
 		}
 		catch (NumberFormatException e)
 		{
-			res.Call(Localizer.Stub("That's not a valid bet!"));
+			res.Call(LocStrings.Stub("BetBeansNotValid"));
 			return;
 		}
 		
 		if(user.GetBeans() < bet)
 		{
-			res.Call(Localizer.Stub("You don't have enough beans!"));
+			res.Call(LocStrings.Stub("BetBeansNotEnough"));
 			return;
 		}
 		
@@ -49,12 +51,12 @@ public class CommandBetBeans extends Command
 		
 		if(win == 0)
 			{
-				res.Call(Localizer.Stub("Sorry, you didn't win, try again!"));
+				res.Call(LocStrings.Stub("BetBeansLose"));
 				return;
 			}
 		
 		user.ChangeBeans(bet*win);
-		res.Call(String.format(Localizer.Stub("You won %s beans!"), "" + (bet*win)));
+		res.Call(String.format(LocStrings.Stub("BetBeansWin"), "" + (bet*win)));
 	}
 	
 	private int getWinning(int [] slots)
@@ -69,7 +71,7 @@ public class CommandBetBeans extends Command
 				counter = 1;
 			
 			if(counter == 3)
-				winning = 5;
+				winning = 2;
 			
 			if(counter == 4)
 				winning = 10;
@@ -83,10 +85,12 @@ public class CommandBetBeans extends Command
 	
 	private int[] getSlots() 
 	{
+		Random gen = new Random();
 		int[] nums = new int[5];
 		for (int i = 0; i < nums.length; i++) 
 		{
-			nums[i] = (int) (Math.random() * 5) + 1;
+			nums[i] = Math.abs(gen.nextInt() % 7) + 1;
+			System.out.println(nums [i]);
 		}
 		return nums;
 	}
@@ -137,6 +141,12 @@ public class CommandBetBeans extends Command
 				break;
 			case 5:
 				slotHearts += ":purple_heart:";
+				break;
+			case 6:
+				slotHearts += ":black_heart:";
+				break;
+			case 7:
+				slotHearts += ":broken_heart:";
 				break;
 			}
 		}

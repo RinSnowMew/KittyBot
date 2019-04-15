@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyUser;
+import dataStructures.Pair;
 import dataStructures.Response;
 import dataStructures.UserInput;
 import utils.GlobalLog;
@@ -16,22 +17,40 @@ public class CommandManager
 	// Variables
 	private HashMap<String, Command> commands;
 	private ArrayList<CommandThread> threadAccumulator;
+	private CommandEnabler commandEnabler;
 	private long invokeCount;
 	
-	
 	// Default Constructor
-	public CommandManager()
+	public CommandManager(CommandEnabler commandEnabler)
 	{
-		commands = new HashMap<String, Command>();
-		threadAccumulator = new ArrayList<CommandThread>();
-		invokeCount = 0;
+		this.commands = new HashMap<String, Command>();
+		this.threadAccumulator = new ArrayList<CommandThread>();
+		this.invokeCount = 0;
+		this.commandEnabler = commandEnabler; 
 	}
 	
-	// Allows the command manager to keep track of a command.
-	public void Register(String key, Command command)
-	{		
-		if(key == null)
-			return; 
+	// Allows the command manager to keep track of a command. Takes a pair (the un-localized and localzied commands)
+	// and the command associated with the localized commands.
+	public void Register(Pair<String, String> pair, Command command)
+	{	
+		if(pair == null || pair.Second == null)
+			return;
+		
+		// If we haven't already split a multisplit command (or even assessed that), 
+		// then verify if we even need to register the commands at all. If it's 
+		// not enabled, don't register it. 
+		if(pair.First != null && !commandEnabler.IsEnabled(pair.First))
+			return;
+		
+		String key = pair.Second;
+		
+		if(key.contains(","))
+		{
+			
+			String[] keys = key.split(",");
+			Register(keys, command);
+			return;
+		}
 		
 		key = key.toLowerCase();
 		command.registeredNames.add(key);
@@ -51,7 +70,7 @@ public class CommandManager
 	public void Register(String[] keys, Command command)
 	{
 		for(int i = 0; i < keys.length; ++i)
-			Register(keys[i], command);
+			Register(new Pair<String, String>(null, keys[i].trim()), command);
 	}
 	
 	// Calls the command but on a whole new thread!

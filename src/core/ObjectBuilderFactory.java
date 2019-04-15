@@ -13,7 +13,7 @@ import utils.LogFilter;
 // NOTE(wisp): Isolated factory to assist with storage and caching if needed.
 // This also minimizes the number of places JDA interacts with our codebase.
 // As it stands, if the object name begins with Kitty, it's constructed here.
-// TODO: Make all methods ID based instead of event based  
+// TODO: Make all methods ID based instead of event based 
 public class ObjectBuilderFactory 
 {
 	// Key: guild string id, Value: guild information
@@ -34,9 +34,20 @@ public class ObjectBuilderFactory
 	// RPManger for tracking RP system
 	private static RPManager rpManager; 
 	
-	// Lazy initialization style for 
+	// Localization classes - these are singletons, but should be initialized before almost all other 
+	// things so their inclusion in the factory is to ensure they're started at the correct time.
+	@SuppressWarnings("unused") private static LocStrings locStrings;
+	@SuppressWarnings("unused") private static LocCommands locCommands;
+	
+	// Handles if we can or can't use specific commands, parsing a config file based on loc data to do so.
+	private static CommandEnabler commandEnabler;
+						
+	// Lazy initialization multithreaded mutex stuff to prevent explosions.
+	// TODO: Investigate using 'synchronized' instead potentially
 	private static boolean hasInitialized;
 	private static Semaphore initMutex = new Semaphore(1);
+	
+	// This is it, this is how the lazy init starts!
 	private static void LazyInit()
 	{
 		if(hasInitialized)
@@ -47,26 +58,31 @@ public class ObjectBuilderFactory
 			initMutex.acquire();
 			try
 			{
-				// Initialization here. This is where we could read from something external.
+				// structure initialization 
+				// Construct necessary data structures.
 				guildCache = new HashMap<String, KittyGuild>();
 				userCache = new HashMap<String, KittyUser>();
 				channelCache = new HashMap<String, KittyChannel>();
 				database = null;
 				stats = null;
+				
+				// Start by reading from things that are external. Because
+				// we require these things to be resolved before the rest of the application,
+				// we place them here.
+				locStrings = new LocStrings();
+				locCommands = new LocCommands();
 			}
 			finally
 			{
 				initMutex.release();
+				hasInitialized = true;
 			}
 		}
 		catch(InterruptedException ie)
 		{
 			GlobalLog.Error(LogFilter.Core, "Issue during object builder lazy initialization."
-					+ " The factory was not initialized, "
-					+ "and kitty will not be able to continue functionally.");
+				+ " The factory was not initialized, and kitty will not be able to continue functionally.");
 		}
-
-		hasInitialized = true;
 	}
 	
 	// Explicitly locks: guildCache
@@ -276,53 +292,65 @@ public class ObjectBuilderFactory
 		user.avatarID = member.getUser().getAvatarUrl();
 	}
 	
-	// Default construction of the command manager.
-	// TODO(wisp): We want to be able to keep all this data 
-	// stored off in a file at some point, so we can reflect it onto the 
-	// project and build it per-guild. That's for later now tho.
-	public static CommandManager ConstructCommandManager()
+	// Constructs a CommandEnabler if it doesn't exist, and gets the existing one if it does. 
+	public static CommandEnabler ConstructCommandEnabler()
+	{
+		LazyInit();
+
+		if(commandEnabler == null)
+			commandEnabler = new CommandEnabler();
+		
+		return commandEnabler;
+	}
+	
+	// Default construction of the command manager. In order to remotely resolve command enabling
+	// and disabling, what we do is construct the commands with a localized pair that is checked against
+	// the CommandEnabler object passed in. In theory, we could have multiple CommandManagers, tho we can
+	// only have one CommandEnabler.
+	public static CommandManager ConstructCommandManager(CommandEnabler commandEnabler)
 	{
 		LazyInit();
 		
-		CommandManager manager = new CommandManager();
+		CommandManager manager = new CommandManager(commandEnabler);
 		
-		manager.Register("work", new CommandDoWork(KittyRole.Dev, KittyRating.Safe));
-		manager.Register("shutdown", new CommandShutdown(KittyRole.Dev, KittyRating.Safe));
-		manager.Register("stats", new CommandStats(KittyRole.Dev, KittyRating.Safe));
-		manager.Register("invite", new CommandInvite(KittyRole.Dev, KittyRating.Safe));
-		manager.Register("buildHelp", new CommandHelpBuilder(KittyRole.Dev, KittyRating.Safe));
-		manager.Register("tweet", new CommandTweet(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("work"), new CommandDoWork(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("shutdown"), new CommandShutdown(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("stats"), new CommandStats(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("invite"), new CommandInvite(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("buildHelp"), new CommandHelpBuilder(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("tweet"), new CommandTweet(KittyRole.Dev, KittyRating.Safe));
 		
-		manager.Register("rating", new CommandRating(KittyRole.Admin, KittyRating.Safe));
-		manager.Register("indicator", new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("rating"), new CommandRating(KittyRole.Admin, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("indicator"), new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
 		
-		manager.Register("poll", new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
-		manager.Register("givebeans", new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));
-		manager.Register("rpg", new CommandRPG(KittyRole.Mod, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("poll"), new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("givebeans"), new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("rpg"), new CommandRPG(KittyRole.Mod, KittyRating.Safe));
 
-		manager.Register(new String[]{"perish", "thenperish"}, new CommandPerish(KittyRole.General, KittyRating.Safe));
-		manager.Register("yeet", new CommandYeet(KittyRole.General, KittyRating.Safe));
-		manager.Register("ping", new CommandPing(KittyRole.General, KittyRating.Safe));
-		manager.Register("boop", new CommandBoop(KittyRole.General, KittyRating.Safe));
-		manager.Register("roll", new CommandRoll(KittyRole.General, KittyRating.Safe));
-		manager.Register("choose", new CommandChoose(KittyRole.General, KittyRating.Safe));
-		manager.Register("help", new CommandHelp(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String[] {"info", "about"}, new CommandInfo(KittyRole.General, KittyRating.Safe));
-		manager.Register("vote", new CommandPollVote(KittyRole.General, KittyRating.Safe));
-		manager.Register("results", new CommandPollResults(KittyRole.General, KittyRating.Safe));
-		manager.Register("showpoll", new CommandPollShow(KittyRole.General, KittyRating.Safe));
-		manager.Register("wolfram", new CommandWolfram(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String[] {"c++", "g++", "cplus",}, new CommandColiru(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String[] {"java", "jdoodle" }, new CommandJDoodle(KittyRole.General, KittyRating.Safe));
-		manager.Register("beans", new CommandBeansShow(KittyRole.General, KittyRating.Safe));
-		manager.Register("role", new CommandRole(KittyRole.General, KittyRating.Safe));
-		manager.Register("bet", new CommandBetBeans(KittyRole.General, KittyRating.Safe));
-		manager.Register("map", new CommandMap(KittyRole.General, KittyRating.Safe));
-		manager.Register("rpstart", new CommandRPStart(KittyRole.General, KittyRating.Safe));
-		manager.Register("rpend", new CommandRPEnd(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String[] {"tony", "stark", "dontfeelgood", "dontfeelsogood", "snap"}, new CommandStark(KittyRole.General, KittyRating.Safe));
-		manager.Register("blur", new CommandBlurry(KittyRole.General, KittyRating.Safe));
-		manager.Register(new String [] {"eightball", "8ball"}, new CommandEightBall(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("teey"), new CommandTeey(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("perish, thenperish"), new CommandPerish(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("yeet"), new CommandYeet(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("ping"), new CommandPing(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("boop"), new CommandBoop(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("roll"), new CommandRoll(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("choose"), new CommandChoose(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("help"), new CommandHelp(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("info, about"), new CommandInfo(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("vote"), new CommandPollVote(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("results"), new CommandPollResults(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("showpoll"), new CommandPollShow(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("wolfram"), new CommandWolfram(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("c++, g++, cplus, cpp"), new CommandColiru(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("java, jdoodle"), new CommandJDoodle(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("beans"), new CommandBeansShow(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("role"), new CommandRole(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("bet"), new CommandBetBeans(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("map"), new CommandMap(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("rpstart"), new CommandRPStart(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("rpend"), new CommandRPEnd(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("tony, stark, dontfeelgood, dontfeelsogood"), new CommandStark(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("blur"), new CommandBlurry(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("eightball, 8ball"), new CommandEightBall(KittyRole.General, KittyRating.Safe));
 		
 		manager.Register("derp", new CommandDerpi(KittyRole.General, KittyRating.Filtered));
 		manager.Register("e621", new CommandE621(KittyRole.General, KittyRating.Filtered));
@@ -330,7 +358,7 @@ public class ObjectBuilderFactory
 		return manager;
 	}
 	
-	// NOTE(wisp): Default database manager construction. It can be constructed 
+	// Default database manager construction. It can be constructed 
 	// in different ways, and so we construct it outside of the constructor for 
 	// the factory  since it doesn't have to be present / can be elsewhere. 
 	// Effectively we cache the database here.

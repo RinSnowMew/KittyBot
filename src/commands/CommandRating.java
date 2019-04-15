@@ -1,7 +1,7 @@
 package commands;
 
 import core.Command;
-import core.Localizer;
+import core.LocStrings;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
@@ -15,7 +15,7 @@ public class CommandRating extends Command
 	public CommandRating(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return Localizer.Stub("'0' is fully sfw (Derpi and e621 searches are disabled), '1' is filtered (kitty auto appends a sfw tag on any searches), '2' is nsfw (any search will go through). Some other words are supported for setting filter as well."); }
+	public String HelpText() { return LocStrings.Stub("RatingInfo"); }
 	
 	// Called when the command is run!
 	@Override 
@@ -55,11 +55,11 @@ public class CommandRating extends Command
 		}
 		
 		if(newRating != null)
-			res.Call(Localizer.Stub("Kittybot content set to") + " " + newRating);
+			res.Call(LocStrings.Stub("RatingChanged") + " " + newRating);
 		else
-			res.Call(Localizer.Stub("Invalid content rating") + " `" + input.args + "`");
+			res.Call(LocStrings.Stub("RatingInvalid") + " `" + input.args + "`");
 		
 		if(newRating.equals("Filtered")) 
-			res.Call(Localizer.Stub("Warning: NSFW may slip through, images are only based on tags on their respective sites!"));
+			res.Call(LocStrings.Stub("RatingWarning"));
 	}
 }

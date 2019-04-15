@@ -13,7 +13,6 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.*;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import offline.*;
-import core.Localizer;
 import utils.GlobalLog;
 import net.dv8tion.jda.core.*;
 
@@ -26,21 +25,18 @@ public class Main extends ListenerAdapter
 	// Variables and stuff
 	private static JDA kitty;
 	private static CommandManager commandManager;
+	private static CommandEnabler commandEnabler;
 	private static DatabaseManager databaseManager; 
 	private static Stats stats;
 	private static RPManager rpManager;
-	
+
 	// Main test location
 	public static void main(String[] args) throws InterruptedException, LoginException, Exception
 	{
-		// Localizer startup - Potentially integrate with the factory. Needs to happen first tho.
-		Localizer.UpdateLocFromDisk();
-		Localizer.ScrapeAll();
-		Localizer.SaveLocToDisk();
-		
-		// Factory startup
+		// Factory startup. The ordering is intentional.
 		databaseManager = ObjectBuilderFactory.ConstructDatabaseManager();
-		commandManager = ObjectBuilderFactory.ConstructCommandManager();
+		commandEnabler = ObjectBuilderFactory.ConstructCommandEnabler();
+		commandManager = ObjectBuilderFactory.ConstructCommandManager(commandEnabler);
 		rpManager = ObjectBuilderFactory.ConstructRPManager();
 		stats = ObjectBuilderFactory.ConstructStats(commandManager);
 		

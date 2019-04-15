@@ -2,7 +2,8 @@ package utils;
 
 public enum LogFilter
 {
-	Debug(0), Command(1), Core(2), Database(4), Response(8), Network(16), Strings(32); //8, 16, 32... (flags, so we can | together later) 
+	// Assign numbers as flags, so we can | ('or') them together as necessary
+	Debug(0), Command(1), Core(2), Util(4), Database(8), Response(16), Network(32), Strings(64);  
 	
 	private final int value;
 	private LogFilter(int value) 

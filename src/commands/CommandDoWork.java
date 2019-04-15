@@ -15,7 +15,7 @@ public class CommandDoWork extends Command
 	public CommandDoWork(KittyRole level, KittyRating rating) { super(level, rating); }
 
 	@Override
-	public String HelpText() { return Localizer.Stub("Occupies a core for a few seconds"); }
+	public String HelpText() { return LocStrings.Stub("DoWorkInfo"); }
 	
 	// Called when the command is run!
 	@Override 
@@ -28,6 +28,6 @@ public class CommandDoWork extends Command
 			thispieceofshit += Math.log((double)i);
 		}
 		
-		res.Call(Localizer.Stub("I finished with my work! :D"));
+		res.Call(LocStrings.Stub("DoWorkFinished"));
 	}
 }
