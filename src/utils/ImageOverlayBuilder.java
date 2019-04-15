@@ -5,9 +5,9 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Calendar;
 import java.util.Iterator;
-
 import javax.imageio.IIOException;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -169,6 +169,7 @@ public class ImageOverlayBuilder
 			final int y = ((i / PIXEL_BYTE_LENGTH) / baseWidth);
 			
 			// If we're within the bounds of where the overlay picture should go...
+			// ...then get bytes and manually apply alpha overlay.
 			if(x > left && x < right && y > top && y < bottom)
 			{
 				final int overlayX = x - left;
@@ -178,8 +179,21 @@ public class ImageOverlayBuilder
 				if(overlayX < 0 || overlayY < 0 || overlayX >= baseWidth || overlayY >= baseHeight)
 					continue;
 				
+				byte[] overlayBytes = ByteBuffer.allocate(4).putInt(imageOverlay.getRGB(overlayX, overlayY)).array();
+				byte[] baseBytes = ByteBuffer.allocate(4).putInt(imageBase.getRGB(x, y)).array();
+				float overlayT = (overlayBytes[0] & 0xFF) / 255.0f;
+				
+				// Java has a restriction where we can't actually manupulate unsigned bytes apparently(?) so 
+				// what this does is convert the specific bytes to ints in order to manipuate them, then takes the
+				// byte buffer and parses the far right byte out of the int after manipulating the value.
+				byte[] output = new byte[4];
+				output[0] = (byte)0b11111111;
+				output[1] = ByteBuffer.allocate(4).putInt((int) ((baseBytes[1] & 0xFF) - (overlayT * ((baseBytes[1] & 0xFF) - (overlayBytes[1]  & 0xFF))))).array()[3];
+				output[2] = ByteBuffer.allocate(4).putInt((int) ((baseBytes[2] & 0xFF) - (overlayT * ((baseBytes[2] & 0xFF) - (overlayBytes[2]  & 0xFF))))).array()[3]; 
+				output[3] = ByteBuffer.allocate(4).putInt((int) ((baseBytes[3] & 0xFF) - (overlayT * ((baseBytes[3] & 0xFF) - (overlayBytes[3]  & 0xFF))))).array()[3];
+				
 				// Re-write bytes as overlay
-				imageBase.setRGB(x, y, imageOverlay.getRGB(overlayX, overlayY));
+				imageBase.setRGB(x, y, ByteBuffer.wrap(output).getInt());
 			}
 		}
 		

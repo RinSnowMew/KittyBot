@@ -3,10 +3,51 @@ package core;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
-import commands.*;
-import dataStructures.*;
+import commands.CommandAddGuildRole;
+import commands.CommandAllowedGuildRole;
+import commands.CommandBeansShow;
+import commands.CommandBetBeans;
+import commands.CommandBlurry;
+import commands.CommandBoop;
+import commands.CommandChangeIndicator;
+import commands.CommandChoose;
+import commands.CommandColiru;
+import commands.CommandDoWork;
+import commands.CommandEightBall;
+import commands.CommandGiveBeans;
+import commands.CommandHelp;
+import commands.CommandHelpBuilder;
+import commands.CommandInfo;
+import commands.CommandInvite;
+import commands.CommandJDoodle;
+import commands.CommandMap;
+import commands.CommandPerish;
+import commands.CommandPing;
+import commands.CommandPollManage;
+import commands.CommandPollResults;
+import commands.CommandPollShow;
+import commands.CommandPollVote;
+import commands.CommandRPEnd;
+import commands.CommandRPG;
+import commands.CommandRPStart;
+import commands.CommandRating;
+import commands.CommandRole;
+import commands.CommandRoll;
+import commands.CommandShutdown;
+import commands.CommandStark;
+import commands.CommandStats;
+import commands.CommandTeey;
+import commands.CommandTweet;
+import commands.CommandWolfram;
+import commands.CommandYeet;
+import dataStructures.KittyChannel;
+import dataStructures.KittyGuild;
+import dataStructures.KittyRating;
+import dataStructures.KittyRole;
+import dataStructures.KittyUser;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import utils.AdminControl;
 import utils.GlobalLog;
 import utils.LogFilter;
 
@@ -95,7 +136,7 @@ public class ObjectBuilderFactory
 		// look up the guild.
 		String uid = event.getGuild().getId();
 		
-		// ince we're lazily initialized, we can synchronize w/ the 
+		// once we're lazily initialized, we can synchronize w/ the 
 		// guildCache object now instead of having to use a mutex.
 		KittyGuild guild = null;
 		synchronized (guildCache)
@@ -108,7 +149,7 @@ public class ObjectBuilderFactory
 			else
 			{
 				// Construct a new guild with defaults
-				guild = new KittyGuild(uid);
+				guild = new KittyGuild(uid, new AdminControl(event.getGuild()));
 				DatabaseManager.instance.Register(guild);
 				guildCache.put(uid, guild);
 			}
@@ -322,11 +363,13 @@ public class ObjectBuilderFactory
 		
 		manager.Register(LocCommands.Stub("rating"), new CommandRating(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("indicator"), new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("allowedguildrole"), new CommandAllowedGuildRole(KittyRole.Admin, KittyRating.Safe));
 		
 		manager.Register(LocCommands.Stub("poll"), new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("givebeans"), new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("rpg"), new CommandRPG(KittyRole.Mod, KittyRating.Safe));
 
+		manager.Register(LocCommands.Stub("addguildrole"), new CommandAddGuildRole(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("teey"), new CommandTeey(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("perish, thenperish"), new CommandPerish(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("yeet"), new CommandYeet(KittyRole.General, KittyRating.Safe));

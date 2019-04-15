@@ -2,6 +2,7 @@ package dataStructures;
 
 import java.util.ArrayList;
 import core.DatabaseTrackedObject;
+import utils.AdminControl;
 
 // Context for a given guild for kittybot. Primarily designed to hold guild-specific settings.
 public class KittyGuild extends DatabaseTrackedObject
@@ -12,17 +13,19 @@ public class KittyGuild extends DatabaseTrackedObject
 	public boolean polling;
 	public String poll; 
 	public ArrayList<String> hasVoted = new ArrayList<String>();
+	public ArrayList<String> allowedRole = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
+	public AdminControl control;
 	
 	private String commandIndicator;
 	
 	// Default content for a guild
-	public KittyGuild(String uniqueID)
+	public KittyGuild(String uniqueID, AdminControl adminControl)
 	{
 		super(uniqueID);
-		
+		control = adminControl;
 		this.uniqueID = uniqueID;
-		this.contentRating = KittyRating.Safe;
+		this.contentRating = KittyRating.Safe; 
 		this.polling = false;
 		SetCommandIndicator("!");
 	}
