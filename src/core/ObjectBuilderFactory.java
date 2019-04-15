@@ -351,7 +351,7 @@ public class ObjectBuilderFactory
 		manager.Register(LocCommands.Stub("tony, stark, dontfeelgood, dontfeelsogood"), new CommandStark(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("blur"), new CommandBlurry(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("eightball, 8ball"), new CommandEightBall(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("defaultdance"), new CommandEightBall(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("defaultdance"), new CommandDefaultDance(KittyRole.General, KittyRating.Safe));
 		
 		manager.Register(LocCommands.Stub("derp"), new CommandDerpi(KittyRole.General, KittyRating.Filtered));
 		manager.Register(LocCommands.Stub("e621"), new CommandE621(KittyRole.General, KittyRating.Filtered));
