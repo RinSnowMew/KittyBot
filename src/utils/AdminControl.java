@@ -26,4 +26,17 @@ public class AdminControl
 		}
 		return true;
 	}
+	
+	public boolean removeRole(String memberID, String roleName)
+	{
+		try
+		{
+			guildCon.removeRolesFromMember(guild.getMemberById(memberID), guild.getRolesByName(roleName, true)).complete();
+		}
+		catch(Exception e)
+		{
+			return false; 
+		}
+		return true;
+	}
 }

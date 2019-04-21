@@ -14,19 +14,21 @@ public class KittyGuild extends DatabaseTrackedObject
 	public String poll; 
 	public ArrayList<String> hasVoted = new ArrayList<String>();
 	public ArrayList<String> allowedRole = new ArrayList<String>();
+	public ArrayList<String> emoji = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
 	public AdminControl control;
 	
 	private String commandIndicator;
 	
 	// Default content for a guild
-	public KittyGuild(String uniqueID, AdminControl adminControl)
+	public KittyGuild(String uniqueID, AdminControl adminControl, ArrayList <String> emoji)
 	{
 		super(uniqueID);
 		control = adminControl;
 		this.uniqueID = uniqueID;
 		this.contentRating = KittyRating.Safe; 
 		this.polling = false;
+		this.emoji = emoji;
 		SetCommandIndicator("!");
 	}
 	

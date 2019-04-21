@@ -6,13 +6,15 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import utils.StringUtils;
+
 // This is a class designed to parse ini inspired key-value pairs that are sectioned off.
 // The difference here is that this is more permissive than an ini file, and only accepts
 // a single split character, not the traditional set an ini does. All of the following are valid:
 //
 // [ExampleSection]
 // Key=Value
-//  Valid Ridiculous Key&\n\t_.:;foo  =  \tValid Ridiculous Value*&%$()^.[]{}@
+//  Valid Ridiculous Key&\n\t_.:;foo =  \tValid Ridiculous Value*&%$()^.[]{}@
 // EmptyValue=
 //
 // Note that the sections are NOT designed to allow for duplicate keys across them. 
@@ -91,6 +93,20 @@ public class TaggedPairStore
 				Map.Entry internalPair = (Map.Entry)internal.next();
 				String key = (String)internalPair.getKey();
 				String value = (String)internalPair.getValue();
+				key = StringUtils.ReEscape(key);
+				value = StringUtils.ReEscape(value);
+				
+				if(key.endsWith("\\r"))
+				{
+					if(!key.endsWith("\\r\\r"))
+						key = key.substring(0, key.length() - 2);
+				}
+				
+				if(value.endsWith("\\r"))
+				{
+					if(!value.endsWith("\\r\\r"))
+						value = value.substring(0, value.length() - 2);
+				}
 				
 				if(key == value)
 					out += (key + PairSplit) + PairLineSeparator;
@@ -144,6 +160,9 @@ public class TaggedPairStore
 				
 				String key = line.substring(0, splitPos);
 				String value = line.substring(splitPos + PairSplit.length());
+				key = StringUtils.UnEscape(key);
+				value = StringUtils.UnEscape(value);
+				
 				taggedPairs.get(sectionName).putIfAbsent(key, value);
 				allPairs.putIfAbsent(key, value);
 			}

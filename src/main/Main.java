@@ -2,6 +2,7 @@ package main;
 
 import javax.security.auth.login.LoginException;
 import core.*;
+import core.lua.PluginManager;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRole;
@@ -22,14 +23,15 @@ import net.dv8tion.jda.core.*;
 @SuppressWarnings("unused")
 public class Main extends ListenerAdapter
 {
-	// Variables and stuff
+	// Variables and bot specific objects
 	private static JDA kitty;
-	private static CommandManager commandManager;
-	private static CommandEnabler commandEnabler;
 	private static DatabaseManager databaseManager; 
+	private static CommandEnabler commandEnabler;
+	private static CommandManager commandManager;
 	private static Stats stats;
 	private static RPManager rpManager;
-
+	private static PluginManager pluginManager;
+	
 	// Main test location
 	public static void main(String[] args) throws InterruptedException, LoginException, Exception
 	{
@@ -37,12 +39,13 @@ public class Main extends ListenerAdapter
 		databaseManager = ObjectBuilderFactory.ConstructDatabaseManager();
 		commandEnabler = ObjectBuilderFactory.ConstructCommandEnabler();
 		commandManager = ObjectBuilderFactory.ConstructCommandManager(commandEnabler);
-		rpManager = ObjectBuilderFactory.ConstructRPManager();
 		stats = ObjectBuilderFactory.ConstructStats(commandManager);
+		rpManager = ObjectBuilderFactory.ConstructRPManager();
+		pluginManager = ObjectBuilderFactory.ConstructPluginManager();
 		
 		// Bot startup
 		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("with a new build"));
+		kitty.getPresence().setGame(Game.playing("with digital yarn"));
 		kitty.addEventListener(new Main());
 	}
 
@@ -61,19 +64,25 @@ public class Main extends ListenerAdapter
 		// Specialized uncached objects
 		Response response = new Response(event, kitty);
 		UserInput input = new UserInput(event, guild);
-
+		
 		// Tweak object construction as necessary
 		if(!PostProcessSetup(event, user, guild, channel, response, input))
 			return;
-		
+				
 		// Track beans!
-		user.ChangeBeans(1);
+		user.ChangeBeans(1);		
 		
 		// RP logging system
 		RPManager.instance.addLine(channel, user, input);
 		
-		// Issue the command
-		commandManager.InvokeOnNewThread(guild, channel, user, input, response);
+		// Run plugins right before invoking the commands but after all other setup
+		String output = pluginManager.CallAll(input.message);
+		
+		// Spin up the command if no plugins ran. Otherwise, send a response.
+		if(output == null)
+			commandManager.InvokeOnNewThread(guild, channel, user, input, response);
+		else
+			response.Call(output);
 		
 		// Run any upkeep we need to
 		PerCommandUpkeep();

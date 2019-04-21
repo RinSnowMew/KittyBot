@@ -10,12 +10,12 @@ import dataStructures.KittyUser;
 import dataStructures.Response;
 import dataStructures.UserInput;
 
-public class CommandAllowedGuildRole extends Command
+public class CommandGuildRoleAllowed extends Command
 {
-	public CommandAllowedGuildRole(KittyRole level, KittyRating rating) { super(level, rating); }
+	public CommandGuildRoleAllowed(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return LocStrings.Stub("AllowedGuildRoleInfo"); }
+	public String HelpText() { return LocStrings.Stub("GuildRoleAllowedInfo"); }
 	
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
@@ -27,12 +27,12 @@ public class CommandAllowedGuildRole extends Command
 			role = roles[i].trim();
 			if(guild.allowedRole.contains(role))
 			{
-				res.Call(LocStrings.Stub("AllowedGuildRoleDuplicate"));
+				res.Call(LocStrings.Stub("GuildRoleAllowedDuplicate"));
 			}
 			else
 			{
 				guild.allowedRole.add(role);
-				res.Call(String.format(LocStrings.Stub("AllowedGuildRoleSuccess"), role));
+				res.Call(String.format(LocStrings.Stub("GuildRoleAllowedSuccess"), role));
 			}
 		}
 	}
