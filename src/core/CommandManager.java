@@ -74,34 +74,39 @@ public class CommandManager
 	}
 	
 	// Calls the command but on a whole new thread!
-	public void InvokeOnNewThread(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response responseContext)
+	public boolean InvokeOnNewThread(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response responseContext)
 	{
 		// This is here to prevent spinning up a thread if this wasn't even a command.
 		if(input == null || !input.IsValid())
-			return;
+			return false;
 		
-		// Spin up a thread and begin it. The thread carries the info needed to invoke the command.
-		CommandThread newThread = new CommandThread(this, input, guild, channel, user, responseContext);
-		threadAccumulator.add(newThread);
-		newThread.start();
+		Command command = commands.get(input.key);
+		if(command != null)
+		{
+			// Spin up a thread and begin it. The thread carries the info needed to invoke the command.
+			CommandThread newThread = new CommandThread(this, input, guild, channel, user, responseContext);
+			threadAccumulator.add(newThread);
+			newThread.start();
+			return true;
+		}
+		else
+		{
+			GlobalLog.Warn(LogFilter.Command, "User " + user.name + " tried to invoke command that doesn't exist: " + input.key);
+			return false;
+		}
 	}
 	
 	// Calls the command specified with the key, providing user information arguments, etc.
-	public void Invoke(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response responseContext)
+	void Invoke(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response responseContext)
 	{
 		if(input == null || !input.IsValid())
 			return;
 		
 		Command command = commands.get(input.key);
-		
 		if(command != null)
 		{
 			++invokeCount;
 			command.Invoke(guild, channel, user, input, responseContext);
-		}
-		else
-		{
-			GlobalLog.Warn(LogFilter.Command, "User " + user.name + " tried to invoke command that doesn't exist: " + input.key);
 		}
 	}
 	

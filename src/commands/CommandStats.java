@@ -26,13 +26,17 @@ public class CommandStats extends Command
 		String out = "```\n";
 		Stats stats = Stats.instance;
 		
+		long seen = stats.GetMessagesSeen();
+		long processed = stats.GetCommandsProcessed();
+		
 		out += "----- [General] -----\n";
-		out += " Messages observed: " + stats.GetMessagesSeen() + "\n";
-		out += "Commands processed: " + stats.GetCommandsProcessed() + "\n";
+		out += " Messages observed: " + seen + "\n";
+		out += "Commands processed: " + processed + "\n";
+		out += "  Command invoke %: " + ((int)((processed / (float)seen) * 1000)) / 10.0f + "%\n";
 		out += "   KittyBot uptime: " + stats.GetFormattedUptime() + "\n";
 		out += "\n";
 		out += "----- [Health] -----\n";
-		out += "      SMT cores: " + stats.GetCPUAvailable() + "\n";
+		out += " SMT cores: " + stats.GetCPUAvailable() + "\n";
 		
 		// If CPU load works on this OS, list it.
 		double CPULoad = stats.GetSystemCPULoad();
@@ -46,20 +50,20 @@ public class CommandStats extends Command
 		Integer timed_waiting = data.states.get(Thread.State.TIMED_WAITING);
 		Integer waiting = data.states.get(Thread.State.WAITING);
 		
-		out += "  Child threads:"
-			+ " run: " + (runnable == null ? 0 : runnable)
-			+ " block: " + (blocked == null ? 0 : blocked)
-			+ " sleep: " + (timed_waiting == null ? 0 : timed_waiting)
-			+ " wait: " + (waiting == null ? 0 : waiting)
-			+ " term: " + (terminated == null ? 0 : terminated)
+		out += "   Threads:"
+			+ " run-" + (runnable == null ? 0 : runnable)
+			+ " block-" + (blocked == null ? 0 : blocked)
+			+ " sleep-" + (timed_waiting == null ? 0 : timed_waiting)
+			+ " wait-" + (waiting == null ? 0 : waiting)
+			+ " term-" + (terminated == null ? 0 : terminated)
 			+ "\n";
 		
 		Integer guildCount = stats.GetGuildCount();
 		Integer userCount = stats.GetUserCount();
 		
-		out += "\n----- [Counts] -----\n"
-			+ "Guilds: " + guildCount + "\n"
-			+ " Users: " + userCount;
+		out += "\n----- [Cache] -----\n"
+			+ "Cached Guilds: " + guildCount + "\n"
+			+ " Cached Users: " + userCount;
 		out += "\n```";
 		
 		res.Call(out);

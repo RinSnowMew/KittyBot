@@ -342,6 +342,7 @@ public class ObjectBuilderFactory
 		manager.Register(LocCommands.Stub("rating"), new CommandRating(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("indicator"), new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("guildroleallowed"), new CommandGuildRoleAllowed(KittyRole.Admin, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("guildrolenotallowed"), new CommandGuildRoleNotAllowed(KittyRole.Admin, KittyRating.Safe));
 		
 		manager.Register(LocCommands.Stub("poll"), new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("givebeans"), new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));

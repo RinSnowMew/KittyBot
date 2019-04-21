@@ -53,6 +53,7 @@ public class KittyRP
 		while(!log.isEmpty())
 		{
 			 writer.println(log.get(0));
+			 writer.flush();
 			 log.remove(0);
 		}
 		writer.close();

@@ -3,6 +3,7 @@ package main;
 import javax.security.auth.login.LoginException;
 import core.*;
 import core.lua.PluginManager;
+import core.lua.PluginUser;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRole;
@@ -36,6 +37,7 @@ public class Main extends ListenerAdapter
 	public static void main(String[] args) throws InterruptedException, LoginException, Exception
 	{
 		// Factory startup. The ordering is intentional.
+		GlobalLog.initialize();
 		databaseManager = ObjectBuilderFactory.ConstructDatabaseManager();
 		commandEnabler = ObjectBuilderFactory.ConstructCommandEnabler();
 		commandManager = ObjectBuilderFactory.ConstructCommandManager(commandEnabler);
@@ -51,7 +53,7 @@ public class Main extends ListenerAdapter
 
 	@Override
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event)
-	{	
+	{
 		// Tweak the event as necessary
 		if(!PreProcessSetup(event))
 			return;
@@ -70,19 +72,20 @@ public class Main extends ListenerAdapter
 			return;
 				
 		// Track beans!
-		user.ChangeBeans(1);		
+		user.ChangeBeans(1);
 		
 		// RP logging system
 		RPManager.instance.addLine(channel, user, input);
 		
-		// Run plugins right before invoking the commands but after all other setup
-		String output = pluginManager.CallAll(input.message);
-		
-		// Spin up the command if no plugins ran. Otherwise, send a response.
-		if(output == null)
-			commandManager.InvokeOnNewThread(guild, channel, user, input, response);
-		else
-			response.Call(output);
+		// Attempt to spin up a command. If the command doesn't exist.
+		// Run plugins right before invoking the commands but after all other setup.
+		if(commandManager.InvokeOnNewThread(guild, channel, user, input, response) == false)
+		{
+			String pluginOutput = pluginManager.RunAll(input.message, user);
+			
+			if(pluginOutput != null)
+				response.Call(pluginOutput);
+		}
 		
 		// Run any upkeep we need to
 		PerCommandUpkeep();

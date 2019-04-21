@@ -1,0 +1,228 @@
+[Log] [Core] Initializing LocStrings
+[Log] [Strings] Attempting to read localization file: locStrings.config
+[Log] [Strings] Found lookup call in .\src\commands\CommandBeansShow.java: BeansShowInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandBeansShow.java: BeansShowDisplay
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansLowBet
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansNotValid
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansNotEnough
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansLose
+[Log] [Strings] Found lookup call in .\src\commands\CommandBetBeans.java: BetBeansWin
+[Log] [Strings] Found lookup call in .\src\commands\CommandBlurry.java: BlurryInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandBoop.java: BoopInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandBoop.java: BoopStandard
+[Log] [Strings] Found lookup call in .\src\commands\CommandBoop.java: BoopPerson
+[Log] [Strings] Found lookup call in .\src\commands\CommandBoop.java: BoopMultiple
+[Log] [Strings] Found lookup call in .\src\commands\CommandChangeIndicator.java: ChangeIndicatorInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandChangeIndicator.java: ChangeIndicatorError
+[Log] [Strings] Found lookup call in .\src\commands\CommandChangeIndicator.java: ChangeIndicatorChanged
+[Log] [Strings] Found lookup call in .\src\commands\CommandChoose.java: ChooseInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandChoose.java: ChooseOne
+[Log] [Strings] Found lookup call in .\src\commands\CommandChoose.java: ChooseChoice
+[Log] [Strings] Found lookup call in .\src\commands\CommandColiru.java: ColiruInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandColiru.java: ColiruError
+[Log] [Strings] Found lookup call in .\src\commands\CommandDoWork.java: DoWorkInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandDoWork.java: DoWorkFinished
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes1
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes2
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes3
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes4
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes5
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes6
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes7
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes8
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes9
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallYes10
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallMaybe1
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallMaybe2
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallMaybe3
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallMaybe4
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallMaybe5
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallNo1
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallNo2
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallNo3
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallNo4
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallNo5
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandEightBall.java: EightBallError
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchBringBack
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchRunAway
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchBringBackWrong
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchEat
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchCatchRun
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchStare
+[Log] [Strings] Found lookup call in .\src\commands\CommandFetch.java: FetchError
+[Log] [Strings] Found lookup call in .\src\commands\CommandGiveBeans.java: GiveBeansInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandGiveBeans.java: GiveBeansInvalid
+[Log] [Strings] Found lookup call in .\src\commands\CommandGiveBeans.java: GiveBeansNoneMentioned
+[Log] [Strings] Found lookup call in .\src\commands\CommandGiveBeans.java: GiveBeansSuccess
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAdd.java: GuildRoleAddInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAdd.java: GuildRoleAddSuccess
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAdd.java: GuildRoleAddFailure
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAdd.java: GuildRoleAddNotAllowed
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAllowed.java: GuildRoleAllowedInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAllowed.java: GuildRoleAllowedDuplicate
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleAllowed.java: GuildRoleAllowedSuccess
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleRemove.java: GuildRoleRemoveInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleRemove.java: GuildRoleRemoveSuccess
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleRemove.java: GuildRoleRemoveFailure
+[Log] [Strings] Found lookup call in .\src\commands\CommandGuildRoleRemove.java: GuildRoleRemoveNotAllowed
+[Log] [Strings] Found lookup call in .\src\commands\CommandHelp.java: HelpInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandHelp.java: HelpDisplay
+[Log] [Strings] Found lookup call in .\src\commands\CommandHelpBuilder.java: HelpBuilderInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandInfo.java: InfoInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandInfo.java: InfoResponse
+[Log] [Strings] Found lookup call in .\src\commands\CommandInvite.java: InviteInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandJDoodle.java: JDoodleInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandJDoodle.java: JDoodleError
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapInvalid
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapVersion
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapSeed
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapWidth
+[Log] [Strings] Found lookup call in .\src\commands\CommandMap.java: MapHeight
+[Log] [Strings] Found lookup call in .\src\commands\CommandPerish.java: PerishInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPing.java: PingInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPing.java: PingResponse
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollManage.java: PollManageInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollResults.java: PollResultsInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollResults.java: PollResultsResponse
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollShow.java: PollShowInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollShow.java: PollShowNoPoll
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollShow.java: PollShowPoll
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollShow.java: PollShowChoices
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteAlreadyVoted
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteNotValidVote
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteSuccess
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteNotValidNumber
+[Log] [Strings] Found lookup call in .\src\commands\CommandPollVote.java: PollVoteNoPoll
+[Log] [Strings] Found lookup call in .\src\commands\CommandRating.java: RatingInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandRating.java: RatingChanged
+[Log] [Strings] Found lookup call in .\src\commands\CommandRating.java: RatingInvalid
+[Log] [Strings] Found lookup call in .\src\commands\CommandRating.java: RatingWarning
+[Log] [Strings] Found lookup call in .\src\commands\CommandRole.java: RoleInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandRole.java: RoleStandardResponse
+[Log] [Strings] Found lookup call in .\src\commands\CommandRole.java: RoleError
+[Log] [Strings] Found lookup call in .\src\commands\CommandRole.java: RoleNeededRole
+[Log] [Strings] Found lookup call in .\src\commands\CommandRole.java: RoleChanged
+[Log] [Strings] Found lookup call in .\src\commands\CommandRoll.java: RollInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandRoll.java: RollError
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPEnd.java: RPEndInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPEnd.java: RPEndFileOut
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPEnd.java: RPEndError
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPG.java: RPGInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPG.java: RPGInvalid
+[Log] [Strings] Found lookup call in .\src\commands\CommandRPStart.java: RPStartInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandShutdown.java: ShutdownInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandStark.java: StarkInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandStats.java: StatsInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandTeey.java: TeeyInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandTweet.java: TweetInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandTweet.java: TweetError
+[Log] [Strings] Found lookup call in .\src\commands\CommandWolfram.java: WolframInfo
+[Log] [Strings] Found lookup call in .\src\commands\CommandWolfram.java: WolframNoArgs
+[Log] [Strings] Found lookup call in .\src\commands\CommandWolfram.java: WolframError
+[Log] [Strings] Found lookup call in .\src\commands\CommandYeet.java: YeetInfo
+[Log] [Strings] Attempting to write updated localization file
+[Log] [Core] Initializing LocCommands
+[Log] [Strings] Attempting to read localization file: locCommands.config
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: work
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: shutdown
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: stats
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: invite
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: buildHelp
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: tweet
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: rating
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: indicator
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: guildroleallowed
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: poll
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: givebeans
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: rpg
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: fetch
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: guildroleadd
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: guildroleremove
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: teey
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: perish, thenperish
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: yeet
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: ping
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: boop
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: roll
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: choose
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: help
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: info, about
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: vote
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: results
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: showpoll
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: wolfram
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: c++, g++, cplus, cpp
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: java, jdoodle
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: beans
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: role
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: bet
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: map
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: rpstart
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: rpend
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: tony, stark, dontfeelgood, dontfeelsogood
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: blur
+[Log] [Strings] Found lookup call in .\src\core\ObjectBuilderFactory.java: eightball, 8ball
+[Log] [Strings] Attempting to write updated localization file
+[Log] [Database] Connection to SQLite has been established.
+[Log] [Core] Initializing CommandEnabler
+[Log] [Core] Command registered under key work
+[Log] [Core] Command registered under key shutdown
+[Log] [Core] Command registered under key stats
+[Log] [Core] Command registered under key invite
+[Log] [Core] Command registered under key buildhelp
+[Log] [Core] Command registered under key tweet
+[Log] [Core] Command registered under key rating
+[Log] [Core] Command registered under key indicator
+[Log] [Core] Command registered under key guildroleallowed
+[Log] [Core] Command registered under key poll
+[Log] [Core] Command registered under key givebeans
+[Log] [Command] [RPG] Registered stats
+[Log] [Command] [RPG] Registered about
+[Log] [Command] [RPG] Registered info
+[Log] [Command] [RPG] Registered explore
+[Log] [Command] [RPG] Registered run
+[Log] [Command] [RPG] Registered fight
+[Log] [Core] Command registered under key rpg
+[Log] [Core] Command registered under key fetch
+[Log] [Core] Command registered under key guildroleadd
+[Log] [Core] Command registered under key guildroleremove
+[Log] [Core] Command registered under key teey
+[Log] [Core] Command registered under key perish
+[Log] [Core] Command registered under key thenperish
+[Log] [Core] Command registered under key yeet
+[Log] [Core] Command registered under key ping
+[Log] [Database] CreateGeyKey: key-booptracker
+[Log] [Core] Command registered under key boop
+[Log] [Core] Command registered under key roll
+[Log] [Core] Command registered under key choose
+[Log] [Core] Command registered under key help
+[Log] [Core] Command registered under key info
+[Log] [Core] Command registered under key about
+[Log] [Core] Command registered under key vote
+[Log] [Core] Command registered under key results
+[Log] [Core] Command registered under key showpoll
+[Log] [Core] Command registered under key wolfram
+[Log] [Core] Command registered under key c++
+[Log] [Core] Command registered under key g++
+[Log] [Core] Command registered under key cplus
+[Log] [Core] Command registered under key cpp
+[Log] [Core] Command registered under key java
+[Log] [Core] Command registered under key jdoodle
+[Log] [Core] Command registered under key beans
+[Log] [Core] Command registered under key role
+[Log] [Core] Command registered under key bet
+[Log] [Core] Command registered under key map
+[Log] [Core] Command registered under key rpstart
+[Log] [Core] Command registered under key rpend
+[Log] [Core] Command registered under key tony
+[Log] [Core] Command registered under key stark
+[Log] [Core] Command registered under key dontfeelgood
+[Log] [Core] Command registered under key dontfeelsogood
+[Log] [Core] Command registered under key blur
+[Log] [Core] Command registered under key eightball
+[Log] [Core] Command registered under key 8ball
