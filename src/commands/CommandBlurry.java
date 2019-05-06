@@ -100,10 +100,14 @@ public class CommandBlurry extends Command
 		Color seven = new Color(image.getRGB(x, y + 1), true);
 		Color eight = new Color(image.getRGB(x -1, y + 1), true);
 		
-		int blue = center.getBlue() + one.getBlue() + two.getBlue() + three.getBlue() + four.getBlue() + five.getBlue() + six.getBlue() + seven.getBlue() + eight.getBlue();
-		int red = center.getRed() + one.getRed() + two.getRed() + three.getRed() + four.getRed() + five.getRed() + six.getRed() + seven.getRed() + eight.getRed();
-		int green = center.getGreen() + one.getGreen() + two.getGreen() + three.getGreen() + four.getGreen() + five.getGreen() + six.getGreen() + seven.getGreen() + eight.getGreen();
-		int alpha = center.getAlpha() + one.getAlpha() + two.getAlpha() + three.getAlpha() + four.getAlpha() + five.getAlpha() + six.getAlpha() + seven.getAlpha() + eight.getAlpha();
+		int blue = center.getBlue() + one.getBlue() + two.getBlue() + three.getBlue() + four.getBlue() 
+			+ five.getBlue() + six.getBlue() + seven.getBlue() + eight.getBlue();
+		int red = center.getRed() + one.getRed() + two.getRed() + three.getRed() + four.getRed() 
+			+ five.getRed() + six.getRed() + seven.getRed() + eight.getRed();
+		int green = center.getGreen() + one.getGreen() + two.getGreen() + three.getGreen()
+			+ four.getGreen() + five.getGreen() + six.getGreen() + seven.getGreen() + eight.getGreen();
+		int alpha = center.getAlpha() + one.getAlpha() + two.getAlpha() + three.getAlpha() 
+			+ four.getAlpha() + five.getAlpha() + six.getAlpha() + seven.getAlpha() + eight.getAlpha();
 		
 		blue /= 9;
 		red /= 9;
