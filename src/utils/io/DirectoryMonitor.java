@@ -1,6 +1,5 @@
 package utils.io;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,8 +10,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import utils.FileUtils;
-import utils.GlobalLog;
-import utils.LogFilter;
 
 // NOTE: Consider shifting internal behavior to https://docs.oracle.com/javase/tutorial/essential/io/notification.html
 // for external stability and support
