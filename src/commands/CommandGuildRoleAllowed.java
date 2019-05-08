@@ -25,13 +25,13 @@ public class CommandGuildRoleAllowed extends Command
 		for(int i = 0; i < roles.length; i++)
 		{
 			role = roles[i].trim();
-			if(guild.allowedRole.contains(role))
+			if(guild.roleList.contains(role))
 			{
 				res.Call(LocStrings.Stub("GuildRoleAllowedDuplicate"));
 			}
 			else
 			{
-				guild.allowedRole.add(role);
+				guild.roleList.add(role);
 				res.Call(String.format(LocStrings.Stub("GuildRoleAllowedSuccess"), role));
 			}
 		}

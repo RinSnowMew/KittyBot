@@ -66,3 +66,5 @@ rP\.txt
 
 .log
 *.log
+
+cloc\.exe

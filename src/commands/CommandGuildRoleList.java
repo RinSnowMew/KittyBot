@@ -15,16 +15,16 @@ public class CommandGuildRoleList extends Command
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res) 
 	{
 		String roles = ""; 
-		if(guild.allowedRole.isEmpty())
+		if(guild.roleList.isEmpty())
 		{
 			res.Call(String.format(LocStrings.Stub("GuildRoleListEmpty")));
 			return;
 		}
-		for(int i = 0; i < guild.allowedRole.size(); i++)
+		for(int i = 0; i < guild.roleList.size(); i++)
 		{ 
 			if(i > 0)
 				roles += " and "; 
-			roles += guild.allowedRole.get(i);
+			roles += guild.roleList.get(i);
 		}
 		res.Call(String.format(LocStrings.Stub("GuildRoleListOutput"), roles));
 	}

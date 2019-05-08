@@ -21,7 +21,7 @@ public class CommandGuildRoleAdd extends Command
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		String role = input.args.split(" ")[0];
-		if(guild.allowedRole.contains(role))
+		if(guild.roleList.contains(role))
 		{
 			if(guild.control.addRole(user.discordID, role))
 			{

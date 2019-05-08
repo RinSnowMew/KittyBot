@@ -21,7 +21,14 @@ public class CommandChangeIndicator extends Command
 			return;
 		}
 		
-		guild.SetCommandIndicator(arg.substring(0, 1));
+		String indicator = arg.substring(0, 1);
+		if(indicator.charAt(0) == '\n' || indicator.charAt(0) == '\t' || indicator.charAt(0) == '\r')
+		{
+			res.Call(LocStrings.Lookup("ChangeIndicatorError"));
+			return;
+		}
+		
+		guild.SetCommandIndicator(indicator);
 		res.Call(String.format(LocStrings.Stub("ChangeIndicatorChanged"), guild.GetCommandIndicator()));
 	}
 }

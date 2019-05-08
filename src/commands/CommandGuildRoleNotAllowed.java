@@ -25,9 +25,9 @@ public class CommandGuildRoleNotAllowed extends Command
 		for(int i = 0; i < roles.length; i++)
 		{
 			role = roles[i].trim();
-			if(guild.allowedRole.contains(role))
+			if(guild.roleList.contains(role))
 			{
-				guild.allowedRole.remove(role);
+				guild.roleList.remove(role);
 				res.Call(LocStrings.Stub("GuildRoleNotAllowedSuccess"));
 			}
 			else
