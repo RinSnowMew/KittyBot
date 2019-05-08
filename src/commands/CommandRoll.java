@@ -166,7 +166,7 @@ public class CommandRoll extends Command
 
 	private boolean hasPrecendence(char op1, char op2)
 	{
-		 if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) 
+		 if ((op2 == '*' || op2 == '/') && (op1 == '+' || op1 == '-')) 
 	         return false;
 	     else
 	    	 if ((op2 == 'd') && (op1 == '+' || op1 == '-' || op1 == '*' || op1 == '/')) 

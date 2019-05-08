@@ -52,10 +52,12 @@ public class CommandBetBeans extends Command
 		if(win == 0)
 			{
 				res.Call(LocStrings.Stub("BetBeansLose"));
+				guild.beans.Add(bet);
 				return;
 			}
 		
 		user.ChangeBeans(bet*win);
+		guild.beans.Subtract(bet*win);
 		res.Call(String.format(LocStrings.Stub("BetBeansWin"), "" + (bet*win)));
 	}
 	

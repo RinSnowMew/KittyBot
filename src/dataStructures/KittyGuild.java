@@ -1,6 +1,8 @@
 package dataStructures;
 
 import java.util.ArrayList;
+
+import core.DatabaseManager;
 import core.DatabaseTrackedObject;
 import utils.AdminControl;
 
@@ -27,6 +29,12 @@ public class KittyGuild extends DatabaseTrackedObject
 	
 	private String commandIndicator;
 	
+	private void RegisterTrackedObjects()
+	{
+		DatabaseManager.instance.Register(roleList);
+		DatabaseManager.instance.Register(beans);
+	}
+	
 	// Default content for a guild
 	public KittyGuild(String uniqueID, AdminControl adminControl, ArrayList <String> emoji)
 	{
@@ -34,6 +42,7 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.uniqueID = uniqueID;
 		roleList = new KittyTrackedVector(roleListName, uniqueID);
 		beans = new KittyTrackedLong(beansName, uniqueID);
+		RegisterTrackedObjects();
 		
 		control = adminControl;
 		this.contentRating = KittyRating.Safe; 
@@ -49,6 +58,7 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.uniqueID = uniqueID;
 		roleList = new KittyTrackedVector(roleListName, uniqueID);
 		beans = new KittyTrackedLong(beansName, uniqueID);
+		RegisterTrackedObjects();
 		
 		SetCommandIndicator(commandIndicator);
 		this.contentRating = contentRating;
