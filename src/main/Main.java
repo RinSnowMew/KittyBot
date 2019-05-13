@@ -48,7 +48,7 @@ public class Main extends ListenerAdapter
 		
 		// Bot startup
 		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("with digital yarn"));
+		kitty.getPresence().setGame(Game.playing("in his hoard"));
 		kitty.addEventListener(new Main());
 	}
 

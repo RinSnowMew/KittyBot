@@ -1,14 +1,15 @@
 package commands;
 
-import core.*;
+import core.Command;
 import dataStructures.KittyChannel;
+import dataStructures.KittyEmbed;
 import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
 import dataStructures.Response;
 import dataStructures.UserInput;
-import network.*;
+import network.NetworkDerpi;
 
 public class CommandDerpi extends Command
 {
@@ -32,7 +33,11 @@ public class CommandDerpi extends Command
 			if(input.args == null || input.args.length() == 0)
 				res.Call("Nothing to search for!");
 			else
-				res.Call(searcher.getDerpi(input.args).toString());
+			{
+				KittyEmbed response = searcher.getDerpi(input.args).output();
+				res.CallEmbed(response);
+			}
+//				res.CallEmbed(searcher.getDerpi(input.args).output());
 		}
 	}
 }

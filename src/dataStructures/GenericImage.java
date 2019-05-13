@@ -1,40 +1,39 @@
 package dataStructures;
 
-// This is a structure representing an image reponse for handing around.
+import java.awt.Color;
+
+// This is a structure representing an image response for handing around.
 public class GenericImage 
 {
-	private String artist; 
-	private String postURL; 
-	private String imageURL;
+	private KittyEmbed response= new KittyEmbed(); 
 	
 	public GenericImage(String artist, String postURL, String imageURL)
 	{
-		this.artist = artist; 
-		this.postURL = postURL; 
-		this.imageURL = imageURL; 
+		response.authorText = artist;
+		response.bodyImageURL = imageURL;
+		response.authorLink = postURL;
+		response.title = "BUTTS"; 
+		response.color = new Color(0,0,0);
 	}
 	
 	public void editArtist(String artist)
 	{
-		this.artist = artist; 
+		response.authorText = artist;
 	}
 	
 	public void editPostURL(String postURL)
 	{
-		this.postURL = postURL; 
+		response.authorLink = postURL;
 	}
 	
 	public void editImageURL(String imageURL)
 	{
-		this.imageURL = imageURL; 
+		response.bodyImageURL = imageURL; 
 	}
 	
-	public String toString()
+	public KittyEmbed output()
 	{
-		if(imageURL.isEmpty())
-		{
-			return "I couldn't find anything! Please try again!"; 
-		}
-		return "Artist: " + artist + "\n<" + postURL.trim()  + ">\n" + imageURL; 
+		System.out.print("HERE NOWWWWWWWWWWWWWW");
+		return response; 
 	}
 }

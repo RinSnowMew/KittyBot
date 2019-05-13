@@ -31,7 +31,7 @@ public class CommandE621 extends Command
 			if(input.args == null || input.args.length() == 0)
 				res.Call("Nothing to search for!");
 			else
-				res.Call(searcher.getE621(input.args).toString());
+				res.CallEmbed(searcher.getE621(input.args).output());
 		}
 	}
 }

@@ -1,9 +1,10 @@
 package network;
 
 import com.google.gson.Gson;
+
 import dataStructures.GenericImage;
 import offline.Ref;
-import utils.*;
+import utils.HTTPUtils;
 
 /**
  * This is the e621 request class, designed for form and parse requests that
