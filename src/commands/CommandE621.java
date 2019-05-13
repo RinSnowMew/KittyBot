@@ -24,7 +24,7 @@ public class CommandE621 extends Command
 	{
 		if(guild.contentRating == KittyRating.Filtered)
 		{
-			res.Call(searcher.getE621(input.args + " rating:safe").toString());
+			res.CallEmbed(searcher.getE621(input.args + " rating:safe").output());
 		}
 		else
 		{

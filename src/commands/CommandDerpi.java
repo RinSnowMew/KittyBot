@@ -14,6 +14,7 @@ import network.NetworkDerpi;
 public class CommandDerpi extends Command
 {
 	NetworkDerpi searcher = new NetworkDerpi(); 
+	KittyEmbed response;
 	
 	// Required constructor
 	public CommandDerpi(KittyRole level, KittyRating rating) { super(level, rating); }
@@ -26,7 +27,8 @@ public class CommandDerpi extends Command
 	{
 		if(guild.contentRating == KittyRating.Filtered)
 		{
-			res.Call(searcher.getDerpi(input.args + " safe").toString());
+			response = searcher.getDerpi(input.args + "safe").output();
+			res.CallEmbed(response);
 		}
 		else
 		{
@@ -34,10 +36,9 @@ public class CommandDerpi extends Command
 				res.Call("Nothing to search for!");
 			else
 			{
-				KittyEmbed response = searcher.getDerpi(input.args).output();
+				response = searcher.getDerpi(input.args).output();
 				res.CallEmbed(response);
 			}
-//				res.CallEmbed(searcher.getDerpi(input.args).output());
 		}
 	}
 }

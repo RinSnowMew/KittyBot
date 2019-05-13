@@ -47,6 +47,9 @@ public class Response
 		if(embedInfo.authorImage != null || embedInfo.authorLink != null || embedInfo.authorText != null)
 			embed.setAuthor(embedInfo.authorText, embedInfo.authorLink, embedInfo.authorImage);
 		
+		if(embedInfo.imageURL != null)
+            embed.setImage(embedInfo.imageURL);
+		
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 	

@@ -36,6 +36,7 @@ public class NetworkE621
 		public String id;
 		public String tags;
 		public String [] artist;
+		public String score; 
 	}
 
 	
@@ -96,6 +97,28 @@ public class NetworkE621
 						image.editArtist(imageObj[i].artist[0]);
 					else
 						image.editArtist("Artist Not Found!");
+					
+					image.editAuthorImage("https://e621.net/favicon.ico");
+					image.editDescriptionText("Score: " + imageObj[i].score);
+					
+					if(imageObj[i].tags.split(" ").length > 15)
+					{
+						String [] splitTags = imageObj[i].tags.split(" ");
+						String descTags = "";
+						for(int o = 0; o < 15; o++)
+						{
+							descTags += splitTags[o] + ", ";
+						}
+						image.editFooterText("[Tags] " + descTags + " etc.");
+					}
+					else
+					{
+						image.editFooterText("[Tags] " + imageObj[i].tags.replace(" ", ", "));
+					}
+					if(image.isValid())
+					{
+						break;
+					}
 				}
 			}
 			

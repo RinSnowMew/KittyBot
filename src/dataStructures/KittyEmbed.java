@@ -11,10 +11,10 @@ public class KittyEmbed
 	public String authorLink = null;
 	public String authorImage = null;
 	public String descriptionText = null;
-	public String bodyImageURL;
+	public String bodyImageURL = null;
+	public String imageURL = null;
 
 	public KittyEmbed()
 	{ 
-		this.title = "Untitled";
 	}
 }
