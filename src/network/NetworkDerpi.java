@@ -14,6 +14,7 @@ public class NetworkDerpi
     {
         public String image;
         public String tags;
+        public String score; 
     }
     
     private class InitialRequest
@@ -56,6 +57,17 @@ public class NetworkDerpi
                 	}
 
         			image.editArtist(artists);
+        			String tags = "";
+        			for(int i = 0; i < sepTags.length && i < 15; i++)
+                	{
+                		if(!sepTags[i].contains("artist:"))
+                		{
+                			tags += sepTags[i];
+                		}
+                	}
+        			
+        			image.editFooterText("[Tags]" + tags);
+        			image.editDescriptionText("Score: " + imageObj.score);
                 }
                 else
                 {
