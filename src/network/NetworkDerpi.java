@@ -28,6 +28,7 @@ public class NetworkDerpi
     	query = query.trim();
 		query = query.replace(" ", ",");
         String res = HTTPUtils.SendGETRequest(mainURL + query + "&random_image=1&key=" + Ref.derpiKey);
+        System.out.println(res);
         if(res != null)
         {
             // Use class evaluation on an array of the response object to be able to hold multiple.
@@ -36,7 +37,7 @@ public class NetworkDerpi
             {
             	
                 String res2 = HTTPUtils.SendGETRequest("https://derpibooru.org/" + obj.id + ".json");
-                image.editPostURL("<https://derpibooru.org/" + obj.id +">");
+                image.editPostURL("https://derpibooru.org/" + obj.id);
                 DerpiResponseObject imageObj = jsonParser_.fromJson(res2, DerpiResponseObject.class);
                 
                 image.editImageURL("https:" + imageObj.image.substring(0, imageObj.image.indexOf('_')) + 
@@ -56,6 +57,7 @@ public class NetworkDerpi
                 			artists += sepTags[i].substring(sepTags[i].indexOf(":")+1);
                 		}
                 	}
+                	image.editAuthorImage("https://derpicdn.net/favicon.ico");
 
         			image.editArtist(artists);
         			String tags = "";

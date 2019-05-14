@@ -115,12 +115,11 @@ public class NetworkE621
 					{
 						image.editFooterText("[Tags] " + imageObj[i].tags.replace(" ", ", "));
 					}
-					if(image.isValid())
+					
+					if(image.output().authorText != null)
 					{
 						return image; 
 					}
-					
-					image.editArtist("Could not find an image, please try again!");
 				}
 			}
 			

@@ -1,18 +1,14 @@
 package commands;
 
-import core.*;
-import dataStructures.KittyChannel;
-import dataStructures.KittyGuild;
-import dataStructures.KittyRating;
-import dataStructures.KittyRole;
-import dataStructures.KittyUser;
-import dataStructures.Response;
-import dataStructures.UserInput;
-import network.*;
+import core.Command;
+import core.LocStrings;
+import dataStructures.*;
+import network.NetworkE621;
 
 public class CommandE621 extends Command
 {
 	NetworkE621 searcher = new NetworkE621();
+	KittyEmbed response;
 	
 	public CommandE621(KittyRole level, KittyRating rating) { super(level, rating); }
 	
@@ -22,16 +18,35 @@ public class CommandE621 extends Command
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
+		
 		if(guild.contentRating == KittyRating.Filtered)
 		{
-			res.CallEmbed(searcher.getE621(input.args + " rating:safe").output());
+			response = searcher.getE621(input.args + " rating:safe").output();
+			try 
+			{
+				res.CallEmbed(response);
+			}
+			catch(Exception e)
+			{
+				res.Call(LocStrings.Stub("E621Error"));
+			}
 		}
 		else
 		{
 			if(input.args == null || input.args.length() == 0)
-				res.Call("Nothing to search for!");
+				res.Call("E621NoSearchError");
 			else
-				res.CallEmbed(searcher.getE621(input.args).output());
+			{
+				try 
+				{
+					response = searcher.getE621(input.args).output();
+					res.CallEmbed(response);
+				}
+				catch(Exception e)
+				{
+					res.Call(LocStrings.Stub("E621Error"));
+				}
+			}
 		}
 	}
 }

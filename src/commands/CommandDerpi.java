@@ -1,6 +1,7 @@
 package commands;
 
 import core.Command;
+import core.LocStrings;
 import dataStructures.KittyChannel;
 import dataStructures.KittyEmbed;
 import dataStructures.KittyGuild;
@@ -27,17 +28,33 @@ public class CommandDerpi extends Command
 	{
 		if(guild.contentRating == KittyRating.Filtered)
 		{
-			response = searcher.getDerpi(input.args + "safe").output();
-			res.CallEmbed(response);
+			
+			try 
+			{
+				response = searcher.getDerpi(input.args + " safe").output();
+				res.CallEmbed(response);
+			}
+			catch(Exception e)
+			{
+				res.Call(LocStrings.Stub("DerpiError"));
+			}
+			
 		}
 		else
 		{
 			if(input.args == null || input.args.length() == 0)
-				res.Call("Nothing to search for!");
+				res.Call("DerpiNoSearchError");
 			else
 			{
 				response = searcher.getDerpi(input.args).output();
-				res.CallEmbed(response);
+				try 
+				{
+					res.CallEmbed(response);
+				}
+				catch(Exception e)
+				{
+					res.Call(LocStrings.Stub("DerpiError"));
+				}
 			}
 		}
 	}
