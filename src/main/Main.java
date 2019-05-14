@@ -26,7 +26,7 @@ import net.dv8tion.jda.core.*;
 public class Main extends ListenerAdapter
 {
 	// Variables and bot specific objects
-	private static JDA kitty;
+	private static JDA kitty; // TODO: Wrap
 	private static DatabaseManager databaseManager; 
 	private static CommandEnabler commandEnabler;
 	private static CommandManager commandManager;
@@ -34,7 +34,7 @@ public class Main extends ListenerAdapter
 	private static RPManager rpManager;
 	private static PluginManager pluginManager;
 	
-	// Main test location
+	// Initialization and setup
 	public static void main(String[] args) throws InterruptedException, LoginException, Exception
 	{
 		// Factory startup. The ordering is intentional.
@@ -52,11 +52,12 @@ public class Main extends ListenerAdapter
 		kitty.addEventListener(new Main());
 	}
 
+	// When a message is sent in a server that kitty is in, this is what's called.
 	@Override
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event)
 	{
 		// Tweak the event as necessary
-		if(!PreProcessSetup(event))
+		if(!Superintendent.PreProcessSetup(event, stats))
 			return;
 		
 		// Factory objects
@@ -69,7 +70,7 @@ public class Main extends ListenerAdapter
 		UserInput input = new UserInput(event, guild);
 		
 		// Tweak object construction as necessary
-		if(!PostProcessSetup(event, user, guild, channel, response, input))
+		if(!Superintendent.PostProcessSetup(event, user, guild, channel, response, input))
 			return;
 				
 		// Track beans!
@@ -79,7 +80,7 @@ public class Main extends ListenerAdapter
 		RPManager.instance.addLine(channel, user, input);
 		
 		// Run any pre-emptive upkeep we need to
-		PerCommandUpkeepPre();
+		Superintendent.PerCommandUpkeepPre();
 		
 		// Attempt to spin up a command. If the command doesn't exist.
 		// Run plugins right before invoking the commands but after all other setup.
@@ -92,81 +93,6 @@ public class Main extends ListenerAdapter
 		}
 		
 		// Run any upkeep in post we need to
-		PerCommandUpkeepPost();
-	}
-
-	// This is run on the JDA GuildMessageReceivedEvent before anything else happens.
-	public static boolean PreProcessSetup(GuildMessageReceivedEvent event)
-	{
-		// Verify we have an event
-		if(event == null)
-			return false;
-		
-		// Track number of messages seen
-		stats.NoteMessageEvent();
-		
-		// If we're mid-shutdown, no more commands.
-		if(stats.GetIsShuttingDown())
-			return false;
-		
-		// Swat down highest ban level immediately before even hitting command parsing.
-		for(int i = 0; i < Ref.alwaysIgnore.length; ++i)
-		{
-			String id = event.getAuthor().getId();
-			if(id.equals(Ref.alwaysIgnore[i]))
-				return false;
-		}
-		
-		return true;
-	}
-	
-	// This runs after all the objects have been constructed! 
-	// Modifications to objects here stick!
-	public static boolean PostProcessSetup(GuildMessageReceivedEvent event, KittyUser user, KittyGuild guild, KittyChannel channel, Response res, UserInput input)
-	{
-		// Verify we have everything. From here out, we promise we have that all.
-		if(event == null || user == null || guild == null || channel == null || res == null || input == null)
-			return false;
-		
-		// If the guild member is the owner, give them admin role by default.
-		if(event.getMember().isOwner())
-			user.ChangeRole(KittyRole.Admin);
-		
-		// Give devs the dev role
-		for(int i = 0; i < Ref.devIDs.length; ++i)
-		{
-			if(event.getAuthor().getId().equals(Ref.devIDs[i]))
-			{
-				user.ChangeRole(KittyRole.Dev);
-				break;
-			}
-		}
-		
-		return true;
-	}
-	
-	// This is for stuff that we need to do on a regular basis, but don't 
-	// necessarily want running at all points in time. 
-	// Happens just after the command / plugin runs.
-	private static boolean PerCommandUpkeepPost()
-	{
-		// Upkeep database
-		databaseManager.Upkeep();
-		
-		// Update command-specific
-		RPManager.Upkeep(kitty);
-		
-		return true;
-	}
-	
-	// Only called once per command. Good for lazily updating.
-	// Happens just before the command / plugin runs.
-	private static boolean PerCommandUpkeepPre()
-	{
-		// Upkeep localization system's file monitoring
-		LocStrings.Upkeep();
-		LocCommands.Upkeep();
-		
-		return true;
+		Superintendent.PerCommandUpkeepPost(kitty, databaseManager);
 	}
 }
