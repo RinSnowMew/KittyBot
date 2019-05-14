@@ -117,8 +117,10 @@ public class NetworkE621
 					}
 					if(image.isValid())
 					{
-						break;
+						return image; 
 					}
+					
+					image.editArtist("Could not find an image, please try again!");
 				}
 			}
 			

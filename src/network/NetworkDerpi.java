@@ -39,7 +39,8 @@ public class NetworkDerpi
                 image.editPostURL("<https://derpibooru.org/" + obj.id +">");
                 DerpiResponseObject imageObj = jsonParser_.fromJson(res2, DerpiResponseObject.class);
                 
-                image.editImageURL("https:" + imageObj.image.substring(0, imageObj.image.indexOf('_')) + imageObj.image.substring(imageObj.image.lastIndexOf('.')));
+                image.editImageURL("https:" + imageObj.image.substring(0, imageObj.image.indexOf('_')) + 
+                		imageObj.image.substring(imageObj.image.lastIndexOf('.')));
                 if(imageObj.tags.contains("artist:"))
                 {
                 	String [] sepTags = imageObj.tags.split(",");
