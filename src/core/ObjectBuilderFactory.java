@@ -376,6 +376,7 @@ public class ObjectBuilderFactory
 		manager.Register(LocCommands.Stub("guildrolelist"), new CommandGuildRoleList(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("bethistory"), new CommandBetHistory(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("crouton"), new CommandCrouton(KittyRole.General, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("tradebeans"), new CommandTradeBeans(KittyRole.General, KittyRating.Safe));
 		
 		manager.Register(LocCommands.Stub("derp"), new CommandDerpi(KittyRole.General, KittyRating.Filtered));
 		manager.Register(LocCommands.Stub("e621"), new CommandE621(KittyRole.General, KittyRating.Filtered));

@@ -13,11 +13,7 @@ public class KittyEmbed
 	public String descriptionText = null;
 	public String bodyImageURL = null;
 	public String imageURL = null;
-<<<<<<< HEAD
-=======
-
->>>>>>> master
-
+	
 	public KittyEmbed()
 	{ 
 	}
