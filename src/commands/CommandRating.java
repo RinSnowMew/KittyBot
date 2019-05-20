@@ -55,7 +55,7 @@ public class CommandRating extends Command
 		}
 		
 		if(newRating != null)
-			res.Call(LocStrings.Stub("RatingChanged") + " " + newRating);
+			res.Call(String.format(LocStrings.Stub("RatingChanged"), newRating));
 		else
 			res.Call(LocStrings.Stub("RatingInvalid") + " `" + input.args + "`");
 		

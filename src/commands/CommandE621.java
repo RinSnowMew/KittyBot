@@ -18,7 +18,6 @@ public class CommandE621 extends Command
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
-		
 		if(guild.contentRating == KittyRating.Filtered)
 		{
 			response = searcher.getE621(input.args + " rating:safe").output();

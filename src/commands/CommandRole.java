@@ -16,7 +16,7 @@ public class CommandRole extends Command
 	{
 		if(input.args.isEmpty())
 		{
-			res.Call(LocStrings.Stub("RoleStandardResponse") + " " + user.GetRole().name() + "!");
+			res.Call(String.format(LocStrings.Stub("RoleStandardResponse"), user.GetRole().toString()));
 			return;
 		}
 		

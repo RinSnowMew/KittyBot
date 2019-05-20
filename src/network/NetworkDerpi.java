@@ -28,11 +28,19 @@ public class NetworkDerpi
     	query = query.trim();
 		query = query.replace(" ", ",");
         String res = HTTPUtils.SendGETRequest(mainURL + query + "&random_image=1&key=" + Ref.derpiKey);
-        System.out.println(res);
         if(res != null)
         {
+        	InitialRequest obj;
             // Use class evaluation on an array of the response object to be able to hold multiple.
-            InitialRequest obj = jsonParser_.fromJson(res, InitialRequest.class);
+        	try 
+        	{
+        		 obj = jsonParser_.fromJson(res, InitialRequest.class);
+        	}
+        	catch(Exception e)
+        	{
+        		return null;
+        	}
+            
             if(res != null)
             {
             	
@@ -81,4 +89,46 @@ public class NetworkDerpi
         
 		return image;
 	}
+    
+    public GenericImage getDerpiByID(String id)
+    {
+    	GenericImage image = new GenericImage(" ", " ", " ");
+    	String artists = "";
+    	image.editAuthorImage("https://derpicdn.net/favicon.ico");
+    	String res;
+    	try
+    	{
+    		 res = HTTPUtils.SendGETRequest("https://derpibooru.org/" + id + ".json");
+    	}
+    	catch(Exception e)
+    	{
+    		return null;
+    	}
+    	DerpiResponseObject imageObj = jsonParser_.fromJson(res, DerpiResponseObject.class);
+    	if(imageObj.tags.contains("artist:"))
+        {
+        	String [] sepTags = imageObj.tags.split(",");
+        	for(int i = 0; i < sepTags.length; i++)
+        	{
+        		if(sepTags[i].contains("artist:"))
+        		{
+        			if(!artists.equals(""))
+        			{
+        				artists += " and ";
+        			}
+        			artists += sepTags[i].substring(sepTags[i].indexOf(":")+1);
+        		}
+        	}
+        }
+    	if(artists != "")
+    		image.editArtist(artists);
+    	else
+    		image.editArtist("Artist Unknown!");
+    	
+    	image.editFooterText("[Tags]" + imageObj.tags);
+		image.editDescriptionText("Score: " + imageObj.score);
+    	image.editImageURL("https:" + imageObj.image.substring(0, imageObj.image.indexOf('_')) + 
+        		imageObj.image.substring(imageObj.image.lastIndexOf('.')));
+    	return image;
+    }
 }

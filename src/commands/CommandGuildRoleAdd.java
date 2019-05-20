@@ -20,21 +20,25 @@ public class CommandGuildRoleAdd extends Command
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
-		String role = input.args.split(" ")[0];
-		if(guild.roleList.contains(role))
+		String [] roles = input.args.split(",");
+		
+		for(String role: roles)
 		{
-			if(guild.control.addRole(user.discordID, role))
+			if(guild.roleList.contains(role))
 			{
-				res.Call(String.format(LocStrings.Stub("GuildRoleAddSuccess"), role, user.name));
+				if(guild.control.addRole(user.discordID, role))
+				{
+					res.Call(String.format(LocStrings.Stub("GuildRoleAddSuccess"), role, user.name));
+				}
+				else
+				{
+					res.Call(String.format(LocStrings.Stub("GuildRoleAddFailure"), role, user.name));
+				}
 			}
 			else
 			{
-				res.Call(String.format(LocStrings.Stub("GuildRoleAddFailure"), role, user.name));
+				res.Call(String.format(LocStrings.Stub("GuildRoleAddNotAllowed"), role));
 			}
-		}
-		else
-		{
-			res.Call(String.format(LocStrings.Stub("GuildRoleAddNotAllowed"), role));
 		}
 	}
 }

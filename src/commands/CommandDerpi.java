@@ -57,5 +57,18 @@ public class CommandDerpi extends Command
 				}
 			}
 		}
+		
+		if(input.args.startsWith("ID:"))
+		{
+			response = searcher.getDerpiByID(input.args.substring(input.args.indexOf(':'))).output();
+			try 
+			{
+				res.CallEmbed(response);
+			}
+			catch(Exception e)
+			{
+				res.Call(LocStrings.Stub("DerpiError"));
+			}
+		}
 	}
 }

@@ -47,8 +47,8 @@ public class Main extends ListenerAdapter
 		pluginManager = ObjectBuilderFactory.ConstructPluginManager();
 		
 		// Bot startup
-		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.Token).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("with digital yarn"));
+		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
+		kitty.getPresence().setGame(Game.playing("in his hoard"));
 		kitty.addEventListener(new Main());
 	}
 
@@ -87,9 +87,38 @@ public class Main extends ListenerAdapter
 		if(commandManager.InvokeOnNewThread(guild, channel, user, input, response) == false)
 		{
 			String pluginOutput = pluginManager.RunAll(input.message, user);
-			
 			if(pluginOutput != null)
-				response.Call(pluginOutput);
+			{
+				switch(pluginOutput.substring(0, pluginOutput.indexOf(" ")))
+				{
+					case "e621":
+						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput ("e621 " + pluginOutput.substring(5), guild), response);
+						pluginOutput = "delete";
+					break;
+					
+					case "derp":
+						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput ("derp " + pluginOutput.substring(5), guild), response);
+						pluginOutput = "delete";
+						break;
+				
+					default:
+						response.Call(pluginOutput);
+						break;
+				}
+				
+//				if(pluginOutput.equals("delete") && guild.contentRating.getValue() > 1)
+//				{
+//					try 
+//					{
+//						event.getMessage().delete().queue();
+//					}
+//					catch(Exception e)
+//					{
+//						
+//					}
+//				}
+			}
+				
 		}
 		
 		// Run any upkeep in post we need to

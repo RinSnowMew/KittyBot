@@ -22,7 +22,7 @@ public class CommandBetBeans extends Command
 		try 
 		{
 			bet = Integer.parseInt(input.args);
-			if(bet < 50)
+			if(bet < 20)
 			{
 				res.Call(LocStrings.Stub("BetBeansLowBet"));
 				return;

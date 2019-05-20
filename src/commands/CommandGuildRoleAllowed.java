@@ -22,9 +22,10 @@ public class CommandGuildRoleAllowed extends Command
 	{
 		String [] roles = input.args.split(",");
 		String role;
+		
 		for(int i = 0; i < roles.length; i++)
 		{
-			role = roles[i].trim();
+			role = roles[i].trim().toLowerCase();
 			if(guild.roleList.contains(role))
 			{
 				res.Call(LocStrings.Stub("GuildRoleAllowedDuplicate"));
