@@ -35,7 +35,7 @@ public class DatabaseDriver
 		driver.Connect();
 	
 		// Require a global table if it doesn't exist already
-		driver.ExecuteStatement("CREATE TABLE IF NOT EXISTS " + globalTableName + " (" + globalKeyName + " text PRIMARY KEY, " + globalValueName + " text);");
+		driver.ExecuteStatement("CREATE TABLE IF NOT EXISTS " + globalTableName + " (" + globalKeyName + " text PRIMARY KEY, " + globalValueName + " text);", null);
 		
 		return true;
 	}
@@ -75,15 +75,15 @@ public class DatabaseDriver
 	// Prototype formatting for key updating
 	private void UpdateKey(String key, String value)
 	{
-		String command = "UPDATE " + globalTableName + " SET " + globalValueName + " = '" + value + "' WHERE " + globalKeyName + "= '" + key + "';";
-		driver.ExecuteStatement(command);
+		String command = "UPDATE " + globalTableName + " SET " + globalValueName + " = ? WHERE " + globalKeyName + " = ?;";
+		driver.ExecuteStatement(command, new String[] { key, value });
 	}
 	
 	// Protoype updating for seeing if a key exists
 	private boolean HasKey(String key)
 	{
-		String command = "SELECT COUNT(1) as count FROM " + globalTableName + " WHERE " + globalKeyName + " = '" + key + "';";
-		ResultSet set = driver.ExecuteReturningStatement(command);
+		String command = "SELECT COUNT(1) as count FROM " + globalTableName + " WHERE " + globalKeyName + " = ?;";
+		ResultSet set = driver.ExecuteReturningStatement(command, new String[] { key });
 		String out = ResultAsString(set, "count");
 		return out.charAt(0) == '1';
 	}
@@ -91,16 +91,16 @@ public class DatabaseDriver
 	// Prototype for getting a key
 	private String GetKey(String key)
 	{
-		String command = "SELECT " + globalValueName + " as searchedKey FROM " + globalTableName +" WHERE " + globalKeyName + "= \'" + key + "\';";
-		ResultSet set = driver.ExecuteReturningStatement(command);
+		String command = "SELECT " + globalValueName + " as searchedKey FROM " + globalTableName +" WHERE " + globalKeyName + " = ?;";
+		ResultSet set = driver.ExecuteReturningStatement(command, new String[] { key });
 		return ResultAsString(set, "searchedKey");
 	}
 	
 	// Prototype for creating a key
 	private void CreateKey(String key, String value)
 	{
-		String command = "INSERT INTO " + globalTableName + " (GlobalKey, GlobalValue) VALUES ('" + key + "', '" + value + "');";
-		driver.ExecuteStatement(command);
+		String command = "INSERT INTO " + globalTableName + " (GlobalKey, GlobalValue) VALUES (?, ?);";
+		driver.ExecuteStatement(command, new String[] { key, value });
 	}
 	
 	// Transforms a result into a string if possible.

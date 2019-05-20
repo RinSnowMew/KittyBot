@@ -1,5 +1,6 @@
 package dataStructures;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import core.DatabaseTrackedObject;
@@ -23,15 +24,30 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 		databaseID = differentiator + readableName + UniqueID;
 	}
 	
-	// Mirrored behavior
-	public boolean contains(String role)
+	
+	// See if the string is contined in the vector, regardless of case.
+	public boolean containsIgnoreCase(String str)
 	{
-		return allowedRole.contains(role);
+		Iterator<String> value = allowedRole.iterator();
+		
+		while (value.hasNext())
+		{
+			if(value.next().equalsIgnoreCase(str))
+				return true;
+		}
+		
+		return false;
 	}
 	
-	public void add(String role)
+	// Mirrored behavior
+	public boolean contains(String str)
 	{
-		allowedRole.add(role);
+		return allowedRole.contains(str);
+	}
+	
+	public void add(String str)
+	{
+		allowedRole.add(str);
 		this.MarkDirty();
 	}
 	
@@ -50,9 +66,9 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 		return allowedRole.get(index);
 	}
 	
-	public void remove(String role)
+	public void remove(String str)
 	{
-		allowedRole.remove(role);
+		allowedRole.remove(str);
 		this.MarkDirty();
 	}
 	

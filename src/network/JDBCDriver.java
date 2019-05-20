@@ -13,7 +13,8 @@ public abstract class JDBCDriver
 	public abstract boolean Disconnect();
 	
 	// Executes a SQL command with the database. Returns if it was executed successfully, or in the 
-	// case of the returning statement, returns the ResultSet.
-	public abstract boolean ExecuteStatement(String statement);
-	public abstract ResultSet ExecuteReturningStatement(String statement);
+	// case of the returning statement, returns the ResultSet. Args are placed into the prepared statement
+	// in place of each '?' places into it.
+	public abstract boolean ExecuteStatement(String command, String[] args);
+	public abstract ResultSet ExecuteReturningStatement(String command, String[] args);
 }

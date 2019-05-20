@@ -3,6 +3,7 @@ package network;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -63,54 +64,86 @@ public class JDBCDriverSQLite extends JDBCDriver
 	}
 	
 	@Override
-	public ResultSet ExecuteReturningStatement(String sql)
+	public ResultSet ExecuteReturningStatement(String command, String[] args)
 	{
 		if(connection == null)
 			return null;
 		
-		if(sql == null || sql.length() == 0)
+		if(command == null || command.length() == 0)
 			return null;
 		
 		try 
 		{
-			Statement statement = connection.createStatement();
-			ResultSet set = statement.executeQuery(sql);
-			return set;
+			if(args != null && args.length > 0)
+			{
+				PreparedStatement statement = connection.prepareStatement(command);
+				
+				for(int i = 0; i < args.length; ++i)
+					statement.setString(i + 1, args[i]);
+				
+				ResultSet set = statement.executeQuery();
+				return set;
+			}
+			else
+			{
+				Statement statement = connection.createStatement();
+				ResultSet set = statement.executeQuery(command);
+				return set;
+			}
 		}
 		catch (SQLException e) 
 		{
-			try {
+			try
+			{
 				GlobalLog.Fatal(e.getMessage());
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
+			
 			return null;
 		}
 	}
 	
-	public boolean ExecuteStatement(String sql)
+	public boolean ExecuteStatement(String command, String[] args)
 	{
 		if(connection == null)
 			return false;
 		
-		if(sql == null || sql.length() == 0)
+		if(command == null || command.length() == 0)
 			return false;
 		
 		try 
 		{
-			Statement statement = connection.createStatement();
-			boolean executed = statement.execute(sql);
-			return executed;
+			if(args != null && args.length > 0)
+			{
+				PreparedStatement statement = connection.prepareStatement(command);
+				
+				for(int i = 0; i < args.length; ++i)
+					statement.setString(i + 1, args[i]);
+				
+				boolean executed = statement.execute();
+				return executed;
+			}
+			else
+			{
+				Statement statement = connection.createStatement();
+				boolean executed = statement.execute(command);
+				return executed;
+			}
 		}
 		catch (SQLException e) 
 		{
-			try {
+			try
+			{
 				GlobalLog.Fatal(e.getMessage());
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
+			
 			return false;
 		}
 	}
