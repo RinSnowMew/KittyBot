@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Vector;
 import java.util.stream.Stream;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 // To promote flexibility, plugins are lua file with predefined callbacks.
@@ -45,14 +48,42 @@ public class Plugin
 		}
 	}
 	
-	public String Run(String args, PluginUser user)
+	public List<String> Run(String args, PluginUser user)
 	{
 		try
 		{
+			List<String> outputs = new Vector<String>();
+			
 			LuaValue res = func_plugin.call(LuaValue.valueOf(args), user.AsLua());
 			
 			if(!res.isnil())
-				return res.toString();
+			{
+				if(res.istable())
+				{
+					LuaValue key = LuaValue.NIL;
+					while (true)
+					{
+						Varargs n = res.next(key);
+						key = n.arg1();
+						if (key.isnil())
+							break;
+						
+						LuaValue value = n.arg(2);
+						outputs.add(value.toString());
+					}
+				}
+				else
+				{
+					System.out.println("Loc2.5 " + res.toString());
+					outputs.add(res.toString());
+				}
+			}
+			
+			if(outputs.size() <= 0)
+				return null;
+			
+			return outputs;
+			
 		}
 		catch(Exception e)
 		{

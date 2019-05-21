@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import dataStructures.KittyUser;
@@ -37,15 +38,18 @@ public class PluginManager
 		}
 	}
 	
-	// Runs all plugins, returning when it gets a non-nill result.
+	// Runs all plugins, returning when it gets a non-nill result. If there
+	// are mutliple strings returned in the list, it is because the plugin
+	// that was run returned multiple strings. Since plugins don't stack, it
+	// will never indicate that multiple 
 	// Otherwise, returns null.
-	public String RunAll(String input, KittyUser user)
+	public List<String> RunAll(String input, KittyUser user)
 	{
 		for(int i = 0; i < plugins.size(); ++i)
 		{
 			Plugin plugin = plugins.get(i);
-			String out = plugin.Run(input, new PluginUser(user));
-			
+			List<String> out = plugin.Run(input, new PluginUser(user));
+
 			if(out != null)
 			{
 				PluginLog.Log("Executed plugin at " + plugin.filepath);

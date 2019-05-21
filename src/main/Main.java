@@ -18,6 +18,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import offline.*;
 import utils.GlobalLog;
 import net.dv8tion.jda.core.*;
+import java.util.*;
 
 // http://www.slf4j.org/ - this JDA logging tool has been disabled by specifying NOP implementation.
 // This is the application entry point, and bot startup location!
@@ -86,39 +87,13 @@ public class Main extends ListenerAdapter
 		// Run plugins right before invoking the commands but after all other setup.
 		if(commandManager.InvokeOnNewThread(guild, channel, user, input, response) == false)
 		{
-			String pluginOutput = pluginManager.RunAll(input.message, user);
-			if(pluginOutput != null)
+			List<String> pluginOutput = pluginManager.RunAll(input.message, user);
+			
+			if(pluginOutput != null && pluginOutput.size() > 0)
 			{
-				switch(pluginOutput.substring(0, pluginOutput.indexOf(" ")))
-				{
-					case "e621":
-						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput ("e621 " + pluginOutput.substring(5), guild), response);
-						pluginOutput = "delete";
-					break;
-					
-					case "derp":
-						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput ("derp " + pluginOutput.substring(5), guild), response);
-						pluginOutput = "delete";
-						break;
-				
-					default:
-						response.Call(pluginOutput);
-						break;
-				}
-				
-//				if(pluginOutput.equals("delete") && guild.contentRating.getValue() > 1)
-//				{
-//					try 
-//					{
-//						event.getMessage().delete().queue();
-//					}
-//					catch(Exception e)
-//					{
-//						
-//					}
-//				}
+				for(int i = 0; i < pluginOutput.size(); ++i)
+					response.Call(pluginOutput.get(i));
 			}
-				
 		}
 		
 		// Run any upkeep in post we need to
