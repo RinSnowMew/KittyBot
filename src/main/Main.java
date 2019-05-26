@@ -49,7 +49,7 @@ public class Main extends ListenerAdapter
 		
 		// Bot startup
 		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("in his hoard"));
+		kitty.getPresence().setGame(Game.playing("with the database"));
 		kitty.addEventListener(new Main());
 	}
 
@@ -92,7 +92,17 @@ public class Main extends ListenerAdapter
 			if(pluginOutput != null && pluginOutput.size() > 0)
 			{
 				for(int i = 0; i < pluginOutput.size(); ++i)
-					response.Call(pluginOutput.get(i));
+				{
+					if(pluginOutput.get(i).startsWith("!"))
+					{
+						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput(pluginOutput.get(i).substring(1), guild), response);
+					}
+					else
+					{
+						response.Call(pluginOutput.get(i));
+					}
+				}
+					
 			}
 		}
 		
