@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import utils.FileUtils;
-
 // NOTE: Consider shifting internal behavior to https://docs.oracle.com/javase/tutorial/essential/io/notification.html
 // for external stability and support
 public class DirectoryMonitor

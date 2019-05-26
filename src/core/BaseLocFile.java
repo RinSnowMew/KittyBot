@@ -9,15 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import dataStructures.TaggedPairStore;
-import utils.FileUtils;
 import utils.GlobalLog;
 import utils.LogFilter;
 import utils.io.FileMonitor;
+import utils.io.FileUtils;
 import utils.io.MonitoredFile;
 
 // A quick-and-dirty localization tool that scrapes the project for calls to itself, then
 // generates/updates a file externally with all the stub values as keys that are localized.
-public abstract class LocBase
+public abstract class BaseLocFile
 {
 	// Pre-defined values 
 	public static final String KittySourceDirectory = "./src";
@@ -37,8 +37,8 @@ public abstract class LocBase
 	// File monitoring
 	protected FileMonitor fileMonitor;
 	
-	// Ok... so this is an array because if it's not an array, the parser will parse the string 
-	public LocBase(String filename, String functionName)
+	// Constructor 
+	public BaseLocFile(String filename, String functionName)
 	{
 		this.filename = filename;
 		this.functionName = functionName;

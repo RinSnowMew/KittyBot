@@ -1,14 +1,14 @@
-package dataStructures;
+package network;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum KittyRole 
+public enum JDBCStatementType
 {
-	Blacklisted (0), General(1), Mod(2), Admin(3), Dev(4);
+	Insert (0), Update(1), Select(2), Create(4);
 	
 	private final int value;
-	private KittyRole(int value) 
+	private JDBCStatementType(int value) 
 	{
 		this.value = value;
 	}
@@ -18,7 +18,7 @@ public enum KittyRole
 		return value;
 	}
 	
-	public static Optional<KittyRole> valueOf(int value) 
+	public static Optional<JDBCStatementType> valueOf(int value) 
 	{
 		return Arrays.stream(values()).filter(role -> role.value == value).findFirst();
 	}

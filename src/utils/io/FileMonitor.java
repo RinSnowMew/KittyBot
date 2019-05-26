@@ -3,8 +3,6 @@ package utils.io;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
-import utils.FileUtils;
-
 // Monitors a single file for changes - the file must exist and is expected to continue to exist.
 public class FileMonitor
 {

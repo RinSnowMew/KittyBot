@@ -7,7 +7,7 @@ import utils.io.FileMonitor;
 // A quick-and-dirty localization tool that scrapes the project for calls to itself, then
 // generates/updates a file externally (phrases.config) with all the stub values as keys that 
 // can then be localized.
-public class LocStrings extends LocBase
+public class LocStrings extends BaseLocFile
 {
 	public static final String fileName = "locStrings.config";
 	public static final String function = "LocStrings.Stub";

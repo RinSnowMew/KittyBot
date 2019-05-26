@@ -8,7 +8,7 @@ import dataStructures.Pair;
 
 // Performs the same localization for the strings associated with command names as 
 // is performed with general strings in the application
-public class LocCommands extends LocBase
+public class LocCommands extends BaseLocFile
 {
 	public static final String fileName = "locCommands.config";
 	public static final String function = "LocCommands.Stub";

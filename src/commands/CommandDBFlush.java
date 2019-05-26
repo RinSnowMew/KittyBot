@@ -3,6 +3,7 @@ package commands;
 import java.awt.Color;
 
 import core.Command;
+import core.DatabaseManager;
 import core.LocStrings;
 import dataStructures.KittyChannel;
 import dataStructures.KittyEmbed;
@@ -13,28 +14,23 @@ import dataStructures.KittyUser;
 import dataStructures.Response;
 import dataStructures.UserInput;
 
-public class CommandCrouton extends Command
+public class CommandDBFlush extends Command
 {
-	public CommandCrouton(KittyRole level, KittyRating rating) { super(level, rating); }
+	public CommandDBFlush(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return LocStrings.Stub("CroutonInfo"); };
-	
+	public String HelpText() { return LocStrings.Stub("DBFlushInfo"); }
+
 	@Override
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
+		int numUpdated = DatabaseManager.instance.Upkeep();
+
 		KittyEmbed embed = new KittyEmbed();
-		embed.authorImage = "https://crouton.net/crouton.png";
-		embed.authorLink = "https://crouton.net/";
-		embed.authorText = "Crouton";
-		embed.color = new Color(255f / 255, 153f / 255, 51f / 255); // Crouton
-		embed.descriptionText = "Crouton";
-		embed.footerText = "Crouton";
-		embed.title = "Crouton";
-		
-		embed.imageURL = "https://crouton.net/crouton.png";
+		embed.title = "Database queue flushed";
+		embed.descriptionText = "**Dirty:** " + numUpdated;
+		embed.color = new Color(7*16, 8*16, 9*16);
 		
 		res.CallEmbed(embed);
 	}
 }
-

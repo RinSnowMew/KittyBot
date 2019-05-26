@@ -1,13 +1,11 @@
 package core;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-
-import utils.FileUtils;
+import java.util.List;
+import java.util.Vector;
+import dataStructures.Pair;
 import utils.GlobalLog;
 import utils.LogFilter;
 
@@ -15,12 +13,9 @@ import utils.LogFilter;
 // commands that are being looked up will behave slightly differently so trimming
 // rules for this file are different than the localization ones - this is more 
 // aggresive with whitespace removal.
-public class CommandEnabler
+public class CommandEnabler extends BaseKeyValueFile
 {
 	// Config/const variables
-	public static final String filename = "commands.config";
-	public static final String pairSplit = "=";
-	public static final char pairSeparator = '\n';
 	public static final String enabled = "1";
 	public static final String disabled = "0";
 	public static final boolean defaultEnabledState = true;
@@ -28,13 +23,18 @@ public class CommandEnabler
 	// Local variables
 	private HashMap<String, Boolean> enabledMap; // Quick lookup
 	private ArrayList<String> keyList; // Tracking ordering for later
+	private final static String name = "commands.config";
 	
 	public CommandEnabler()
 	{
+		super(name);
+		
+		// Create/Init variables
 		GlobalLog.Log(LogFilter.Core, "Initializing " + this.getClass().getSimpleName());
 		enabledMap = new HashMap<>();
 		keyList = new ArrayList<>();
 		
+		// Startup
 		ReadIn();
 		GetTrackedCommands();
 		WriteOut();
@@ -43,30 +43,17 @@ public class CommandEnabler
 	// Reads in the config file and parses it, keeping tabs on the order it read things
 	private void ReadIn()
 	{
-		File f = new File(filename);
-		if(f.isFile() && f.canRead())
-		{
-			String content = FileUtils.ReadContent(f).trim();
-			String[] lines = content.split("" + pairSeparator);
+		Parse((pair) ->{
+			String key = pair.First;
+			String value = pair.Second;
 			
-			for(int i = 0; i < lines.length; ++i)
-			{
-				String[] pair = lines[i].split(pairSplit);
-				
-				if(pair.length < 2)
-					continue;
-				
-				String key = pair[0].trim();
-				String value = pair[1].trim().toLowerCase();
-				
-				keyList.add(key);
+			keyList.add(key);
 
-				if(value.equalsIgnoreCase(enabled))
-					enabledMap.putIfAbsent(key, true);
-				else
-					enabledMap.putIfAbsent(key, false);
-			}
-		}
+			if(value.equalsIgnoreCase(enabled))
+				enabledMap.putIfAbsent(key, true);
+			else
+				enabledMap.putIfAbsent(key, false);
+		});
 	}
 	
 	// Look up the already scraped values from the localizer and store them if they
@@ -77,7 +64,8 @@ public class CommandEnabler
 		
 		for(int i = 0; i < unloc.size(); ++i)
 		{
-			String command = unloc.get(i);
+			String command = unloc.get(i).toLowerCase();
+			
 			if(enabledMap.putIfAbsent(command, defaultEnabledState) == null)
 			{
 				GlobalLog.Log(LogFilter.Strings, "Identified new toggleable raw command: " + command);
@@ -89,35 +77,31 @@ public class CommandEnabler
 	// Write out enabled/disabled file info.
 	private void WriteOut()
 	{
-		try
+		List<Pair<String, String>> list = new Vector<Pair<String, String>>();
+		
+		for(int i = 0; i < keyList.size(); ++i)
 		{
-			String outString = "";
-			for(int i = 0; i < keyList.size(); ++i)
-			{
-				String key = keyList.get(i);
-				String value = enabled;
-				
-				if(enabledMap.get(key) == false)
-					value = disabled;
-				
-				outString += key + pairSplit + value + pairSeparator;
-			}
+			String key = keyList.get(i).toLowerCase();
+			String value = enabled.toLowerCase();
 			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-			writer.write(outString);
-			writer.close();
+			if(enabledMap.get(key) == false)
+				value = disabled.toLowerCase();
+			
+			list.add(new Pair<String, String>(key, value));
 		}
-		catch (IOException e)
-		{
-			GlobalLog.Error(LogFilter.Core, "Command enabler issue writing file! " + e.getMessage());
-		}
+		
+		Collections.sort(list, (c1, c2) -> { return c1.First.compareTo(c2.First); });
+		
+		Write(list);
 	}
 	
 	// Looks up a key to see if it's enabled or not
 	public boolean IsEnabled(String key)
 	{
-		if(enabledMap.containsKey(key))
-			return enabledMap.get(key);
+		String toCheck = key.toLowerCase();
+		
+		if(enabledMap.containsKey(toCheck))
+			return enabledMap.get(toCheck);
 		
 		return true;
 	}

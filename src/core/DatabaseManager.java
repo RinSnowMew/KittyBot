@@ -1,7 +1,7 @@
 package core;
 
-import java.util.ArrayList;
-
+import java.util.Date;
+import java.util.Vector;
 import utils.GlobalLog;
 import utils.LogFilter;
 
@@ -11,11 +11,14 @@ public class DatabaseManager
 	public static DatabaseManager instance = null; 
 
 	// Private internal variables
-	private ArrayList<DatabaseTrackedObject> trackedObjects;
+	private Vector<DatabaseTrackedObject> trackedObjects;
 	private DatabaseDriver driver;
+	private Date lastUpkeep;
 	
 	public DatabaseManager()
 	{
+		GlobalLog.Log(LogFilter.Database, "Creating database manager");
+		
 		if(instance == null)
 		{
 			instance = this;
@@ -26,40 +29,75 @@ public class DatabaseManager
 			return;
 		}
 		
-		trackedObjects = new ArrayList<DatabaseTrackedObject>();
+		lastUpkeep = new Date();
+		trackedObjects = new Vector<DatabaseTrackedObject>();
 		driver = new DatabaseDriver();
-		driver.Connect();
+		
+		if(driver.Connect() == false)
+		{
+			GlobalLog.Error("Database failed to connect. Currently, without the DB, this bot can not run.");
+			System.exit(1);
+		}
 	}
 	
 	// Thumbs through registered objects and syncs them with the database. 
 	// Consider moving this operation to a separate thread.
-	public void Upkeep()
+	public int Upkeep()
 	{
-		for(int i = 0 ; i < trackedObjects.size(); ++i)
+		synchronized(trackedObjects)
 		{
-			DatabaseTrackedObject dto = trackedObjects.get(i);
+			int numUpdated = 0;
 			
-			if(dto.IsDirty())
+			for(int i = 0 ; i < trackedObjects.size(); ++i)
 			{
-				SetRemoteValue(dto.identifier, dto.Serialize());
-				dto.Resolve();
+				DatabaseTrackedObject dto = trackedObjects.get(i);
+				
+				if(dto.IsDirty())
+				{
+					SetRemoteValue(dto.identifier, dto.Serialize());
+					dto.Resolve();
+					++numUpdated;
+				}
 			}
+			
+			lastUpkeep = new Date();
+			
+			return numUpdated;
 		}
 	}
 	
 	public void Register(DatabaseTrackedObject tracked)
 	{
-		trackedObjects.add(tracked);
-		tracked.DeSerialzie(GetRemoteValue(tracked.identifier));
+		synchronized(trackedObjects)
+		{
+			trackedObjects.add(tracked);
+			tracked.DeSerialzie(GetRemoteValue(tracked.identifier));
+		}
 	}
 	
 	public String GetRemoteValue(String key)
 	{
-		return driver.CreateGetKey(key);
+		synchronized(driver)
+		{
+			return driver.CreateGetKey(key);
+		}
 	}
 	
 	public void SetRemoteValue(String key, String value)
 	{
-		driver.CreateSetKey(key, value);
+		synchronized(driver)
+		{
+			driver.CreateSetKey(key, value);
+		}
+	}
+	
+	public Date GetLastUpkeep()
+	{
+		return lastUpkeep;
+	}
+	
+	public int GetTrackedObjectsSize()
+	{
+		return trackedObjects.size();
 	}
 }

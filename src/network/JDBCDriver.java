@@ -15,6 +15,6 @@ public abstract class JDBCDriver
 	// Executes a SQL command with the database. Returns if it was executed successfully, or in the 
 	// case of the returning statement, returns the ResultSet. Args are placed into the prepared statement
 	// in place of each '?' places into it.
-	public abstract boolean ExecuteStatement(String command, String[] args);
-	public abstract ResultSet ExecuteReturningStatement(String command, String[] args);
+	public abstract boolean ExecuteStatement(JDBCStatementType type, String command, String[] args);
+	public abstract ResultSet ExecuteReturningStatement(JDBCStatementType type, String command, String[] args);
 }

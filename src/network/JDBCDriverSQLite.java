@@ -64,7 +64,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 	}
 	
 	@Override
-	public ResultSet ExecuteReturningStatement(String command, String[] args)
+	public ResultSet ExecuteReturningStatement(JDBCStatementType type, String command, String[] args)
 	{
 		if(connection == null)
 			return null;
@@ -77,11 +77,21 @@ public class JDBCDriverSQLite extends JDBCDriver
 			if(args != null && args.length > 0)
 			{
 				PreparedStatement statement = connection.prepareStatement(command);
+				ResultSet set = null;
 				
 				for(int i = 0; i < args.length; ++i)
 					statement.setString(i + 1, args[i]);
 				
-				ResultSet set = statement.executeQuery();
+				switch(type)
+				{
+					case Select:
+						set = statement.executeQuery();
+						break;
+						
+					default:
+						throw new Exception("Unsupported statement type for this function!");
+				}
+				
 				return set;
 			}
 			else
@@ -91,7 +101,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 				return set;
 			}
 		}
-		catch (SQLException e) 
+		catch (Exception e) 
 		{
 			try
 			{
@@ -106,7 +116,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 		}
 	}
 	
-	public boolean ExecuteStatement(String command, String[] args)
+	public boolean ExecuteStatement(JDBCStatementType type, String command, String[] args)
 	{
 		if(connection == null)
 			return false;
@@ -118,12 +128,34 @@ public class JDBCDriverSQLite extends JDBCDriver
 		{
 			if(args != null && args.length > 0)
 			{
+				boolean executed = false;
 				PreparedStatement statement = connection.prepareStatement(command);
+				//GlobalLog.Log("COMMAND IS -- " + command);
 				
 				for(int i = 0; i < args.length; ++i)
+				{
+					//GlobalLog.Log("Args: " + args[i]);
 					statement.setString(i + 1, args[i]);
-				
-				boolean executed = statement.execute();
+				}
+								
+				switch(type)
+				{
+					case Create:
+						executed = statement.executeUpdate() == 1;
+						break;
+						
+					case Update:
+						executed = statement.executeUpdate() == 1;
+						break;
+					
+					case Insert:
+						executed = statement.executeUpdate() == 1;
+						break;
+						
+					default:
+						throw new Exception("Unsupported statement type for this function!");
+				}
+
 				return executed;
 			}
 			else
@@ -133,7 +165,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 				return executed;
 			}
 		}
-		catch (SQLException e) 
+		catch (Exception e) 
 		{
 			try
 			{

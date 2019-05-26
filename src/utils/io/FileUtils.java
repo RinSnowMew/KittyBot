@@ -1,4 +1,4 @@
-package utils;
+package utils.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,20 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import utils.GlobalLog;
+import utils.LogFilter;
+
 public class FileUtils
 {
+	public static void CreateDirectoryIfDoesntExist(String directoryName)
+	{
+		File directory = new File(directoryName);
+		
+		if (! directory.exists()){
+			directory.mkdir();
+		}
+	}
+	
 	// Reads all lines from a file as a string
 	public static String ReadContent(File file) { return ReadContent(file.toPath()); }
 	public static String ReadContent(Path filePath)

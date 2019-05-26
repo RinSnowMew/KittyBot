@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import dataStructures.Pair;
-import utils.FileUtils;
 import utils.io.DirectoryMonitor;
+import utils.io.FileUtils;
 import utils.io.MonitoredFile;
 
 // All things considered, this doesn't need to be particularly efficient since anything

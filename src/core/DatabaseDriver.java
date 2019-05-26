@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import network.JDBCDriver;
 import network.JDBCDriverSQLite;
+import network.JDBCStatementType;
 import utils.GlobalLog;
 import utils.LogFilter;
 
@@ -28,14 +29,25 @@ public class DatabaseDriver
 		driver = null;
 	}
 	
+	// Makes sure a table exists with the specified name.
+	// The keyName specifies the key column label, and the valueName specifies the value column label.
+	public void EnsureTableExists(String tableName, String keyName, String valueName)
+	{
+		// Require a global table if it doesn't exist already
+		driver.ExecuteStatement(JDBCStatementType.Create, "CREATE TABLE IF NOT EXISTS " + tableName + " (" + keyName + " text PRIMARY KEY, " + valueName + " text)", null);
+	}
+	
 	// Set up and create a table in the database
 	public boolean Connect()
 	{
 		driver = new JDBCDriverSQLite();
-		driver.Connect();
+		if(driver.Connect() == false)
+		{
+			return false;
+		}
 	
-		// Require a global table if it doesn't exist already
-		driver.ExecuteStatement("CREATE TABLE IF NOT EXISTS " + globalTableName + " (" + globalKeyName + " text PRIMARY KEY, " + globalValueName + " text);", null);
+		// Verify tables we want to use exist
+		EnsureTableExists(globalTableName, globalKeyName, globalValueName); // General table. Do not remove.
 		
 		return true;
 	}
@@ -75,15 +87,16 @@ public class DatabaseDriver
 	// Prototype formatting for key updating
 	private void UpdateKey(String key, String value)
 	{
-		String command = "UPDATE " + globalTableName + " SET " + globalValueName + " = ? WHERE " + globalKeyName + " = ?;";
-		driver.ExecuteStatement(command, new String[] { key, value });
+		String command = "UPDATE " + globalTableName + " SET " + globalValueName + " = ? WHERE " + globalKeyName + " = ?";
+		boolean status = driver.ExecuteStatement(JDBCStatementType.Update, command, new String[] { value, key });
+		GlobalLog.Log(LogFilter.Database, "UpdateKey status: " + status);
 	}
 	
 	// Protoype updating for seeing if a key exists
 	private boolean HasKey(String key)
 	{
-		String command = "SELECT COUNT(1) as count FROM " + globalTableName + " WHERE " + globalKeyName + " = ?;";
-		ResultSet set = driver.ExecuteReturningStatement(command, new String[] { key });
+		String command = "SELECT COUNT(1) as count FROM " + globalTableName + " WHERE " + globalKeyName + " = ?";
+		ResultSet set = driver.ExecuteReturningStatement(JDBCStatementType.Select, command, new String[] { key });
 		String out = ResultAsString(set, "count");
 		return out.charAt(0) == '1';
 	}
@@ -91,16 +104,17 @@ public class DatabaseDriver
 	// Prototype for getting a key
 	private String GetKey(String key)
 	{
-		String command = "SELECT " + globalValueName + " as searchedKey FROM " + globalTableName +" WHERE " + globalKeyName + " = ?;";
-		ResultSet set = driver.ExecuteReturningStatement(command, new String[] { key });
+		String command = "SELECT " + globalValueName + " as searchedKey FROM " + globalTableName +" WHERE " + globalKeyName + " = ?";
+		ResultSet set = driver.ExecuteReturningStatement(JDBCStatementType.Select, command, new String[] { key });
 		return ResultAsString(set, "searchedKey");
 	}
 	
 	// Prototype for creating a key
 	private void CreateKey(String key, String value)
 	{
-		String command = "INSERT INTO " + globalTableName + " (GlobalKey, GlobalValue) VALUES (?, ?);";
-		driver.ExecuteStatement(command, new String[] { key, value });
+		String command = "INSERT INTO " + globalTableName + " (GlobalKey, GlobalValue) VALUES (?, ?)";
+		boolean status = driver.ExecuteStatement(JDBCStatementType.Insert, command, new String[] { key, value });
+		GlobalLog.Log(LogFilter.Database, "CreateKey status: " + status);
 	}
 	
 	// Transforms a result into a string if possible.

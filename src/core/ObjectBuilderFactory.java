@@ -328,22 +328,28 @@ public class ObjectBuilderFactory
 		
 		CommandManager manager = new CommandManager(commandEnabler);
 		
+		// Dev
 		manager.Register(LocCommands.Stub("work"), new CommandDoWork(KittyRole.Dev, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("shutdown"), new CommandShutdown(KittyRole.Dev, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("stats"), new CommandStats(KittyRole.Dev, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("invite"), new CommandInvite(KittyRole.Dev, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("buildHelp"), new CommandHelpBuilder(KittyRole.Dev, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("tweet"), new CommandTweet(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("dbflush"), new CommandDBFlush(KittyRole.Dev, KittyRating.Safe));
+		manager.Register(LocCommands.Stub("dbstats"), new CommandDBStats(KittyRole.Dev, KittyRating.Safe));
 		
+		// Admin
 		manager.Register(LocCommands.Stub("rating"), new CommandRating(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("indicator"), new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("guildroleallowed"), new CommandGuildRoleAllowed(KittyRole.Admin, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("guildrolenotallowed"), new CommandGuildRoleNotAllowed(KittyRole.Admin, KittyRating.Safe));
 		
+		// Mod
 		manager.Register(LocCommands.Stub("poll"), new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("givebeans"), new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("rpg"), new CommandRPG(KittyRole.Mod, KittyRating.Safe));
 
+		// General
 		manager.Register(LocCommands.Stub("fetch"), new CommandFetch(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("guildroleadd"), new CommandGuildRoleAdd(KittyRole.General, KittyRating.Safe));
 		manager.Register(LocCommands.Stub("guildroleremove"), new CommandGuildRoleRemove(KittyRole.General, KittyRating.Safe));
