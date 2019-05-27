@@ -24,7 +24,7 @@ public class CommandGuildRoleAdd extends Command
 		
 		for(String role: roles)
 		{
-			if(guild.roleList.contains(role))
+			if(guild.roleList.contains(role.toLowerCase()))
 			{
 				if(guild.control.addRole(user.discordID, role))
 				{

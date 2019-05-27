@@ -48,8 +48,8 @@ public class Main extends ListenerAdapter
 		pluginManager = ObjectBuilderFactory.ConstructPluginManager();
 		
 		// Bot startup
-		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("with the database"));
+		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.PoguToken).buildBlocking();
+		kitty.getPresence().setGame(Game.playing("in his hoard"));
 		kitty.addEventListener(new Main());
 	}
 

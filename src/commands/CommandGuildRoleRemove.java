@@ -21,7 +21,7 @@ public class CommandGuildRoleRemove extends Command
 	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		String role = input.args.split(" ")[0];
-		if(guild.roleList.contains(role))
+		if(guild.roleList.contains(role.toLowerCase()))
 		{
 			if(guild.control.removeRole(user.discordID, role))
 			{
