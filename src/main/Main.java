@@ -91,18 +91,18 @@ public class Main extends ListenerAdapter
 			
 			if(pluginOutput != null && pluginOutput.size() > 0)
 			{
-				for(int i = 0; i < pluginOutput.size(); ++i)
-				{
-					if(pluginOutput.get(i).startsWith("!"))
+					for(int i = 0; i < pluginOutput.size(); ++i)
 					{
-						commandManager.InvokeOnNewThread(guild, channel, user, new UserInput(pluginOutput.get(i).substring(1), guild), response);
+						if(pluginOutput.get(i).startsWith("!"))
+						{
+							commandManager.InvokeOnNewThread(guild, channel, user, new UserInput(pluginOutput.get(i).substring(1), guild), response);
+						}
+						else
+						{
+							response.Call(pluginOutput.get(i));
+						}
 					}
-					else
-					{
-						response.Call(pluginOutput.get(i));
-					}
-				}
-					
+								
 			}
 		}
 		

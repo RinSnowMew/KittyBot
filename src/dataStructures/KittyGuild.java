@@ -1,6 +1,8 @@
 package dataStructures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import core.DatabaseManager;
 import core.DatabaseTrackedObject;
@@ -15,10 +17,13 @@ public class KittyGuild extends DatabaseTrackedObject
 	public KittyUser guildOwner;
 	public boolean polling;
 	public String poll; 
+	public boolean raffling; 
+	public int raffleCost; 
 	public ArrayList<String> hasVoted = new ArrayList<String>();
 	public ArrayList<String> emoji = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
 	public AdminControl control;
+	public HashMap <KittyUser, Boolean> raffleUsers = new HashMap<KittyUser, Boolean>();
 	
 	// Database synced info
 	private final String roleListName = "guildRoles";
@@ -86,6 +91,58 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.polling = false;
 		poll = null;
 		return "Poll ended!";
+	}
+	
+	//Raffle methods
+	public boolean startRaffle(int beanCost)
+	{
+		if(raffling)
+		{
+			return false;
+		}
+		raffleCost = beanCost; 
+		raffling = true; 
+		return true;
+	}
+	
+	public boolean endRaffle()
+	{
+		if(raffling)
+		{
+			raffleCost = 0;
+			raffling = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean joinRaffle(KittyUser user)
+	{
+		if(!raffleUsers.containsKey(user) && user.GetBeans() > raffleCost && raffling)
+		{
+			user.ChangeBeans(raffleCost);
+			raffleUsers.put(user, true);
+			return true;
+		}
+		return false; 
+	}
+	
+	public KittyUser chooseRaffleWinner()
+	{
+		if(!raffleUsers.isEmpty())
+		{
+			KittyUser chosen = (KittyUser) raffleUsers.keySet().toArray()[new Random().nextInt(raffleUsers.keySet().toArray().length)];
+			for(int i = 0; i < 10; i ++)
+			{
+				if(raffleUsers.get(chosen))
+				{
+					raffleUsers.replace(chosen, false);
+					return chosen;
+				}
+			}
+			
+		}
+		return null;
 	}
 	
 	@Override
