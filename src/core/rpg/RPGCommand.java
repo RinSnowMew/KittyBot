@@ -5,5 +5,5 @@ public abstract class RPGCommand
 	public RPGCommand() { }
 	
 	// OVERRIDE ME
-	public abstract String OnRun(RPGState state, RPGInput input);
+	public abstract String onRun(RPGState state, RPGInput input);
 }

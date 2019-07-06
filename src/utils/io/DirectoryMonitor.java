@@ -20,16 +20,16 @@ public class DirectoryMonitor
 	// Constructs a new file monitor and logs initialization
 	public DirectoryMonitor(String directory)
 	{
-		IOLog.Log("Reading directory files for montioring in: " + directory.toString());
+		IOLog.log("Reading directory files for montioring in: " + directory.toString());
 		
 		this.directory = directory;
-		this.last = Scrape();
+		this.last = scrape();
 		
-		Print(last);
+		print(last);
 	}
 	
 	// Scrape the target directory for all files and store them as custom objects in the list
-	private ArrayList<MonitoredFile> Scrape()
+	private ArrayList<MonitoredFile> scrape()
 	{
 		ArrayList<MonitoredFile> files = new ArrayList<MonitoredFile>();
 		
@@ -39,13 +39,13 @@ public class DirectoryMonitor
 			{
 				paths.filter(Files::isRegularFile).forEach((path)->
 				{ 
-					files.add(new MonitoredFile(path, FileUtils.LastModified(path)));
+					files.add(new MonitoredFile(path, FileUtils.lastModified(path)));
 				});
 			}
 		}
 		catch(Exception e)
 		{
-			IOLog.Error(e.getMessage());
+			IOLog.error(e.getMessage());
 		}
 		
 		return files;
@@ -54,10 +54,10 @@ public class DirectoryMonitor
 	// Update function - the first callback is called if a new item is added to the directory,
 	// second is called if an item is updated, and third is called if an item is removed.
 	@SuppressWarnings("unchecked")
-	public void Update(Consumer<? super MonitoredFile> onAdd, Consumer<? super MonitoredFile> onUpdate, Consumer<? super MonitoredFile> onDelete)
+	public void update(Consumer<? super MonitoredFile> onAdd, Consumer<? super MonitoredFile> onUpdate, Consumer<? super MonitoredFile> onDelete)
 	{
 		// Unparsed
-		ArrayList<MonitoredFile> active = Scrape();
+		ArrayList<MonitoredFile> active = scrape();
 		ArrayList<MonitoredFile> curr = (ArrayList<MonitoredFile>)active.clone(); 
 		ArrayList<MonitoredFile> prev = (ArrayList<MonitoredFile>)last.clone();
 		
@@ -125,19 +125,19 @@ public class DirectoryMonitor
 		Collections.sort(last);
 		
 		if(last.size() == 0)
-			IOLog.Warn("There's nothing at all in a FileMonitor's target folder! Folder: " + directory);
+			IOLog.warn("There's nothing at all in a FileMonitor's target folder! Folder: " + directory);
 	}
 	
 	// Returns the current list of files the monitor is tracking in the directory.
-	public List<MonitoredFile> GetCurrentFiles()
+	public List<MonitoredFile> getCurrentFiles()
 	{
 		return last;
 	}
 	
 	// Prints out an arraylist of items from a directory by path
-	private void Print(ArrayList<MonitoredFile> toPrint)
+	private void print(ArrayList<MonitoredFile> toPrint)
 	{
 		for(int i = 0; i < toPrint.size(); ++i)
-			IOLog.Log(toPrint.get(i).path.toString());
+			IOLog.log(toPrint.get(i).path.toString());
 	}
 }

@@ -5,25 +5,25 @@ import java.sql.ResultSet;
 public class JDBCDriverPostgreSQL extends JDBCDriver
 {
 	@Override
-	public boolean Connect() {
+	public boolean connect() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean Disconnect() {
+	public boolean disconnect() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean ExecuteStatement(JDBCStatementType type, String statement, String[] args) {
+	public boolean executeStatement(JDBCStatementType type, String statement, String[] args) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public ResultSet ExecuteReturningStatement(JDBCStatementType type, String statement, String[] args) {
+	public ResultSet executeReturningStatement(JDBCStatementType type, String statement, String[] args) {
 		// TODO Auto-generated method stub
 		return null;
 	}

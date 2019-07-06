@@ -45,7 +45,7 @@ public class KittyRP
 	
 	public File endRP(KittyUser user) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		if(!users.contains(Long.parseLong(user.discordID)) && user.GetRole().getValue() < 2)
+		if(!users.contains(Long.parseLong(user.discordID)) && user.getRole().getValue() < 2)
 		{
 			return null;
 		}

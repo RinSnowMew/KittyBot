@@ -14,5 +14,11 @@
 	<classpathentry kind="lib" path="lib/twitter4j-core-4.0.7-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/twitter4j-core-4.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/luaj-jse-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/fuzzywuzzy-1.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/opencsv-4.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.9.jar"/>
+	<classpathentry kind="lib" path="lib/commons-text-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -34,10 +34,10 @@ public class ImageOverlayBuilder
 	public static final String LOG_HEADER = "[Overlay] ";
 	
 	// Logging intermediate functions
-	private static void Verbose(String str) { if(VERBOSE) Log("[Verbose] " + str); }
-	private static void Log(String str) { GlobalLog.Log(LogFilter.Util, LOG_HEADER + str); }
-	private static void Warn(String str) { GlobalLog.Warn(LogFilter.Util, LOG_HEADER + str); }
-	private static void Error(String str) { GlobalLog.Error(LogFilter.Util, LOG_HEADER + str); }
+	private static void verbose(String str) { if(VERBOSE) log("[Verbose] " + str); }
+	private static void log(String str) { GlobalLog.log(LogFilter.Util, LOG_HEADER + str); }
+	private static void warn(String str) { GlobalLog.warn(LogFilter.Util, LOG_HEADER + str); }
+	private static void error(String str) { GlobalLog.error(LogFilter.Util, LOG_HEADER + str); }
 
 	// Local variables
 	private final String basePath; // The folder location of the files
@@ -61,46 +61,46 @@ public class ImageOverlayBuilder
 	}
 	
 	// Performs a per-frame overlay, catches IO errors as a note.)
-	public void Overlay(BufferedImage overlay, String outpath)
+	public void overlay(BufferedImage overlay, String outpath)
 	{
 		try 
 		{
 			long start = Calendar.getInstance().getTimeInMillis();
 			
-			ProcessOverlay(overlay, outpath);
+			processOverlay(overlay, outpath);
 			
 			long end = Calendar.getInstance().getTimeInMillis();
-			Log("Took " + (end - start) + "ms");
+			log("Took " + (end - start) + "ms");
 		} 
 		catch (IOException e) 
 		{
-			Error(e.getMessage());
+			error(e.getMessage());
 		}
 	}
 	
 	// Processing the image frames to construct a gif. Relies on (0,255,0) pixel for image center specification.
-	private void ProcessOverlay(BufferedImage overlay, String outfileName) throws IOException
+	private void processOverlay(BufferedImage overlay, String outfileName) throws IOException
 	{
 		ArrayList<BufferedImage> frames = new ArrayList<BufferedImage>(frameCount);
 		//BufferedImage[] frames = new BufferedImage[frameCount];
 		
 		for(int i = 0; i < frameCount; ++i)
 		{
-			BufferedImage out = CombineImages(basePath + baseName + i + FRAME_FILE_EXTENSION , overlay);
+			BufferedImage out = combineImages(basePath + baseName + i + FRAME_FILE_EXTENSION , overlay);
 			
 			if(out != null)
 				frames.add(out);// = out;
 			else
-				Warn("Skipping frame " + i + " of base " + basePath + baseName);
+				warn("Skipping frame " + i + " of base " + basePath + baseName);
 		}
 		
 		if(frames.isEmpty())
 		{
-			Error("No frames were found at all, so the gif could not be made!");
+			error("No frames were found at all, so the gif could not be made!");
 			return;
 		}
 		
-		Verbose("Processed " + frameCount + " frames, found " + frames.size() + " valid, writing...");
+		verbose("Processed " + frameCount + " frames, found " + frames.size() + " valid, writing...");
 		ImageOutputStream output = new FileImageOutputStream(new File(outfileName));
 		GifSequenceWriter writer = new GifSequenceWriter(output, frames.get(0).getType(), fps, true);
 		
@@ -115,7 +115,7 @@ public class ImageOverlayBuilder
 	// Performs an overlay at a pixel location. We're making some assumptions here, mostly that there is going
 	// to be an RGBA-32-bit encoded PNG image read in for our parsing purposes. We then look for a 0, 255, 0
 	// green pixel on the base frame to apply the overlay buffer to, centered.
-	private BufferedImage CombineImages(String pathBase, BufferedImage overlay) throws IOException
+	private BufferedImage combineImages(String pathBase, BufferedImage overlay) throws IOException
 	{
 		// Acquire images
 		BufferedImage imageBase = null;
@@ -137,7 +137,7 @@ public class ImageOverlayBuilder
 		
 		// Warn about odd sizing when applicable
 		if(overlayHeight > baseHeight || overlayWidth > baseWidth)
-			Warn("Size mismatch, overlay is larger. May function, but not supported.");
+			warn("Size mismatch, overlay is larger. May function, but not supported.");
 		
 		// Skim base picture for solid green pixel to use as target center 
 		int targetX = NONE;
@@ -165,7 +165,7 @@ public class ImageOverlayBuilder
 		// Skip overlay if we have no target location
 		if(targetX == NONE || targetY == NONE)
 		{
-			Verbose("No overlay required for this frame.");
+			verbose("No overlay required for this frame.");
 	    	return imageBase;
 	    }
 	    

@@ -5,13 +5,13 @@ public abstract class RPGUnit
 	protected int healthMax;
 	protected int healthCurrent;
 	
-	public int GetHealthMax() { return healthMax; }
-	public int GetHealthCurrent() { return healthCurrent; }
-	public boolean IsAlive() { return healthCurrent > 0; }
+	public int getHealthMax() { return healthMax; }
+	public int getHealthCurrent() { return healthCurrent; }
+	public boolean isAlive() { return healthCurrent > 0; }
 
 	// Generic implementation. Consider implementing armor in 
 	// derived classes, for example.
-	public void ApplyDamage(int value) 
+	public void applyDamage(int value) 
 	{ 
 		if(value < 0)
 			value = 0;
@@ -21,7 +21,7 @@ public abstract class RPGUnit
 	
 	// Generic implementation. Consider applying boosts in
 	// derived classes, for example.
-	public void ApplyHealing(int value) 
+	public void applyHealing(int value) 
 	{
 		if(value < 0)
 			value = 0;

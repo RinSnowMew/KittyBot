@@ -31,17 +31,17 @@ public class CommandThread  extends Thread
 	@Override
 	public void run() 
 	{
-		InvokeCommand();
+		invokeCommand();
 	}
 
-	private void InvokeCommand()
+	private void invokeCommand()
 	{
-		manager.Invoke(guild, channel, user, input, response);
+		manager.invoke(guild, channel, user, input, response);
 	}
 	
 	// Handles the try catch requirement java has for sleeping
 	@SuppressWarnings("unused")
-	private void ThreadSleep(int ms)
+	private void threadSleep(int ms)
 	{
 		try
 		{

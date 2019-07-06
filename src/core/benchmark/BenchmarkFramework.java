@@ -16,43 +16,43 @@ public class BenchmarkFramework
 		this.benchmarkManager = new BenchmarkManager();
 		this.benchmarkCommand = new HashMap<String, BenchmarkCommand>();
 		
-		RegisterCommand("find", new BenchmarkCommandFind());
-		RegisterCommand("compare", new BenchmarkCommandCompare());
-		RegisterCommand("info", new BenchmarkCommandInfo());
+		registerCommand("find", new BenchmarkCommandFind());
+		registerCommand("compare", new BenchmarkCommandCompare());
+		registerCommand("info", new BenchmarkCommandInfo());
 	}
 	
 	// Runs a command if possible.
-	public BenchmarkFormattable Run(String args)
+	public BenchmarkFormattable run(String args)
 	{
 		BenchmarkInput input = new BenchmarkInput(args);
-		return ExecuteCommand(input.key, input);
+		return executeCommand(input.key, input);
 	}
 	
-	public void Update()
+	public void update()
 	{
 		synchronized(benchmarkManager)
 		{
-			benchmarkManager.Update();
+			benchmarkManager.update();
 		}
 	}
 	
 	// Registers a command
-	private void RegisterCommand(String commandName, BenchmarkCommand command)
+	private void registerCommand(String commandName, BenchmarkCommand command)
 	{
 		commandName = commandName.toLowerCase();
 		if(benchmarkCommand.put(commandName, command) != null)
-			BenchmarkLog.Log("Multiple registration of a command with name '" + commandName + "'!");
+			BenchmarkLog.log("Multiple registration of a command with name '" + commandName + "'!");
 		
-		BenchmarkLog.Log("Registered " + commandName);
+		BenchmarkLog.log("Registered " + commandName);
 	}
 	
 	// Executes a command with the specified name, and provides it with some extra input data.
-	private BenchmarkFormattable ExecuteCommand(String name, BenchmarkInput input)
+	private BenchmarkFormattable executeCommand(String name, BenchmarkInput input)
 	{
 		BenchmarkCommand command = benchmarkCommand.get(name.toLowerCase());
 		
 		if(command != null && benchmarkManager != null)
-			return command.OnRun(benchmarkManager,  input);
+			return command.onRun(benchmarkManager,  input);
 		
 		return null; 
 	}

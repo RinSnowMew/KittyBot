@@ -9,12 +9,12 @@ public class BenchmarkCommandFind extends BenchmarkCommand
 	private final String lineDelimiter = "\n";
 	private final int listMax = 30;
 	
-	public BenchmarkFormattable OnRun(BenchmarkManager manager, BenchmarkInput input)
+	public BenchmarkFormattable onRun(BenchmarkManager manager, BenchmarkInput input)
 	{
 		String output = "";
 		String searchString = input.value.trim();
 		
-		List<BenchmarkEntry> entries = manager.FindModel(searchString);
+		List<BenchmarkEntry> entries = manager.findModel(searchString);
 		
 		if(entries.size() > 0)
 		{

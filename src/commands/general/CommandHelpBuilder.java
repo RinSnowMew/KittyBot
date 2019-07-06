@@ -1,0 +1,136 @@
+package commands.general;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import core.Command;
+import core.LocStrings;
+import core.Stats;
+import dataStructures.KittyChannel;
+import dataStructures.KittyGuild;
+import dataStructures.KittyRating;
+import dataStructures.KittyRole;
+import dataStructures.KittyUser;
+import dataStructures.Response;
+import dataStructures.UserInput;
+import utils.GlobalLog;
+import utils.ImageUtils;
+
+public class CommandHelpBuilder extends Command {
+
+	public CommandHelpBuilder(KittyRole role, KittyRating rating) {
+		super(role, rating);
+	}
+
+	@Override
+	public String getHelpText() { return LocStrings.stub("HelpBuilderInfo"); }
+	
+	@Override
+	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
+	{
+		// Holds command groups
+		HashMap<KittyRole, ArrayList<Command>> commandsByRole = new HashMap<KittyRole, ArrayList<Command>>();
+		
+		// Populate w/ empty array lists
+		for(int i = 0; i < KittyRole.values().length; ++i)
+			commandsByRole.put(KittyRole.values()[i], new ArrayList<Command>());
+		
+		// Sort commands out
+		ArrayList<Command> commands = Stats.instance.getAllCommands();
+		for(int i = 0; i < commands.size(); ++i)
+		{
+			Command current = commands.get(i);
+			commandsByRole.get(current.requiredRole()).add(current);
+		}
+		
+		// Format outstring and send it back for now
+		String out = "";
+		out += populateSection(KittyRole.Admin, commandsByRole, true) + "\n";
+		out += populateSection(KittyRole.Mod, commandsByRole, true) + "\n";
+		out += populateSection(KittyRole.General, commandsByRole, false) + "\n";
+		
+		// Write out file
+		String filename = "buildhelp_out.txt";
+
+		try {
+			PrintWriter writer = new PrintWriter(filename);
+			writer.println(out);
+			writer.flush();
+			writer.close();
+		} 
+		catch (FileNotFoundException e)
+		{
+			GlobalLog.error(e.toString());
+			return;
+		}
+		
+		File file = new File(filename);
+		res.sendFile(file, "txt");
+		ImageUtils.blockingFileDelete(file);
+	}
+	
+	// Generates the section for a specific role, optionally adding spacing after for another section 
+	private String populateSection(KittyRole role, HashMap<KittyRole, ArrayList<Command>> commandsByRole, boolean delimitSection)
+	{
+		// Formatting variables
+		final String headerStart = "<h2>";
+		final String headerEnd = "</h2>\n";
+		final String sectionStart = "<p>\n";
+		final String sectionEnd = "</p>";
+		final String indent = "  ";
+		final String leadStart = "<code>";
+		final String leadEnd = "</code>";
+		final String leadFollow = ": ";	
+		final String lineDelimiter = "<br/>\n";
+		final String sectionDelimiter = "\n\n";
+		
+		String accumulated = "";
+		ArrayList<Command> commands = commandsByRole.get(role);
+		ArrayList<Command> commandsSoFar = new ArrayList<Command>();
+		if(commands.size() > 0)
+		{
+			String roleStr = role.toString();
+			roleStr = roleStr.substring(0, 1).toUpperCase() + roleStr.toLowerCase().substring(1);
+			
+			// Section header
+			accumulated += headerStart + roleStr + " commands" + headerEnd;
+			accumulated += sectionStart;
+			
+			// Section content
+			for(int i = 0; i < commands.size(); ++i)
+			{
+				accumulated += indent;
+				Command command = commands.get(i);
+				
+				// Skip multiples
+				if(commandsSoFar.contains(command))
+					continue;
+				else
+					commandsSoFar.add(command);
+				
+				// Write out all the keys and the help text
+				ArrayList<String> keys = command.registeredNames();
+				for(int j = 0; j < keys.size(); ++j)
+				{
+					if(j != 0)
+						accumulated += ", ";
+					
+					accumulated += leadStart + keys.get(j) + leadEnd;
+				}
+				
+				accumulated += leadFollow + commands.get(i).getHelpText() + lineDelimiter;;
+			}
+						
+			accumulated += sectionEnd;
+			
+			// Add spaces after if needed
+			if(delimitSection)
+				accumulated += sectionDelimiter;
+		}
+		
+		return accumulated;
+	}
+}

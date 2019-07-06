@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import dataStructures.Pair;
 import utils.GlobalLog;
 import utils.LogFilter;
 
@@ -13,54 +12,82 @@ import utils.LogFilter;
 // commands that are being looked up will behave slightly differently so trimming
 // rules for this file are different than the localization ones - this is more 
 // aggresive with whitespace removal.
-public class CommandEnabler extends BaseKeyValueFile
+public class CommandEnabler implements IConfigSection
 {
 	// Config/const variables
 	public static final String enabled = "1";
 	public static final String disabled = "0";
 	public static final boolean defaultEnabledState = true;
+	public static final String commandSplit = ",";
+	public static final String HeaderName = "Command Enabler";
 	
 	// Local variables
 	private HashMap<String, Boolean> enabledMap; // Quick lookup
-	private ArrayList<String> keyList; // Tracking ordering for later
-	private final static String name = "commands.config";
+	private HashMap<String, String> likeNames;	 // Single names mapped to multiple names for use in enabledMap.
+	private ArrayList<String> keyList;			 // Tracking ordering for later
 	
+	// Instance
+	public static CommandEnabler instance;
+	
+	// Constructor
 	public CommandEnabler()
 	{
-		super(name);
+		super();
 		
-		// Create/Init variables
-		GlobalLog.Log(LogFilter.Core, "Initializing " + this.getClass().getSimpleName());
-		enabledMap = new HashMap<>();
-		keyList = new ArrayList<>();
-		
-		// Startup
-		ReadIn();
-		GetTrackedCommands();
-		WriteOut();
+		if(instance == null)
+		{
+			// Create/Init variables
+			GlobalLog.log(LogFilter.Core, "Initializing " + this.getClass().getSimpleName());
+			enabledMap = new HashMap<>();
+			keyList = new ArrayList<>();
+			likeNames = new HashMap<String, String>();
+			
+			instance = this;
+		}
+		else
+		{
+			GlobalLog.error(LogFilter.Core, "You can't have two of the following: " + this.getClass().getSimpleName());
+		}
 	}
 	
 	// Reads in the config file and parses it, keeping tabs on the order it read things
-	private void ReadIn()
+	private void readIn(List<ConfigItem> items)
 	{
-		Parse((pair) ->{
-			String key = pair.First;
-			String value = pair.Second;
+		keyList.clear();
+		enabledMap.clear();
+		
+		for(ConfigItem item : items)
+		{
+			String key = item.key;
+			String value = item.value;
 			
+			// Keep track of the key itself
 			keyList.add(key);
-
+			
+			// Write if it's enabled or disabled.
 			if(value.equalsIgnoreCase(enabled))
+			{
 				enabledMap.putIfAbsent(key, true);
+			}
 			else
+			{
 				enabledMap.putIfAbsent(key, false);
-		});
+			}
+			
+			// Keep track of alternate names
+			String[] keys = key.split(commandSplit);
+			for(int i = 0; i < keys.length; ++i)
+			{
+				likeNames.putIfAbsent(keys[i], key);
+			}
+		}
 	}
 	
 	// Look up the already scraped values from the localizer and store them if they
 	// don't already exist in the lookup. Defaults to defaultEnabledState.
-	private void GetTrackedCommands()
+	private void getTrackedCommands()
 	{
-		ArrayList<String> unloc = LocCommands.GetUnlocalizedCommands();
+		ArrayList<String> unloc = LocCommands.getUnlocalizedCommands();
 		
 		for(int i = 0; i < unloc.size(); ++i)
 		{
@@ -68,16 +95,17 @@ public class CommandEnabler extends BaseKeyValueFile
 			
 			if(enabledMap.putIfAbsent(command, defaultEnabledState) == null)
 			{
-				GlobalLog.Log(LogFilter.Strings, "Identified new toggleable raw command: " + command);
+				GlobalLog.log(LogFilter.Strings, "Identified new toggleable raw command: " + command);
 				keyList.add(command);
 			}
 		}
 	}
 	
 	// Write out enabled/disabled file info.
-	private void WriteOut()
+	private List<ConfigItem> writeOut()
 	{
-		List<Pair<String, String>> list = new Vector<Pair<String, String>>();
+		// Parse in original format
+		List<ConfigItem> configItems = new Vector<ConfigItem>();
 		
 		for(int i = 0; i < keyList.size(); ++i)
 		{
@@ -85,24 +113,50 @@ public class CommandEnabler extends BaseKeyValueFile
 			String value = enabled.toLowerCase();
 			
 			if(enabledMap.get(key) == false)
+			{
 				value = disabled.toLowerCase();
+			}
 			
-			list.add(new Pair<String, String>(key, value));
+			configItems.add(new ConfigItem(HeaderName, key, value));
 		}
 		
-		Collections.sort(list, (c1, c2) -> { return c1.First.compareTo(c2.First); });
-		
-		Write(list);
+		Collections.sort(configItems, (c1, c2) -> { return c1.key.compareTo(c2.key); });
+
+		return configItems;
 	}
 	
 	// Looks up a key to see if it's enabled or not
-	public boolean IsEnabled(String key)
+	public boolean isEnabled(String key)
 	{
 		String toCheck = key.toLowerCase();
 		
-		if(enabledMap.containsKey(toCheck))
-			return enabledMap.get(toCheck);
+		// Look up to see if we have the key anywhere. If not, default to enabled.
+		// It should be noted that this is just checking for disabled commands, we don't
+		// determine if a key is actually a real command in here or not.
+		String fullKey = likeNames.getOrDefault(toCheck, null);
+		if(fullKey == null)
+			return true; 
 		
-		return true;
+		// If we have it, look it up. If we can't find it, default to true.
+		return enabledMap.getOrDefault(fullKey, true);
+	}
+
+	@Override
+	public String getSectionTitle()
+	{
+		return HeaderName;
+	}
+
+	@Override
+	public void consume(List<ConfigItem> pairs)
+	{
+		readIn(pairs);
+		getTrackedCommands();
+	}
+
+	@Override
+	public List<ConfigItem> produce()
+	{
+		return writeOut();
 	}
 }

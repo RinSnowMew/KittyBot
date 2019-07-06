@@ -7,14 +7,14 @@ import java.sql.ResultSet;
 public abstract class JDBCDriver 
 {	
 	// Connects to the database, returns a bool if it succeeded.
-	public abstract boolean Connect();
+	public abstract boolean connect();
 	
 	// Disconnects the driver. Returns if the driver is disconnected now, regardless of connection status.
-	public abstract boolean Disconnect();
+	public abstract boolean disconnect();
 	
 	// Executes a SQL command with the database. Returns if it was executed successfully, or in the 
 	// case of the returning statement, returns the ResultSet. Args are placed into the prepared statement
 	// in place of each '?' places into it.
-	public abstract boolean ExecuteStatement(JDBCStatementType type, String command, String[] args);
-	public abstract ResultSet ExecuteReturningStatement(JDBCStatementType type, String command, String[] args);
+	public abstract boolean executeStatement(JDBCStatementType type, String command, String[] args);
+	public abstract ResultSet executeReturningStatement(JDBCStatementType type, String command, String[] args);
 }

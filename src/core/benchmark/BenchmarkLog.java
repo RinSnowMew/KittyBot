@@ -5,7 +5,7 @@ import utils.GlobalLog;
 //Logging shim
 public class BenchmarkLog
 {	
-	public static void Log(String str) { GlobalLog.Log("[Benchmark] " + str); }
-	public static void Warn(String str) { GlobalLog.Warn("[Benchmark] " + str); }
-	public static void Error(String str) { GlobalLog.Error(" [Benchmark] " + str); }
+	public static void log(String str) { GlobalLog.log("[Benchmark] " + str); }
+	public static void warn(String str) { GlobalLog.warn("[Benchmark] " + str); }
+	public static void error(String str) { GlobalLog.error(" [Benchmark] " + str); }
 }

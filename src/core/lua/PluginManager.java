@@ -1,41 +1,78 @@
 package core.lua;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+
 
 import dataStructures.KittyUser;
+import utils.GlobalLog;
+import utils.LogFilter;
+import utils.io.DirectoryMonitor;
 
 // Reads in, handles, and manipulates plugins. Plugins are loaded in the order they appear in the folder.
 public class PluginManager
 {
-	public final String pluginFolder;
+	// Variables
 	public ArrayList<Plugin> plugins;
-
-	public void AddPlugin(Path path)
-	{
-		plugins.add(new Plugin(path));
-	}
+	public DirectoryMonitor directoryMonitor;
 	
+	// Constructor
 	public PluginManager(String folder)
 	{
-		this.pluginFolder = folder;
+		this.directoryMonitor = new DirectoryMonitor(folder);
 		plugins = new ArrayList<Plugin>();
 
 		try
 		{
-			try (Stream<Path> paths = Files.walk(Paths.get(this.pluginFolder)))
-			{
-				paths.filter(Files::isRegularFile).forEach((path)->{ AddPlugin(path); });
-			}
+			directoryMonitor.getCurrentFiles().forEach((file) -> addPlugin(file.path));
 		}
 		catch(Exception e)
 		{
-			PluginLog.Error(e.getMessage());
+			PluginLog.error(e.getMessage());
 		}
+	}
+	
+	public void update()
+	{
+		directoryMonitor.update(
+				(addedFile) ->
+				{
+					addPlugin(addedFile.path);
+					
+					GlobalLog.log(LogFilter.Plugin, "Found new plugin at " + addedFile.path);
+				}, 
+				(updatedFile) ->
+				{
+					for(Plugin plugin : plugins)
+					{
+						if(plugin.filepath.toString().equalsIgnoreCase(updatedFile.path.toString()))
+						{
+							plugin.reRead();
+							break;
+						}
+					}
+					
+					GlobalLog.log(LogFilter.Plugin, "A plugin was updated " + updatedFile.path);
+				}, 
+				(deletedFile) ->
+				{
+					for(int i = plugins.size() - 1; i >= 0; i--)
+					{
+						Plugin plugin = plugins.get(i);
+						
+						if(plugin.filepath.toString().equalsIgnoreCase(deletedFile.path.toString()))
+							plugins.remove(i);
+					}
+					
+					GlobalLog.log(LogFilter.Plugin, "Plugin deleted at " + deletedFile.path);
+				});
+	}
+	
+	// Registers a plugin based on the path
+	public void addPlugin(Path path)
+	{
+		plugins.add(new Plugin(path));
 	}
 	
 	// Runs all plugins, returning when it gets a non-nill result. If there
@@ -43,16 +80,16 @@ public class PluginManager
 	// that was run returned multiple strings. Since plugins don't stack, it
 	// will never indicate that multiple 
 	// Otherwise, returns null.
-	public List<String> RunAll(String input, KittyUser user)
+	public List<String> runAll(String input, KittyUser user)
 	{
 		for(int i = 0; i < plugins.size(); ++i)
 		{
 			Plugin plugin = plugins.get(i);
-			List<String> out = plugin.Run(input, new PluginUser(user));
+			List<String> out = plugin.run(input, new PluginUser(user));
 
 			if(out != null)
 			{
-				PluginLog.Log("Executed plugin at " + plugin.filepath);
+				PluginLog.log("Executed plugin at " + plugin.filepath);
 				return out;
 			}
 		}
@@ -60,9 +97,12 @@ public class PluginManager
 		return null;
 	}
 	
-	public void PrintAll()
+	// Dumps the contents of all plugins for debug
+	public void printAll()
 	{
 		for(int i = 0; i < plugins.size(); ++i)
-			PluginLog.Log(plugins.get(i).contents.toString());
+		{
+			PluginLog.log(plugins.get(i).contents.toString());
+		}
 	}
 }

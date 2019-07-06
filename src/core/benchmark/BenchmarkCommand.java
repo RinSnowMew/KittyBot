@@ -6,5 +6,5 @@ public abstract class BenchmarkCommand
 	{  }
 	
 	// OVERRIDE ME
-	public abstract BenchmarkFormattable OnRun(BenchmarkManager manager, BenchmarkInput input);
+	public abstract BenchmarkFormattable onRun(BenchmarkManager manager, BenchmarkInput input);
 }

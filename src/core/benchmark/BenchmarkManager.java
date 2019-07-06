@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import core.Constants;
 import dataStructures.Pair;
 import utils.io.DirectoryMonitor;
 import utils.io.FileUtils;
@@ -16,7 +17,7 @@ import utils.io.MonitoredFile;
 public class BenchmarkManager
 {
 	// Variables
-	public final String directory = "assets/userbench/";
+	public final String directory = Constants.AssetDirectory + "userbench/";
 	public final String extension = ".csv";
 	public final String lineDelimiter = "\n";
 	
@@ -33,13 +34,13 @@ public class BenchmarkManager
 		directoryMonitor = new DirectoryMonitor(directory);
 		needsUpdate = false;
 		
-		RebuildLookup();
+		rebuildLookup();
 		
-		BenchmarkLog.Log("Took " + (Instant.now().toEpochMilli() - start) + " ms to load " + raw.size() + " entries from " + directoryMonitor.GetCurrentFiles().size() + " file" + (raw.size() > 1 ? "s" : ""));
+		BenchmarkLog.log("Took " + (Instant.now().toEpochMilli() - start) + " ms to load " + raw.size() + " entries from " + directoryMonitor.getCurrentFiles().size() + " file" + (raw.size() > 1 ? "s" : ""));
 	}
 	
 	// Rebuilds the files being monitored
-	public void RebuildLookup()
+	public void rebuildLookup()
 	{
 		long start = Instant.now().toEpochMilli();
 		
@@ -50,14 +51,14 @@ public class BenchmarkManager
 			
 			synchronized(directoryMonitor)
 			{
-				files = directoryMonitor.GetCurrentFiles();
+				files = directoryMonitor.getCurrentFiles();
 			}
 			
 			if(files != null)
 			{
 				for(MonitoredFile mf : files)
 				{
-					String contents = FileUtils.ReadContent(mf.path);
+					String contents = FileUtils.readContent(mf.path);
 					String[] lines = contents.split(lineDelimiter);
 					
 					for(int i = 1; i < lines.length; ++i)
@@ -66,17 +67,17 @@ public class BenchmarkManager
 			}
 			else
 			{
-				BenchmarkLog.Warn("No " + extension + " files where found in " + directory);
+				BenchmarkLog.warn("No " + extension + " files where found in " + directory);
 			}
 		}
 		
 		long end = Instant.now().toEpochMilli();
-		BenchmarkLog.Log("Rebuilt data in " + (end - start) + "ms");
+		BenchmarkLog.log("Rebuilt data in " + (end - start) + "ms");
 	}
 	
 	// Re-evaluates and re-orders the input list based on the Levenshtein distance of the
 	// original search and the contents of the provided list of benchmark entries.
-	public List<BenchmarkEntry> EvaluateLevenshteinDistance(List<BenchmarkEntry> entries, String search)
+	public List<BenchmarkEntry> evaluateLevenshteinDistance(List<BenchmarkEntry> entries, String search)
 	{
 		// Populate cost list with heuristic results
 		List<Pair<BenchmarkEntry, Integer>> cost = new ArrayList<Pair<BenchmarkEntry, Integer>>();
@@ -86,7 +87,7 @@ public class BenchmarkManager
 			BenchmarkEntry entry = entries.get(i);
 			String entryString = entry.brand + " " + entry.model;
 			
-			int heuristic = LevenshteinHeuristic(entryString, search, bestSoFar);
+			int heuristic = levenshteinHeuristic(entryString, search, bestSoFar);
 			if(heuristic < bestSoFar)
 				bestSoFar = heuristic;
 			
@@ -120,7 +121,7 @@ public class BenchmarkManager
 	// Returns cost based on distance of characters from string. This is a kinda sloppy way
 	// to do it, but because I keep tabs on the best result so far, it could be much worse. 
 	// Still chucks a lot - a non-recursive result w/ memoization would be best but this will do.
-	private int LevenshteinHeuristic(String str1, String str2, int bestSoFar)
+	private int levenshteinHeuristic(String str1, String str2, int bestSoFar)
 	{
 		int cost;
 		
@@ -139,15 +140,15 @@ public class BenchmarkManager
 		if(distance > bestSoFar)
 			return distance;
 		
-		int s1 = LevenshteinHeuristic(str1.substring(1), str2, bestSoFar) + 1;
-		int s2 = LevenshteinHeuristic(str1, str2.substring(1), bestSoFar) + 1;
-		int s3 = LevenshteinHeuristic(str1.substring(1), str2.substring(1), bestSoFar) + cost;
+		int s1 = levenshteinHeuristic(str1.substring(1), str2, bestSoFar) + 1;
+		int s2 = levenshteinHeuristic(str1, str2.substring(1), bestSoFar) + 1;
+		int s3 = levenshteinHeuristic(str1.substring(1), str2.substring(1), bestSoFar) + cost;
 		
 		return min(new int[] {s1, s2, s3 });
 	}
 	
 	// Search for a substring in the model name
-	public List<BenchmarkEntry> FindModel(String modelSubstr)
+	public List<BenchmarkEntry> findModel(String modelSubstr)
 	{
 		long start = Instant.now().toEpochMilli();
 		List<BenchmarkEntry> matching = new ArrayList<BenchmarkEntry>();
@@ -161,27 +162,27 @@ public class BenchmarkManager
 				matching.add(e);
 		}
 		
-		BenchmarkLog.Log("Searched for '" + searchSubstr + "' for "+ (Instant.now().toEpochMilli() - start) + "ms and found " + matching.size() + " entries.");
+		BenchmarkLog.log("Searched for '" + searchSubstr + "' for "+ (Instant.now().toEpochMilli() - start) + "ms and found " + matching.size() + " entries.");
 		return matching;
 	}
 	
 	// Keeps tabs on any changes of the files.
-	public void Update()
+	public void update()
 	{
 		needsUpdate = false;
-		directoryMonitor.Update(this::OnRescan, this::OnRescan, this::OnRescan);
+		directoryMonitor.update(this::onRescan, this::onRescan, this::onRescan);
 		
 		if(needsUpdate)
-			RebuildLookup();
+			rebuildLookup();
 	}
 	
 	// When a file is changed, handle it.
-	private void OnRescan(MonitoredFile file)
+	private void onRescan(MonitoredFile file)
 	{
 		// For now, all we need is to note that something was adjusted. 
 		if(file.path.toString().contains(extension))
 		{
-			BenchmarkLog.Log("File status changed: " + file.path);
+			BenchmarkLog.log("File status changed: " + file.path);
 			needsUpdate = true;
 		}
 	}

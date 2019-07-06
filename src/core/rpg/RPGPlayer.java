@@ -22,17 +22,17 @@ public class RPGPlayer extends RPGUnit
 	}
 	
 	// Getters
-	public long GetEXP() { return exp; }
-	public long GetGold() { return gold; }
-	public String GetName() { return name; }
-	public RPGArmor GetArmor() { return armor; };
-	public RPGWeapon GetWeapon() { return weapon; };
+	public long getEXP() { return exp; }
+	public long getGold() { return gold; }
+	public String getName() { return name; }
+	public RPGArmor getArmor() { return armor; };
+	public RPGWeapon getWeapon() { return weapon; };
 	
 	// Setters
-	public void SetName(String name) { this.name = name; }
+	public void setName(String name) { this.name = name; }
 	
 	// Interactions
-	public void ApplyEXP(int expToGive)
+	public void applyEXP(int expToGive)
 	{
 		if(expToGive < 0)
 			expToGive = 0;
@@ -40,7 +40,7 @@ public class RPGPlayer extends RPGUnit
 		exp += expToGive;
 	}
 	
-	public void GiveGold(long amount) 
+	public void giveGold(long amount) 
 	{
 		if(amount < 0)
 			amount = 0;
@@ -48,7 +48,7 @@ public class RPGPlayer extends RPGUnit
 		gold += amount;
 	}
 	
-	public void SpendGold(long amount)
+	public void spendGold(long amount)
 	{
 		if(amount < 0)
 			amount = 0;

@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-import commands.*;
+
+import javax.security.auth.login.LoginException;
+
 import core.lua.PluginManager;
 import dataStructures.*;
-import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.Member;
+import main.Main;
+import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import offline.Ref;
 import utils.AdminControl;
 import utils.GlobalLog;
 import utils.LogFilter;
@@ -40,22 +46,26 @@ public class ObjectBuilderFactory
 	
 	// Plugin manager
 	private static PluginManager pluginManager;
-
+	
+	// Command manager
+	private static CommandManager commandManager;
+	
 	// Localization classes - these are singletons, but should be initialized before almost all other 
 	// things so their inclusion in the factory is to ensure they're started at the correct time.
 	@SuppressWarnings("unused") private static LocStrings locStrings;
 	@SuppressWarnings("unused") private static LocCommands locCommands;
 	
-	// Handles if we can or can't use specific commands, parsing a config file based on loc data to do so.
-	private static CommandEnabler commandEnabler;
-						
+	// Config
+	@SuppressWarnings("unused") private static Config config;
+	
 	// Lazy initialization multithreaded mutex stuff to prevent explosions.
 	// TODO: Investigate using 'synchronized' instead potentially
 	private static boolean hasInitialized;
 	private static Semaphore initMutex = new Semaphore(1);
+	private static JDA kitty;
 	
 	// This is it, this is how the lazy init starts!
-	private static void LazyInit()
+	private static void lazyInit()
 	{
 		if(hasInitialized)
 			return;
@@ -76,8 +86,7 @@ public class ObjectBuilderFactory
 				// Start by reading from things that are external. Because
 				// we require these things to be resolved before the rest of the application,
 				// we place them here.
-				locStrings = new LocStrings();
-				locCommands = new LocCommands();
+				config = new Config();
 			}
 			finally
 			{
@@ -87,7 +96,7 @@ public class ObjectBuilderFactory
 		}
 		catch(InterruptedException ie)
 		{
-			GlobalLog.Error(LogFilter.Core, "Issue during object builder lazy initialization."
+			GlobalLog.error(LogFilter.Core, "Issue during object builder lazy initialization."
 				+ " The factory was not initialized, and kitty will not be able to continue functionally.");
 		}
 	}
@@ -97,9 +106,9 @@ public class ObjectBuilderFactory
 	////////////////////////
 	
 	// Explicitly locks: guildCache
-	public static KittyGuild ExtractGuild(GuildMessageReceivedEvent event)
+	public static KittyGuild extractGuild(GuildMessageReceivedEvent event)
 	{
-		LazyInit();
+		lazyInit();
 		
 		// Look up the guild. This process can only happen in a single-threaded way
 		// because of the nature of the cache. We wait until the last second to 
@@ -117,6 +126,7 @@ public class ObjectBuilderFactory
 			emoteFix += ":" + emote.substring(emote.indexOf("(")+1, emote.length()-1) + ">";
 			emotesString.add(emoteFix);
 		}
+		
 		// once we're lazily initialized, we can synchronize w/ the 
 		// guildCache object now instead of having to use a mutex.
 		KittyGuild guild = null;
@@ -131,7 +141,7 @@ public class ObjectBuilderFactory
 			{
 				// Construct a new guild with defaults
 				guild = new KittyGuild(uid, new AdminControl(event.getGuild()), emotesString);
-				DatabaseManager.instance.Register(guild);
+				DatabaseManager.instance.globalRegister(guild);
 				guildCache.put(uid, guild);
 			}
 		}
@@ -140,9 +150,9 @@ public class ObjectBuilderFactory
 	}
 	
 	// Explicitly locks: guildCache
-	public static KittyRole ExtractRole(GuildMessageReceivedEvent event)
+	public static KittyRole extractRole(GuildMessageReceivedEvent event)
 	{
-		LazyInit();
+		lazyInit();
 
 		// Looks up the user role. If none is found we check to see if they own
 		// the guild if not, they're assumed to be
@@ -159,7 +169,7 @@ public class ObjectBuilderFactory
 		{
 			KittyUser cachedUser = userCache.get(uid);
 			if(cachedUser != null)
-				role = cachedUser.GetRole();
+				role = cachedUser.getRole();
 		}
 		
 		return role;
@@ -167,9 +177,9 @@ public class ObjectBuilderFactory
 	
 	// Explicitly locks: guildCache
 	// Extracts the content rating information it can from the provided event.
-	public static KittyRating ExtractContentRating(GuildMessageReceivedEvent event)
+	public static KittyRating extractContentRating(GuildMessageReceivedEvent event)
 	{
-		LazyInit();
+		lazyInit();
 
 		// Look up content rating of the guild, returns a safe content rating.
 		KittyRating contentRating = KittyRating.Safe;
@@ -185,9 +195,9 @@ public class ObjectBuilderFactory
 	}
 	
 	// Implicitly locks guild cache by calling ExtractGuild
-	public static KittyChannel ExtractChannel(GuildMessageReceivedEvent event)
+	public static KittyChannel extractChannel(GuildMessageReceivedEvent event)
 	{
-		LazyInit();
+		lazyInit();
 		
 		String channelID = event.getChannel().getId();
 		String guildID = event.getGuild().getId();
@@ -213,9 +223,9 @@ public class ObjectBuilderFactory
 	}
 	
 	// Implicitly locks guild cache by calling ExtractRole and ExtractGuild
-	public static KittyUser ExtractUser(GuildMessageReceivedEvent event)
+	public static KittyUser extractUser(GuildMessageReceivedEvent event)
 	{
-		LazyInit();
+		lazyInit();
 		
 		String uid = event.getGuild().getId() + event.getAuthor().getId();
 		KittyUser user = null;
@@ -229,8 +239,8 @@ public class ObjectBuilderFactory
 			}
 			else
 			{
-				KittyRole role = ExtractRole(event);
-				KittyGuild guild = ExtractGuild(event);
+				KittyRole role = extractRole(event);
+				KittyGuild guild = extractGuild(event);
 				
 				String name;
 				if(event.getMember().getNickname() == null)
@@ -241,7 +251,7 @@ public class ObjectBuilderFactory
 				String discordID = event.getMember().getUser().getId(); 
 				String avatarID = event.getAuthor().getAvatarUrl();
 				user = new KittyUser(name, guild, role, uid, avatarID, discordID);
-				DatabaseManager.instance.Register(user);
+				DatabaseManager.instance.globalRegister(user);
 				userCache.put(uid, user);
 			}
 		}
@@ -254,19 +264,20 @@ public class ObjectBuilderFactory
 		{
 			mentioned = event.getMessage().getMentionedMembers().get(i);
 			if(mentioned.getNickname() != null)
-				ExtractUserByJDAUser(event.getGuild().getId(), mentioned.getNickname(), 
+				extractUserByJDAUser(event.getGuild().getId(), mentioned.getNickname(), 
 					mentioned.getUser().getId(), mentioned.getUser().getAvatarUrl(), mentioned.getUser().getId());
 			else
-				ExtractUserByJDAUser(event.getGuild().getId(), mentioned.getUser().getName(), 
+				extractUserByJDAUser(event.getGuild().getId(), mentioned.getUser().getName(), 
 						mentioned.getUser().getId(), mentioned.getUser().getAvatarUrl(), mentioned.getUser().getId());
 		}
 		
 		return user;
 	}
 	
-	public static KittyUser ExtractUserByJDAUser(String guildID, String name, String userID, String avatarID, String discordID)
+	// TODO: Clean up
+	public static KittyUser extractUserByJDAUser(String guildID, String name, String userID, String avatarID, String discordID)
 	{
-		LazyInit();
+		lazyInit();
 		
 		String uid = guildID + userID;
 		KittyUser user = null;
@@ -277,6 +288,7 @@ public class ObjectBuilderFactory
 			{
 				if(name != null)
 					cachedUser.name = name;
+				
 				cachedUser.avatarID = avatarID;
 				user = cachedUser;
 			}
@@ -285,7 +297,7 @@ public class ObjectBuilderFactory
 				KittyRole role = KittyRole.General;
 				KittyGuild guild = guildCache.get(guildID);
 				user = new KittyUser(name, guild, role, uid, avatarID, discordID);
-				DatabaseManager.instance.Register(user);
+				DatabaseManager.instance.globalRegister(user);
 				userCache.put(uid, user);
 			}
 		}
@@ -293,7 +305,9 @@ public class ObjectBuilderFactory
 		return user; 
 	}
 	
-	public static KittyUser getCachedUser(String guildID, String userID)
+	// There is some redundant lookup occurring. If the user isn't cached yet, then we construct them and cache them.
+	// The assumption is made that the user does, in fact, exist.
+	public static KittyUser getKittyUser(String guildID, String userID)
 	{
 		String uid = guildID + userID;
 		KittyUser user = null;
@@ -301,119 +315,72 @@ public class ObjectBuilderFactory
 		{
 			user = userCache.get(uid);
 		}
+		
+		if(user == null)
+		{
+			Guild jdaGuild = kitty.getGuildById(guildID);
+			Member jdaMember = jdaGuild.getMemberById(userID);
+			User jdaUser = jdaMember.getUser();
+			
+			user = extractUserByJDAUser(guildID, jdaMember.getNickname(), jdaUser.getId(), jdaUser.getAvatarUrl(), jdaUser.getId());
+			updateUser(user, jdaMember);
+		}
+		
 		return user; 
 	}
 	
+	// Updates a user's name appropriately based on nickname if available
 	public static void updateUser(KittyUser user,  Member member)
 	{
 		if(member.getNickname() == null)
+		{
 			user.name = member.getUser().getName();
+		}
 		else
+		{
 			user.name = member.getNickname();
+		}
 		
 		user.avatarID = member.getUser().getAvatarUrl();
 	}
 	
+	
 	  //////////////////////////
 	 // Construction Methods //
 	//////////////////////////
+	// Builds the core of the bot
+	public static KittyCore constructKittyCore() throws LoginException, InterruptedException
+	{
+		lazyInit();
+		
+		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
+		kitty.getPresence().setGame(Game.playing("with digital yarn"));
+		kitty.addEventListener(new Main());
+		
+		return new KittyCore(kitty);
+	}
 	
 	// Default construction of the command manager. In order to remotely resolve command enabling
 	// and disabling, what we do is construct the commands with a localized pair that is checked against
 	// the CommandEnabler object passed in. In theory, we could have multiple CommandManagers, tho we can
 	// only have one CommandEnabler.
-	public static CommandManager ConstructCommandManager(CommandEnabler commandEnabler)
+	public static CommandManager constructCommandManager(CommandEnabler commandEnabler)
 	{
-		LazyInit();
+		lazyInit();
 		
-		CommandManager manager = new CommandManager(commandEnabler);
+		if(commandManager == null)
+			commandManager = new CommandManager(commandEnabler);
 		
-		// Dev
-		manager.Register(LocCommands.Stub("work"), new CommandDoWork(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("shutdown"), new CommandShutdown(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("stats"), new CommandStats(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("invite"), new CommandInvite(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("buildHelp"), new CommandHelpBuilder(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("tweet"), new CommandTweet(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("dbflush"), new CommandDBFlush(KittyRole.Dev, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("dbstats"), new CommandDBStats(KittyRole.Dev, KittyRating.Safe));
-		
-		// Admin
-		manager.Register(LocCommands.Stub("rating"), new CommandRating(KittyRole.Admin, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("indicator"), new CommandChangeIndicator(KittyRole.Admin, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("guildroleallowed"), new CommandGuildRoleAllowed(KittyRole.Admin, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("guildrolenotallowed"), new CommandGuildRoleNotAllowed(KittyRole.Admin, KittyRating.Safe));
-		
-		// Mod
-		manager.Register(LocCommands.Stub("poll"), new CommandPollManage(KittyRole.Mod, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("givebeans"), new CommandGiveBeans(KittyRole.Mod, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rpg"), new CommandRPG(KittyRole.Mod, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rafflestart"), new CommandRaffleStart(KittyRole.Mod, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rafflespin"), new CommandRaffleSpin(KittyRole.Mod, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("raffleend"), new CommandRaffleEnd(KittyRole.Mod, KittyRating.Safe));
-
-		// General
-		manager.Register(LocCommands.Stub("fetch"), new CommandFetch(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("guildroleadd"), new CommandGuildRoleAdd(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("guildroleremove"), new CommandGuildRoleRemove(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("teey"), new CommandTeey(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("perish, thenperish"), new CommandPerish(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("yeet"), new CommandYeet(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("ping"), new CommandPing(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("boop"), new CommandBoop(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("roll"), new CommandRoll(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("choose"), new CommandChoose(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("help"), new CommandHelp(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("info, about"), new CommandInfo(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("vote"), new CommandPollVote(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("results"), new CommandPollResults(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("showpoll"), new CommandPollShow(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("wolfram"), new CommandWolfram(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("c++, g++, cplus, cpp"), new CommandColiru(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("java, jdoodle"), new CommandJDoodle(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("beans"), new CommandBeansShow(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("role"), new CommandRole(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("bet"), new CommandBetBeans(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("map"), new CommandMap(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rpstart"), new CommandRPStart(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rpend"), new CommandRPEnd(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("tony, stark, dontfeelgood, dontfeelsogood"), new CommandStark(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("blur"), new CommandBlurry(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("eightball, 8ball"), new CommandEightBall(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("defaultdance"), new CommandDefaultDance(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("catch"), new CommandCatch(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("guildrolelist"), new CommandGuildRoleList(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("bethistory"), new CommandBetHistory(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("crouton"), new CommandCrouton(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("tradebeans"), new CommandTradeBeans(KittyRole.General, KittyRating.Safe));
-		
-		manager.Register(LocCommands.Stub("derp"), new CommandDerpi(KittyRole.General, KittyRating.Filtered));
-		manager.Register(LocCommands.Stub("e621"), new CommandE621(KittyRole.General, KittyRating.Filtered));
-		
-		manager.Register(LocCommands.Stub("benchmark, bench"), new CommandBenchmark(KittyRole.General, KittyRating.Safe));
-		manager.Register(LocCommands.Stub("rafflejoin"), new CommandRaffleJoin(KittyRole.General, KittyRating.Safe));
-		
-		return manager;
-	}
-	
-	// Constructs a CommandEnabler if it doesn't exist, and gets the existing one if it does. 
-	public static CommandEnabler ConstructCommandEnabler()
-	{
-		LazyInit();
-
-		if(commandEnabler == null)
-			commandEnabler = new CommandEnabler();
-		
-		return commandEnabler;
+		return commandManager;
 	}
 	
 	// Default database manager construction. It can be constructed 
 	// in different ways, and so we construct it outside of the constructor for 
 	// the factory  since it doesn't have to be present / can be elsewhere. 
 	// Effectively we cache the database here.
-	public static DatabaseManager ConstructDatabaseManager()
+	public static DatabaseManager constructDatabaseManager()
 	{
-		LazyInit();
+		lazyInit();
 		
 		if(database == null)
 			database = new DatabaseManager();
@@ -421,9 +388,9 @@ public class ObjectBuilderFactory
 		return database;
 	}
 	
-	public static Stats ConstructStats(CommandManager manager)
+	public static Stats constructStats(CommandManager manager)
 	{
-		LazyInit();
+		lazyInit();
 		
 		if(stats == null)
 			stats = new Stats(manager);
@@ -431,9 +398,9 @@ public class ObjectBuilderFactory
 		return stats;
 	}
 	
-	public static RPManager ConstructRPManager()
+	public static RPManager constructRPManager()
 	{
-		LazyInit();
+		lazyInit();
 		
 		if(rpManager == null)
 			rpManager = new RPManager();
@@ -441,22 +408,23 @@ public class ObjectBuilderFactory
 		return rpManager;
 	}
 	
-	public static PluginManager ConstructPluginManager()
+	public static PluginManager constructPluginManager()
 	{
-		LazyInit();
+		lazyInit();
 		
 		if(pluginManager == null)
-			pluginManager = new PluginManager("./plugins/");
+			pluginManager = new PluginManager(Constants.AssetDirectory + "plugins/");
 		
 		return pluginManager;
 	}
-
+	
+	
 	  /////////////////////
 	 // Utility Methods //
 	/////////////////////
 	
 	// Returns number of cached guilds (does not equal total users in the database, only what's in memory)
-	public static Integer GetGuildCount()
+	public static Integer getGuildCount()
 	{ 	synchronized(guildCache)
 		{
 			return guildCache.size();
@@ -464,7 +432,7 @@ public class ObjectBuilderFactory
 	}
 	
 	// Returns number of cached users (does not equal total users in the database, only what's in memory)
-	public static Integer GetUserCount()
+	public static Integer getUserCount()
 	{ 	synchronized(userCache)
 		{
 			return userCache.size();

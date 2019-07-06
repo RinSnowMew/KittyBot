@@ -5,7 +5,7 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 public class PluginStructure
 {
-	public LuaValue AsLua()
+	public LuaValue asLua()
 	{
 		return CoerceJavaToLua.coerce(this);
 	}

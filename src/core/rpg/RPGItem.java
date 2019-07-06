@@ -19,7 +19,7 @@ public abstract class RPGItem
 		this.value = value;
 	}
 	
-	public String GetName() { return name; }
-	public String GetDescription() { return description; }
-	public long GetValue() { return value; }
+	public String getName() { return name; }
+	public String getDescription() { return description; }
+	public long getValue() { return value; }
 }

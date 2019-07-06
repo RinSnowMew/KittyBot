@@ -28,7 +28,7 @@ public class RPGCommandExplore extends RPGCommand
 	}
 	
 	@Override
-	public String OnRun(RPGState state, RPGInput input)
+	public String onRun(RPGState state, RPGInput input)
 	{
 		Chance chance = new Chance(100);
 		
@@ -50,7 +50,7 @@ public class RPGCommandExplore extends RPGCommand
 			
 			out = "As you take a stroll, you spy a small shiny glint from a bush and decide to investigate! Looks like it's your lucky day!";
 			reward = "+" + gp + "gp";
-			state.player.GiveGold(gp);
+			state.player.giveGold(gp);
 		}
 		else if(chance.Next(20))
 		{
@@ -59,8 +59,8 @@ public class RPGCommandExplore extends RPGCommand
 			
 			out = "You head out on a lovely stroll down a familiar path - the sun is out and the birds are chirping! Nothing much comes  of it, but you feel refreshed.";
 			reward = "+" + xp + "xp, +" + healing + "hp";
-			state.player.ApplyHealing(healing);
-			state.player.ApplyEXP(xp);
+			state.player.applyHealing(healing);
+			state.player.applyEXP(xp);
 		}
 		else if(chance.Next(20))
 		{
@@ -69,8 +69,8 @@ public class RPGCommandExplore extends RPGCommand
 			
 			out = "Today's the day you head out on a new path. You find a lot of little nicknacks and trinkets on the trail, but leave them be. The trail gets really steep, the rocks jagged, but you keep going. Eventually, you make it out to the other side into a small but pleasant town, and collapse on a bench to catch your breath.";
 			reward = "+" + xp + "xp, -" + damage + "hp";
-			state.player.ApplyEXP(xp);
-			state.player.ApplyDamage(damage);
+			state.player.applyEXP(xp);
+			state.player.applyDamage(damage);
 		}
 		else
 		{
@@ -78,7 +78,7 @@ public class RPGCommandExplore extends RPGCommand
 			
 			out = "You step outside but it starts to rain. You decide not to do much today, and hang about the inn and the tavern.";
 			reward = "+" + hp + "hp";
-			state.player.ApplyHealing(hp);
+			state.player.applyHealing(hp);
 		}
 		
 		if(out != null && reward != null)

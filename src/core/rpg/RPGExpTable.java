@@ -2,7 +2,7 @@ package core.rpg;
 
 public final class RPGExpTable
 {
-	public static long EXPFloor(long level)
+	public static long expFloor(long level)
 	{
 		if(level > Levels.length - 1)
 			level = Levels.length - 1;
@@ -13,7 +13,7 @@ public final class RPGExpTable
 		return Levels[(int) level];
 	}
 	
-	public static long EXPCeil(long level)
+	public static long expCeil(long level)
 	{
 		if(level > Levels.length - 1)
 			level = Levels.length - 1;
@@ -23,7 +23,7 @@ public final class RPGExpTable
 		
 		return Levels[(int) (level + 1)];
 	}
-	public static long LevelFromEXP(long exp)
+	public static long levelFromEXP(long exp)
 	{
 		if(exp < 0)
 			exp = 0;

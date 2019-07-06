@@ -8,9 +8,8 @@ import core.rpg.RPGWeapon;
 
 public class RPGCommandInfo extends RPGCommand
 {
-
 	@Override
-	public String OnRun(RPGState state, RPGInput input)
+	public String onRun(RPGState state, RPGInput input)
 	{
 		String out = null;
 		switch(input.value.trim().toLowerCase())
@@ -27,7 +26,7 @@ public class RPGCommandInfo extends RPGCommand
 			case "hand":
 			case "att":
 			case "attack":
-				out = WeaponStats(state.player.GetWeapon());
+				out = weaponStats(state.player.getWeapon());
 				break;
 
 			case "armour":
@@ -44,7 +43,7 @@ public class RPGCommandInfo extends RPGCommand
 			case "dress":
 			case "wear":
 			case "outfit":
-				out = ArmorStats(state.player.GetArmor());
+				out = armorStats(state.player.getArmor());
 				break;
 		}
 		
@@ -54,38 +53,38 @@ public class RPGCommandInfo extends RPGCommand
 		return out;
 	}
 	
-	private String WeaponStats(RPGWeapon weapon)
+	private String weaponStats(RPGWeapon weapon)
 	{
 		if(weapon == null)
 			return null;
 		
 		String out = "";
-		out += "[" + weapon.GetName() + "]";
+		out += "[" + weapon.getName() + "]";
 		out += "\n";
-		out += "  att: " + weapon.GetAttack();
+		out += "  att: " + weapon.getAttack();
 		out += "\n";
-		out += "value: " + weapon.GetValue() + "gp";
+		out += "value: " + weapon.getValue() + "gp";
 		out += "\n";
 		out += "\n";
-		out += weapon.GetDescription();
+		out += weapon.getDescription();
 		
 		return out;
 	}
 	
-	private String ArmorStats(RPGArmor armor)
+	private String armorStats(RPGArmor armor)
 	{
 		if(armor == null)
 			return null;
 		
 		String out = "";
-		out += "[" + armor.GetName() + "]";
+		out += "[" + armor.getName() + "]";
 		out += "\n";
-		out += "  def: " + armor.GetDefense();
+		out += "  def: " + armor.getDefense();
 		out += "\n";
-		out += "value: " + armor.GetValue() + "gp";
+		out += "value: " + armor.getValue() + "gp";
 		out += "\n";
 		out += "\n";
-		out += armor.GetDescription();
+		out += armor.getDescription();
 		
 		return out;
 	}

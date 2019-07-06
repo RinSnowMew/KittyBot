@@ -12,6 +12,6 @@ public class RPGWeapon extends RPGItem
 		accuracy = 0.8;
 	}
 	
-	public long GetAttack() { return attack; }
-	public double GetAccuracy() { return accuracy; }
+	public long getAttack() { return attack; }
+	public double getAccuracy() { return accuracy; }
 }

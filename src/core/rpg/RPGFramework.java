@@ -22,24 +22,24 @@ public class RPGFramework
 		this.gameStates = new HashMap<String, RPGState>();
 		this.gameCommands = new HashMap<String, RPGCommand>();
 		
-		RegisterCommand("stats", new RPGCommandStats());
-		RegisterCommand("about", new RPGCommandInfo());
-		RegisterCommand("info", new RPGCommandInfo());
-		RegisterCommand("explore", new RPGCommandExplore());
-		RegisterCommand("run", new RPGCommandBattleRun());
-		RegisterCommand("fight", new RPGCommandBattleFight());
+		registerCommand("stats", new RPGCommandStats());
+		registerCommand("about", new RPGCommandInfo());
+		registerCommand("info", new RPGCommandInfo());
+		registerCommand("explore", new RPGCommandExplore());
+		registerCommand("run", new RPGCommandBattleRun());
+		registerCommand("fight", new RPGCommandBattleFight());
 	}
 	
 	// Primary external
-	public String Run(String userID, String inputRaw)
+	public String run(String userID, String inputRaw)
 	{
-		RPGState state = LookupState(userID);
+		RPGState state = lookupState(userID);
 		RPGInput input = new RPGInput(inputRaw);
-		return ExecuteCommand(input.key, state, input);
+		return executeCommand(input.key, state, input);
 	}
 
 	// Get state for executing a command
-	public RPGState LookupState(String userID)
+	public RPGState lookupState(String userID)
 	{
 		RPGState state;
 		synchronized(gameStates)
@@ -58,23 +58,23 @@ public class RPGFramework
 	}
 
 	// Registers a command
-	private void RegisterCommand(String commandName, RPGCommand command)
+	private void registerCommand(String commandName, RPGCommand command)
 	{
 		commandName = commandName.toLowerCase();
 		if(gameCommands.put(commandName, command) != null)
-			RPGLog.Log("Managed to register the same RPG command twice! Not ideal!");
+			RPGLog.log("Managed to register the same RPG command twice! Not ideal!");
 		
-		RPGLog.Log("Registered " + commandName);
+		RPGLog.log("Registered " + commandName);
 	}
 	
-	private String ExecuteCommand(String name, RPGState state, RPGInput input)
+	private String executeCommand(String name, RPGState state, RPGInput input)
 	{
 		synchronized(gameCommands)
 		{
 			RPGCommand command = gameCommands.get(name.toLowerCase());
 			
 			if(command != null && state != null)
-				return command.OnRun(state,  input);
+				return command.onRun(state,  input);
 		}
 		
 		return null; 

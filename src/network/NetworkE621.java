@@ -58,7 +58,7 @@ public class NetworkE621
 		// Configure and send request. Note: Random ordering added as first
 		// tag by default. User-provided tags, therefore, will override it. 
 		// If order:score is provided, that will be honored over order:random.
-		String res = HTTPUtils.SendPOSTRequest(API_ROOT
+		String res = HTTPUtils.sendPOSTRequest(API_ROOT
 			, "tags=order:random%20" + input + "&limit=" + maxSearchResults_);
 		
 		

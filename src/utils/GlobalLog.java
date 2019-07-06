@@ -23,12 +23,12 @@ public class GlobalLog
 		DateFormat dF = new SimpleDateFormat("yyyy_MM_dd_HH-mm");
 		Date today = new Date(); 
 		
-		FileUtils.CreateDirectoryIfDoesntExist(directory);
+		FileUtils.createDirectoryIfDoesntExist(directory);
 		outputLog = new PrintWriter(directory + (dF.format(today) + ".log"), "UTF-8");
-		GlobalLog.Log(LogFilter.Util, "Finished initializing logging system");
+		GlobalLog.log(LogFilter.Util, "Finished initializing logging system");
 	}
 	
-	private static void Write(String status, LogFilter filter, String body)
+	private static void write(String status, LogFilter filter, String body)
 	{
 		String logLine = "[" + status + "] " + "[" + filter.name() + "] " + body; 
 		outputLog.write(logLine + "\n");
@@ -36,13 +36,14 @@ public class GlobalLog
 		System.out.println(logLine);
 	}
 	
-	public static void Log(String msg) { Write(log, LogFilter.Debug, msg); } 
-	public static void Warn(String msg) { Write(warn, LogFilter.Debug, msg); }
-	public static void Error(String msg) { Write(error, LogFilter.Debug, msg); }
-	public static void Fatal(String msg) throws Exception { Write(fatal, LogFilter.Debug, msg); throw new Exception(msg); }
+	public static void log(LogFilter filter, String msg) { write(log, filter, msg); } 
+	public static void warn(LogFilter filter, String msg) { write(warn, filter, msg); }
+	public static void error(LogFilter filter, String msg) { write(error, filter, msg); System.err.println(msg); System.err.flush(); }
+	public static void fatal(LogFilter filter, String msg) throws Exception { write(fatal, filter, msg); throw new Exception(msg); }
 	
-	public static void Log(LogFilter filter, String msg) { Write(log, filter, msg); } 
-	public static void Warn(LogFilter filter, String msg) { Write(warn, filter, msg); }
-	public static void Error(LogFilter filter, String msg) { Write(error, filter, msg); }
-	public static void Fatal(LogFilter filter, String msg) throws Exception { Write(fatal, filter, msg); throw new Exception(msg); }
+	public static void log(String msg) { log(LogFilter.Debug, msg); } 
+	public static void warn(String msg) { warn(LogFilter.Debug, msg); }
+	public static void error(String msg) { error(LogFilter.Debug, msg); }
+	public static void fatal(String msg) throws Exception { fatal(LogFilter.Debug, msg); }
+	
 }

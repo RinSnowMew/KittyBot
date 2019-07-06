@@ -18,8 +18,6 @@ public class NetworkTwitter
 			.setOAuthConsumerSecret(Ref.twitterAPISecret)
 			.setOAuthAccessToken(Ref.twitterAccessToken)
 			.setOAuthAccessTokenSecret(Ref.twitterAccessTokenSecret);
-		
-		
 	}
 	
 	public String tweet(String tweetText) throws Exception
@@ -28,6 +26,5 @@ public class NetworkTwitter
 		Twitter twitter = tf.getInstance();
 		Status status = twitter.updateStatus(tweetText);
 		return "Status set to: `" + status.getText() + "`!";
-		
 	}
 }

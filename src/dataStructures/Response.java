@@ -2,7 +2,9 @@ package dataStructures;
 
 import java.io.File;
 import java.io.InputStream;
+
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.*;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -16,24 +18,32 @@ public class Response
 {
 	// Variables
 	private GuildMessageReceivedEvent event;
-	private JDA kitty;
 	private final int discordMessageMax = 2000;
 	private final int kittyMessageMax = 1950;
+	private JDA kitty;
 	
 	// Constructor
-	public Response(GuildMessageReceivedEvent event, JDA kitty)
+	public Response(GuildMessageReceivedEvent event, KittyCore kitty)
 	{
 		this.event = event; 
-		this.kitty = kitty; 
+		this.kitty = kitty.jda;
 	}
 	
 	// Builds a nicely formatted embedded message based on information provided
-	public void CallEmbed(KittyEmbed embedInfo)
+	public void send(KittyEmbed embedInfo)
 	{
 		EmbedBuilder embed = new EmbedBuilder();
 		
-		if(embedInfo.title != null)
+		if(embedInfo.title != null && !embedInfo.title.isEmpty())
+		{
 			embed.setTitle(embedInfo.title);
+		}
+		else
+		{
+			// We have to set the title to at least something that's not empty.
+			// By defualt, this creates nothing really visible.
+			embed.setTitle(" ");
+		}
 		
 		if(embedInfo.color != null)
 			embed.setColor(embedInfo.color);
@@ -48,15 +58,39 @@ public class Response
 			embed.setAuthor(embedInfo.authorText, embedInfo.authorLink, embedInfo.authorImage);
 		
 		if(embedInfo.imageURL != null)
-            embed.setImage(embedInfo.imageURL);
+			embed.setImage(embedInfo.imageURL);	
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		if(embedInfo.thumbnailURL != null && embedInfo.thumbnailURL.contains("attachment://"))
+		{
+			// This is the case where you have a thumbnail image, but you want it to be a local file.
+			// TODO: Make this more generic. Consider message builder for the entire thing.
+			String thumbPath = embedInfo.thumbnailURL;
+			String thumbName = thumbPath.replace("attachment://", "");
+			
+			// Build the message and send if the file is valid
+			MessageBuilder message = new MessageBuilder();
+			embed.setThumbnail(thumbPath);
+			message.setEmbed(embed.build());
+			
+			File thumbImage = new File(thumbName);
+			if(thumbImage.exists())
+			{
+				event.getChannel().sendFile(thumbImage, thumbName, message.build()).queue();
+			}
+		}
+		else
+		{
+			if(embedInfo.thumbnailURL != null)
+				embed.setThumbnail(embedInfo.thumbnailURL);
+			
+			event.getChannel().sendMessage(embed.build()).queue();
+		}
 	}
 	
 	// Queues a standard text-based message response to the channel that issued the command.
-	public void Call(String toRespondWith)
+	public void send(String toRespondWith)
 	{
-		GlobalLog.Log(LogFilter.Response, "Sending response: " + toRespondWith);
+		GlobalLog.log(LogFilter.Response, "Sending response: " + toRespondWith);
 		if(toRespondWith.length() > discordMessageMax)
 		{
 			event.getChannel().sendMessage(toRespondWith.substring(0, kittyMessageMax) + "\n\nI think that's enough!").queue();
@@ -68,7 +102,7 @@ public class Response
 	}
 	
 	// Queues a standard text-based message response to the specified channel.
-	public void CallToChannel(String toRespondWith, String channelID)
+	public void sendToChannel(String toRespondWith, String channelID)
 	{
 		TextChannel channel;
 		channel = kitty.getTextChannelById(Long.parseLong(channelID));
@@ -83,9 +117,9 @@ public class Response
 	}
 	
 	// Immediately dispatches the message to the channel that issued the command.
-	public void CallImmediate(String toRespondWith)
+	public void sendImmediate(String toRespondWith)
 	{
-		GlobalLog.Log(LogFilter.Response, "Sending immediate response: " + toRespondWith);
+		GlobalLog.log(LogFilter.Response, "Sending immediate response: " + toRespondWith);
 		if(toRespondWith.length() > discordMessageMax)
 		{
 			event.getChannel().sendMessage(toRespondWith.substring(0, kittyMessageMax) + "\n\nI think that's enough!");
@@ -97,16 +131,16 @@ public class Response
 	}
 	
 	// Queues a file response to the channel that issued the command.
-	public void CallFile(File toRespondWith, String extension)
+	public void sendFile(File toRespondWith, String extension)
 	{
-		GlobalLog.Log(LogFilter.Response, "Sending file response");
+		GlobalLog.log(LogFilter.Response, "Sending file response");
 		event.getChannel().sendFile(toRespondWith, "return." + extension).queue();
 	}
 
 	// Queues an input stream response to the channel that issued the command.
-	public void CallInput(InputStream in, String extension) 
+	public void sendFile(InputStream in, String extension) 
 	{
-		GlobalLog.Log(LogFilter.Response, "Sending input stream response");
+		GlobalLog.log(LogFilter.Response, "Sending input stream response");
 		event.getChannel().sendFile(in, "return." + extension).queue();
 	}
 }

@@ -10,29 +10,29 @@ public class RPGMain
 	
 	public static void RPGmain(String[] args)
 	{
-		Init();
-		while(Run()) { };
-		Shutdown();
+		init();
+		while(run()) { };
+		shutdown();
 	}
 	
 	// Initializes stuff (small factory, ish)
-	private static void Init()
+	private static void init()
 	{
 		framework = new RPGFramework();
 		scanner = new Scanner(System.in);
 	}
 	
 	// Main loop
-	private static boolean Run()
+	private static boolean run()
 	{
 		// move outside
-		String out = framework.Run("Test", scanner.nextLine()); 
-		RPGLog.Log(out);
+		String out = framework.run("Test", scanner.nextLine()); 
+		RPGLog.log(out);
 		return true;
 	}
 	
 	// Cleanup
-	private static void Shutdown()
+	private static void shutdown()
 	{
 		scanner.close();
 	}

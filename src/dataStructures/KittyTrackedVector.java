@@ -5,13 +5,10 @@ import java.util.Vector;
 
 import core.DatabaseTrackedObject;
 
-// Acts as a proxy of sorts for the allowedRole arraylist, keeping it tracked for a specific guild.
-@SuppressWarnings("unused") 
 public class KittyTrackedVector extends DatabaseTrackedObject
 {
 	// Variables
-	private Vector<String> allowedRole = new Vector<String>();
-	private final String databaseID; // in-database ID of this value
+	private Vector<String> trackedVector = new Vector<String>();
 	
 	private final static String delimiter = "\n";
 	private final static String split = "\\n";
@@ -21,14 +18,13 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 	public KittyTrackedVector(String readableName, String UniqueID)
 	{
 		super(differentiator + readableName + UniqueID);
-		databaseID = differentiator + readableName + UniqueID;
 	}
 	
 	
 	// See if the string is contined in the vector, regardless of case.
 	public boolean containsIgnoreCase(String str)
 	{
-		Iterator<String> value = allowedRole.iterator();
+		Iterator<String> value = trackedVector.iterator();
 		
 		while (value.hasNext())
 		{
@@ -42,48 +38,48 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 	// Mirrored behavior
 	public boolean contains(String str)
 	{
-		return allowedRole.contains(str);
+		return trackedVector.contains(str);
 	}
 	
 	public void add(String str)
 	{
-		allowedRole.add(str);
-		this.MarkDirty();
+		trackedVector.add(str);
+		this.markDirty();
 	}
 	
 	public boolean isEmpty()
 	{
-		return allowedRole.isEmpty();
+		return trackedVector.isEmpty();
 	}
 	
 	public int size()
 	{
-		return allowedRole.size();
+		return trackedVector.size();
 	}
 	
 	public String get(int index)
 	{
-		return allowedRole.get(index);
+		return trackedVector.get(index);
 	}
 	
 	public void remove(String str)
 	{
-		allowedRole.remove(str);
-		this.MarkDirty();
+		trackedVector.remove(str);
+		this.markDirty();
 	}
 	
 	// Writes out the roles as a single string that can be parsed back in later
 	@Override
-	public String Serialize() 
+	public String serialize() 
 	{
 		String toSerialize = "";
 		
-		for(int i = 0; i < allowedRole.size(); ++i)
+		for(int i = 0; i < trackedVector.size(); ++i)
 		{
 			if(i != 0)
 				toSerialize += delimiter;
 			
-			toSerialize += allowedRole.get(i);
+			toSerialize += trackedVector.get(i);
 		}
 		
 		return toSerialize; 
@@ -91,7 +87,7 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 
 	// Reads in the roles as a delimited single string that needs parsing
 	@Override
-	public void DeSerialzie(String string)
+	public void deSerialzie(String string)
 	{
 		if(string != null)
 		{
@@ -100,7 +96,7 @@ public class KittyTrackedVector extends DatabaseTrackedObject
 				String[] rolesSplit = string.split(split);
 				
 				for(int i = 0; i < rolesSplit.length; ++i)
-					allowedRole.add(rolesSplit[i]);
+					trackedVector.add(rolesSplit[i]);
 			}
 		}
 	}

@@ -18,13 +18,13 @@ public class KittyChannel //extends DatabaseTrackedObject
 	}
 
 //	@Override
-//	public String Serialize() 
+//	public String serialize() 
 //	{
 //		return "";
 //	}
 //
 //	@Override
-//	public void DeSerialzie(String string) 
+//	public void deSerialzie(String string) 
 //	{
 //		
 //	}

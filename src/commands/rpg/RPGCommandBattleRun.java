@@ -7,15 +7,15 @@ import core.rpg.RPGState;
 public class RPGCommandBattleRun extends RPGCommand 
 {
 	@Override
-	public String OnRun(RPGState state, RPGInput input)
+	public String onRun(RPGState state, RPGInput input)
 	{
 		if(state.battleContext == null)
 			return "```There's nothing to run from!```";
 		
-		long lostGold = (long)(state.player.GetGold() * .1);
+		long lostGold = (long)(state.player.getGold() * .1);
 		String out = null;
 		
-		state.player.SpendGold(lostGold);
+		state.player.spendGold(lostGold);
 		state.battleContext = null;
 		
 		out = "You duck behind a tree and manage to escape from encounter just barely!";

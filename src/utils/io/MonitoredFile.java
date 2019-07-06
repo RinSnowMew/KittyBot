@@ -12,7 +12,7 @@ public class MonitoredFile implements Comparable<Object>
 		this.path = path;
 		this.lastModified = lastModified;
 	}
-	
+
 	// Override equals operator - used for .contains(...) on list items
 	@Override
 	public boolean equals(Object other)

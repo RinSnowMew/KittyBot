@@ -1,8 +1,6 @@
 package dataStructures;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
 import core.DatabaseManager;
 import core.DatabaseTrackedObject;
@@ -23,7 +21,8 @@ public class KittyGuild extends DatabaseTrackedObject
 	public ArrayList<String> emoji = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
 	public AdminControl control;
-	public HashMap <KittyUser, Boolean> raffleUsers = new HashMap<KittyUser, Boolean>();
+	public ArrayList <KittyUser> raffleUsersUnchosen = new ArrayList<KittyUser>();
+	public ArrayList <KittyUser> raffleUsersChosen = new ArrayList<KittyUser>();
 	
 	// Database synced info
 	private final String roleListName = "guildRoles";
@@ -34,10 +33,10 @@ public class KittyGuild extends DatabaseTrackedObject
 	
 	private String commandIndicator;
 	
-	private void RegisterTrackedObjects()
+	private void registerTrackedObjects()
 	{
-		DatabaseManager.instance.Register(roleList);
-		DatabaseManager.instance.Register(beans);
+		DatabaseManager.instance.globalRegister(roleList);
+		DatabaseManager.instance.globalRegister(beans);
 	}
 	
 	// Default content for a guild
@@ -47,13 +46,13 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.uniqueID = uniqueID;
 		roleList = new KittyTrackedVector(roleListName, uniqueID);
 		beans = new KittyTrackedLong(beansName, uniqueID);
-		RegisterTrackedObjects();
+		registerTrackedObjects();
 		
 		control = adminControl;
 		this.contentRating = KittyRating.Safe; 
 		this.polling = false;
 		this.emoji = emoji;
-		SetCommandIndicator("!");
+		setCommandIndicator("!");
 	}
 	
 	// Explicit constructor
@@ -63,9 +62,9 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.uniqueID = uniqueID;
 		roleList = new KittyTrackedVector(roleListName, uniqueID);
 		beans = new KittyTrackedLong(beansName, uniqueID);
-		RegisterTrackedObjects();
+		registerTrackedObjects();
 		
-		SetCommandIndicator(commandIndicator);
+		setCommandIndicator(commandIndicator);
 		this.contentRating = contentRating;
 		this.polling = false;
 		this.guildOwner = guildOwner;
@@ -111,6 +110,8 @@ public class KittyGuild extends DatabaseTrackedObject
 		{
 			raffleCost = 0;
 			raffling = false;
+			raffleUsersChosen.removeAll(raffleUsersChosen);
+			raffleUsersUnchosen.removeAll(raffleUsersUnchosen);
 			return true;
 		}
 		return false;
@@ -118,10 +119,10 @@ public class KittyGuild extends DatabaseTrackedObject
 	
 	public boolean joinRaffle(KittyUser user)
 	{
-		if(!raffleUsers.containsKey(user) && user.GetBeans() > raffleCost && raffling)
+		if(!raffleUsersChosen.contains(user) && !raffleUsersUnchosen.contains(user) && user.getBeans() > raffleCost && raffling)
 		{
-			user.ChangeBeans(raffleCost);
-			raffleUsers.put(user, true);
+			user.changeBeans(raffleCost);
+			raffleUsersUnchosen.add(user);
 			return true;
 		}
 		return false; 
@@ -129,48 +130,42 @@ public class KittyGuild extends DatabaseTrackedObject
 	
 	public KittyUser chooseRaffleWinner()
 	{
-		if(!raffleUsers.isEmpty())
+		if(!raffleUsersUnchosen.isEmpty())
 		{
-			KittyUser chosen = (KittyUser) raffleUsers.keySet().toArray()[new Random().nextInt(raffleUsers.keySet().toArray().length)];
-			for(int i = 0; i < 10; i ++)
-			{
-				if(raffleUsers.get(chosen))
-				{
-					raffleUsers.replace(chosen, false);
-					return chosen;
-				}
-			}
-			
+			KittyUser chosen = raffleUsersUnchosen.get((int) (Math.random() * raffleUsersUnchosen.size()));
+			raffleUsersUnchosen.remove(chosen);
+			raffleUsersChosen.add(chosen);
+			return chosen;
 		}
 		return null;
 	}
 	
 	@Override
-	public String Serialize() 
+	public String serialize() 
 	{
 		return commandIndicator;
 	}
 
 	@Override
-	public void DeSerialzie(String string) 
+	public void deSerialzie(String string) 
 	{
 		if(string == null || string.length() == 0)
-			SetCommandIndicator("!");
+			setCommandIndicator("!");
 		else
-			SetCommandIndicator(string);
+			setCommandIndicator(string);
 	}
 	
-	public String GetCommandIndicator()
+	public String getCommandIndicator()
 	{
 		return commandIndicator;
 	}
 	
-	public void SetCommandIndicator(String newIndicator)
+	public void setCommandIndicator(String newIndicator)
 	{
 		if(newIndicator != commandIndicator)
 		{
 			commandIndicator = newIndicator;
-			MarkDirty();
+			markDirty();
 		}
 	}
 }

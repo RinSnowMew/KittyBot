@@ -10,5 +10,5 @@ public class RPGArmor extends RPGItem
 		defense = 1;
 	}
 	
-	public long GetDefense() { return defense; }
+	public long getDefense() { return defense; }
 }

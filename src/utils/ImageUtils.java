@@ -5,19 +5,58 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
+
 public class ImageUtils
 {
 	private static Long uniqueID = 0l;
 	
+	public static String writeTempImageData(BufferedImage data, String extension)
+	{
+		String name = null;
+		synchronized(uniqueID)
+		{
+			String end = extension;
+			if(!extension.contains("."))
+			{
+				end = "." + extension;
+			}
+			
+			name = "imagetempwriterutil_" + (uniqueID++) + end;
+		}
+		
+		try
+		{
+			File outputfile = new File(name);
+			extension = extension.replace(".", "");
+			
+			boolean didWrite = ImageIO.write(data, extension, outputfile);
+			if(!didWrite)
+			{
+				GlobalLog.error(LogFilter.Util, "Could not identify the writer for extension type '" + extension + "' - Did you accidentally include a period or other punctuation?");
+				return null;
+			}
+			
+			return name;
+		}
+		catch (IOException e)
+		{
+			GlobalLog.error(LogFilter.Util, "Exception in writeTempImageData: " + e.toString());
+			return null;
+		}
+
+	}
+	
 	// Downloads the file at the url and assigns it a unique local string.
 	// The string (filename) is returned, and can be used. It will have to be
 	// deleted later. By assigning a unique name to the files, this is 
-	public static String DownloadFromURL(String URL, String extension) 
+	public static String downloadFromURL(String URL, String extension) 
 	{
 		String name = null;
 		synchronized(uniqueID)
@@ -51,13 +90,14 @@ public class ImageUtils
 		}
 		catch(Exception e)
 		{
+			GlobalLog.error(LogFilter.Util, "Exception in downloadFromURL: " + e.toString());
 			return null;
 		}
 	}
 	
 	// Deletes the file provided, if it exists. Will continue, in a blocking way,
 	// to attempt to delete the file 10 times a second until thread termination.
-	public static void BlockingFileDelete(File file)
+	public static void blockingFileDelete(File file)
 	{
 		if(file == null)
 			return;

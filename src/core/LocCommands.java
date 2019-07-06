@@ -1,58 +1,50 @@
 package core;
 
 import java.util.ArrayList;
+
 import utils.GlobalLog;
 import utils.LogFilter;
-import utils.io.FileMonitor;
 import dataStructures.Pair;
 
 // Performs the same localization for the strings associated with command names as 
 // is performed with general strings in the application
-public class LocCommands extends BaseLocFile
+public class LocCommands extends BaseLocFile implements IConfigSection
 {
-	public static final String fileName = "locCommands.config";
-	public static final String function = "LocCommands.Stub";
+	// Defined const variables
+	public static final String HeaderName = "Localized Commands";
+	public static final String function = "LocCommands.stub";
 	
+	// Instance
 	private static LocCommands instance;
 	
+	// Constructor
 	public LocCommands() 
 	{
-		super(fileName, function);
+		super(HeaderName, function);
 		
-		GlobalLog.Log(LogFilter.Core, "Initializing " + this.getClass().getSimpleName());
+		GlobalLog.log(LogFilter.Core, "Initializing " + this.getClass().getSimpleName());
 		
 		if(instance == null)
 		{
 			instance = this;
-			
-			UpdateLocFromDisk();
-			ScrapeAll();
-			SaveLocToDisk();
-			
-			fileMonitor = new FileMonitor(filename);
 		}
 		else
 		{
-			GlobalLog.Error(LogFilter.Core, "You can't have two of the following: " + this.getClass().getSimpleName());
+			GlobalLog.error(LogFilter.Core, "You can't have two of the following: " + this.getClass().getSimpleName());
 		}
 	}
 
 	// Returns a pair, the raw key and the stub key
-	public static Pair<String, String> Stub(String toStub)
+	public static Pair<String, String> stub(String toStub)
 	{
-		return new Pair<String, String>(toStub, instance.GetKey(toStub));
+		return new Pair<String, String>(toStub, instance.getKey(toStub));
 	}
 	
 	// Gets all of the un-translated defaults in the commands list.
-	public static ArrayList<String> GetUnlocalizedCommands()
+	public static ArrayList<String> getUnlocalizedCommands()
 	{
 		ArrayList<String> raw = new ArrayList<>();
-		instance.stringStore.ForEach((pair) -> raw.add((String)((Pair<?, ?>)pair).First ));
+		instance.localized.keySet().forEach((key) -> raw.add(key));
 		return raw;
-	}
-	
-	public static void Upkeep()
-	{
-		instance.Update();
 	}
 }

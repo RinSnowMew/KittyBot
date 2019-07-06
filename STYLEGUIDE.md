@@ -31,14 +31,14 @@ if(bar)
 ```
 
 #### Naming
-Class names and function names are `PascalCase`. Variable names are `camelCase`. 
+Class, Interface, and Enum names are `PascalCase`. Variable and function names are `camelCase`. Interfaces in particular must begin with a capital `I`.
 
 ```java
-public class MyClass
+public class MyClass implements IClass
 {
 	private Foo myVariable;
 
-	public function MyFuction()
+	public function myFuction()
 	{
 		// ...
 	}

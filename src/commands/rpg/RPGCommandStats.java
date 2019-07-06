@@ -11,18 +11,18 @@ import core.rpg.RPGWeapon;
 public class RPGCommandStats extends RPGCommand
 {
 	@Override
-	public String OnRun(RPGState state, RPGInput input) 
+	public String onRun(RPGState state, RPGInput input) 
 	{
 		RPGPlayer player = state.player;
-		long exp = player.GetEXP();
-		long level = RPGExpTable.LevelFromEXP(player.GetEXP());
-		long ceil = RPGExpTable.EXPCeil(level);
+		long exp = player.getEXP();
+		long level = RPGExpTable.levelFromEXP(player.getEXP());
+		long ceil = RPGExpTable.expCeil(level);
 		
 		String indent = "";
 		String linebreak = "\n";
 		
 		String out = "";
-		out += indent + "[" + player.GetName() + ", lv. " + level + "]";
+		out += indent + "[" + player.getName() + ", lv. " + level + "]";
 		out += indent + linebreak;
 		out += indent + "_______________";
 		out += indent + linebreak;
@@ -31,26 +31,26 @@ public class RPGCommandStats extends RPGCommand
 		out += indent + " (until next: " + (ceil - exp) + ")";
 		out += indent + linebreak;
 				
-		out += indent + "  Gold: " + player.GetGold();
+		out += indent + "  Gold: " + player.getGold();
 		out += indent + linebreak;
 		
-		out += indent + "Health: " + player.GetHealthCurrent() + "/" + player.GetHealthMax();
+		out += indent + "Health: " + player.getHealthCurrent() + "/" + player.getHealthMax();
 		out += indent + linebreak;
 		
-		RPGWeapon weapon = player.GetWeapon();
+		RPGWeapon weapon = player.getWeapon();
 		out += indent + "_____";
 		out += indent + linebreak; 
-		out += indent + "Weapon: " + weapon.GetName();
+		out += indent + "Weapon: " + weapon.getName();
 		out += indent + linebreak;
-		out += indent + "   att: " + weapon.GetAttack();
+		out += indent + "   att: " + weapon.getAttack();
 		out += indent + linebreak;
 		
-		RPGArmor armor = player.GetArmor();
+		RPGArmor armor = player.getArmor();
 		out += indent + "_____";
 		out += indent + linebreak; 
-		out += indent + "Armor: " + armor.GetName();
+		out += indent + "Armor: " + armor.getName();
 		out += indent + linebreak;
-		out += indent + "  def: " + armor.GetDefense() ;
+		out += indent + "  def: " + armor.getDefense() ;
 		out += indent + linebreak;
 		
 		out += indent + linebreak;

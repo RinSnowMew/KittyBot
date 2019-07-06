@@ -6,7 +6,7 @@ import utils.LogFilter;
 // Logging shim
 public class IOLog
 {
-	public static void Log(String s) { GlobalLog.Log(LogFilter.Util, s); }
-	public static void Warn(String s) { GlobalLog.Warn(LogFilter.Util, s); }
-	public static void Error(String s) { GlobalLog.Error(LogFilter.Util, s); }
+	public static void log(String s) { GlobalLog.log(LogFilter.Util, s); }
+	public static void warn(String s) { GlobalLog.warn(LogFilter.Util, s); }
+	public static void error(String s) { GlobalLog.error(LogFilter.Util, s); }
 }

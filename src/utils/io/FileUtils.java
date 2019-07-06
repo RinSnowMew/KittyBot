@@ -14,7 +14,7 @@ import utils.LogFilter;
 
 public class FileUtils
 {
-	public static void CreateDirectoryIfDoesntExist(String directoryName)
+	public static void createDirectoryIfDoesntExist(String directoryName)
 	{
 		File directory = new File(directoryName);
 		
@@ -24,8 +24,8 @@ public class FileUtils
 	}
 	
 	// Reads all lines from a file as a string
-	public static String ReadContent(File file) { return ReadContent(file.toPath()); }
-	public static String ReadContent(Path filePath)
+	public static String readContent(File file) { return readContent(file.toPath()); }
+	public static String readContent(Path filePath)
 	{
 		StringBuilder contentBuilder = new StringBuilder();
 		
@@ -38,14 +38,14 @@ public class FileUtils
 		}
 		catch (IOException e)
 		{
-			GlobalLog.Error(LogFilter.Util, e.getMessage());
+			GlobalLog.error(LogFilter.Util, e.getMessage());
 		}
 		
 		return contentBuilder.toString();
 	}
 
 	// Recursively acquires all files at and below the specified directory, returning them as an arraylist of paths.
-	public static ArrayList<Path> AcquireAllFiles(String startingDir) 
+	public static ArrayList<Path> acquireAllFiles(String startingDir) 
 	{
 		ArrayList<Path> items = new ArrayList<Path>();
 		
@@ -59,14 +59,14 @@ public class FileUtils
 		}
 		catch (IOException e)
 		{
-			GlobalLog.Error(LogFilter.Util, e.getMessage());
+			GlobalLog.error(LogFilter.Util, e.getMessage());
 		}
 		
 		return items;
 	}
 	
 	// Check when a file was last modified by path
-	public static Long LastModified(Path path)
+	public static Long lastModified(Path path)
 	{
 		File file = new File(path.toString());
 		
@@ -76,7 +76,7 @@ public class FileUtils
 		}
 		else
 		{
-			GlobalLog.Error(LogFilter.Util, "File doesn't exist at path: " + path);
+			GlobalLog.error(LogFilter.Util, "File doesn't exist at path: " + path);
 			return null;
 		}
 	}

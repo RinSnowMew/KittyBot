@@ -14,7 +14,7 @@ public class BenchmarkCommandInfo extends BenchmarkCommand
 {
 	static final String lineDelimiter = "\n";
 	
-	public static String FormatInfo(BenchmarkEntry entry)
+	public static String formatInfo(BenchmarkEntry entry)
 	{
 		String output = "";
 		
@@ -24,7 +24,7 @@ public class BenchmarkCommandInfo extends BenchmarkCommand
 		return output;
 	}
 	
-	public static KittyEmbed FormatInfoEmbed(BenchmarkEntry entry)
+	public static KittyEmbed formatInfoEmbed(BenchmarkEntry entry)
 	{
 		// Populate general embed info
 		KittyEmbed embed = new KittyEmbed();
@@ -74,18 +74,18 @@ public class BenchmarkCommandInfo extends BenchmarkCommand
 	}
 		
 	@Override
-	public BenchmarkFormattable OnRun(BenchmarkManager manager, BenchmarkInput input) 
+	public BenchmarkFormattable onRun(BenchmarkManager manager, BenchmarkInput input) 
 	{
 		String searchString = input.value.trim();
 		long start = System.currentTimeMillis();
-		List<BenchmarkEntry> entries = manager.FindModel(searchString);
+		List<BenchmarkEntry> entries = manager.findModel(searchString);
 		
 		if(entries.size() < 1)
 			return new BenchmarkFormattable("Couldn't find any models containing `" + searchString + "`!");
 		
-		List<BenchmarkEntry> sortedEntries = manager.EvaluateLevenshteinDistance(entries, searchString);
+		List<BenchmarkEntry> sortedEntries = manager.evaluateLevenshteinDistance(entries, searchString);
 		BenchmarkEntry entry = sortedEntries.get(0);
-		KittyEmbed embed = FormatInfoEmbed(entry);
+		KittyEmbed embed = formatInfoEmbed(entry);
 		
 		if(entries.size() > 1)
 			embed.footerText += " (Chose the " + entry.model + " from " + entries.size() + " potential components. To see others, try the command 'benchmark find " + searchString +"')";

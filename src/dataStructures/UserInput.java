@@ -35,13 +35,13 @@ public class UserInput
 			return;
 
 		if(!event.getMessage().getMentionedMembers().isEmpty())
-			mentions = FindMentionedUsers(event);
+			mentions = findMentionedUsers(event);
 		
 		toParse = toParse.trim();
-		String commandIndicator = guildContext.GetCommandIndicator();
+		String commandIndicator = guildContext.getCommandIndicator();
 		if(toParse.startsWith(commandIndicator))
 		{
-			int loc = FindFirstWhitespace(toParse);
+			int loc = findFirstWhitespace(toParse);
 			
 			if(loc <= 0)
 			{
@@ -61,23 +61,22 @@ public class UserInput
 		}
 	}
 	
-	//Used for injecting direct commands from plugins
+	// Used for injecting direct commands from plugins
 	public UserInput(String input, KittyGuild contextGuild)
 	{
-		int loc = FindFirstWhitespace(input);
+		int loc = findFirstWhitespace(input);
 		key = input.substring(0, loc);
 		args = input.substring(loc);
 		isValid = true;
 	}
 
-	
-	public boolean IsValid()
+	public boolean isValid()
 	{
 		return isValid;
 	}
 	
 	// Finds first whitespace in the string
-	private int FindFirstWhitespace(String str)
+	private int findFirstWhitespace(String str)
 	{
 		for (int i = 0; i < str.length(); ++i) 
 		{
@@ -88,13 +87,13 @@ public class UserInput
 		return -1;
 	}
 	
-	private KittyUser[] FindMentionedUsers(GuildMessageReceivedEvent event) 
+	private KittyUser[] findMentionedUsers(GuildMessageReceivedEvent event) 
 	{
 		List <Member> JDAMentions = event.getMessage().getMentionedMembers();
 		KittyUser [] KittyMentions = new KittyUser[JDAMentions.size()];
 		for(int i = 0; i < KittyMentions.length; i ++)
 		{
-			KittyMentions [i] = ObjectBuilderFactory.getCachedUser(event.getGuild().getId(), JDAMentions.get(i).getUser().getId());
+			KittyMentions [i] = ObjectBuilderFactory.getKittyUser(event.getGuild().getId(), JDAMentions.get(i).getUser().getId());
 		}
 		return KittyMentions;
 	}

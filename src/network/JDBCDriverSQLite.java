@@ -13,58 +13,67 @@ import utils.LogFilter;
 // Only to be called by the generic driver.
 public class JDBCDriverSQLite extends JDBCDriver
 {
-	Connection connection = null;
-	String databaseFolder = "db/";
-	String databaseName = "catfood";
+	private static Connection connection = null;
+	public static final String databaseFolder = "db/";
+	public static final String databaseName = "catfood";
 	
 	@Override
-	public boolean Connect()
-	{		
-		try 
+	public boolean connect()
+	{	
+		if(connection == null)
 		{
-			{ // Scope to discard file...
-				File f = new File(databaseFolder);
-				if(!f.exists() || !f.isDirectory())
-				{
-					f.mkdir();
+			try 
+			{
+				{ // Scope to discard file...
+					File f = new File(databaseFolder);
+					if(!f.exists() || !f.isDirectory())
+					{
+						f.mkdir();
+					}
 				}
+				
+				// db parameters
+				String url = "jdbc:sqlite:" + databaseFolder + databaseName + ".db";
+				
+				// create a connection to the database
+				connection = DriverManager.getConnection(url);
+				
+				GlobalLog.log(LogFilter.Database, "Connection to SQLite has been established.");
+			} 
+			catch (SQLException e) 
+			{
+				GlobalLog.error(e.getMessage());
 			}
-			
-			// db parameters
-			String url = "jdbc:sqlite:db/" + databaseName + ".db";
-			
-			// create a connection to the database
-			connection = DriverManager.getConnection(url);
-			
-			GlobalLog.Log(LogFilter.Database, "Connection to SQLite has been established.");
-		} 
-		catch (SQLException e) 
+		}
+		else
 		{
-			GlobalLog.Error(e.getMessage());
+			GlobalLog.log(LogFilter.Database, "SQLite database asked to connect a second time. This is perfectly fine as this app has all its data tied together.");
 		}
 		
 		return connection != null;
 	}
 	
 	@Override
-	public boolean Disconnect()
+	public boolean disconnect()
 	{
 		try
 		{
 			if (connection != null)
+			{
 				connection.close();
+			}
 			
 			return true;
 		} 
 		catch (SQLException ex) 
 		{
-			GlobalLog.Error(ex.getMessage());
+			GlobalLog.error(ex.getMessage());
 			return false;
 		}
 	}
 	
 	@Override
-	public ResultSet ExecuteReturningStatement(JDBCStatementType type, String command, String[] args)
+	public ResultSet executeReturningStatement(JDBCStatementType type, String command, String[] args)
 	{
 		if(connection == null)
 			return null;
@@ -105,7 +114,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 		{
 			try
 			{
-				GlobalLog.Fatal(e.getMessage());
+				GlobalLog.fatal(e.getMessage());
 			}
 			catch (Exception e1)
 			{
@@ -116,7 +125,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 		}
 	}
 	
-	public boolean ExecuteStatement(JDBCStatementType type, String command, String[] args)
+	public boolean executeStatement(JDBCStatementType type, String command, String[] args)
 	{
 		if(connection == null)
 			return false;
@@ -169,7 +178,7 @@ public class JDBCDriverSQLite extends JDBCDriver
 		{
 			try
 			{
-				GlobalLog.Fatal(e.getMessage());
+				GlobalLog.fatal(e.getMessage());
 			}
 			catch (Exception e1)
 			{

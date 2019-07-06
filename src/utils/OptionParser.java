@@ -40,10 +40,10 @@ public class OptionParser
 		floating = new ArrayList<String>();
 		
 		if(toParse != null && toParse.length() > 0)
-			Parse(toParse);
+			parse(toParse);
 	}
 	
-	public void Parse(String vals)
+	public void parse(String vals)
 	{
 		String[] strings = vals.split("\\s+");
 		
@@ -84,17 +84,17 @@ public class OptionParser
 		}
 	}
 	
-	public ArrayList<String> GetFloating()
+	public ArrayList<String> getFloating()
 	{
 		return floating;
 	}
 	
-	public String GetOption(String arg)
+	public String getOption(String arg)
 	{
-		return GetOption(arg, false);
+		return getOption(arg, false);
 	}
 	
-	public String GetOption(String option, boolean isCaseInsensitive)
+	public String getOption(String option, boolean isCaseInsensitive)
 	{
 		if(option == null)
 			return null;

@@ -35,7 +35,8 @@ public class NetworkJDoodle
 		String input = "{\"clientId\": \"" + Ref.jdoodleID + "\",\"clientSecret\":\"" + Ref.jdoodleSecret + "\",\"script\":\"" + query +
 	            "\",\"language\":\"" + lang + "\",\"versionIndex\":\"" + version + "\"} ";
 		
-		 try {
+		 try
+		 {
 	            URL url = new URL("https://api.jdoodle.com/v1/execute");
 	            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	            connection.setDoOutput(true);
@@ -69,10 +70,12 @@ public class NetworkJDoodle
 	            result += "The CPU time was " + doodle.cpuTime + "\n";
 	            connection.disconnect();
 	            return result;
-		 } catch (MalformedURLException e) 
+		 }
+		 catch (MalformedURLException e) 
 		 {
 			 return "You probably shouldn't be seeing this";
-	     } catch (IOException e) 
+	     }
+		 catch (IOException e) 
 		 {
 	         return "You probably shouldn't be seeing this";
 	     }

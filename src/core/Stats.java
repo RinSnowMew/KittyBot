@@ -31,7 +31,7 @@ public class Stats
 		}
 		else
 		{
-			GlobalLog.Error(LogFilter.Core, "Attempted to create a second Stats singleton!");
+			GlobalLog.error(LogFilter.Core, "Attempted to create a second Stats singleton!");
 			return;
 		}
 		
@@ -43,12 +43,12 @@ public class Stats
 		osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 	}
 	
-	public void NoteMessageEvent()
+	public void noteMessageEvent()
 	{
 		++messagesSeen;
 	}
 	
-	public void IndicateShutdown()
+	public void indicateShutdown()
 	{
 		synchronized(instance)
 		{
@@ -56,7 +56,7 @@ public class Stats
 		}
 	}
 	
-	public boolean GetIsShuttingDown()
+	public boolean getIsShuttingDown()
 	{
 		synchronized(instance)
 		{
@@ -69,7 +69,7 @@ public class Stats
 	/////////////////////////////////////////
 	
 	// Formatted as HH:MM:SS
-	public String GetFormattedUptime()
+	public String getFormattedUptime()
 	{
 		long dif = System.currentTimeMillis() - initTimeMS;
 		
@@ -80,48 +80,48 @@ public class Stats
 	}
 	
 	// Get number of commands that kitty has run!
-	public long GetCommandsProcessed()
+	public long getCommandsProcessed()
 	{
-		return commandManager.GetInvokeCount();
+		return commandManager.getInvokeCount();
 	}
 	
-	public long GetMessagesSeen()
+	public long getMessagesSeen()
 	{
 		return messagesSeen;
 	}
 	
-	public double GetSystemCPULoad()
+	public double getSystemCPULoad()
 	{
 		return osBean.getSystemLoadAverage();
 	}
 	
-	public long GetCPUAvailable() 
+	public long getCPUAvailable() 
 	{
 		return osBean.getAvailableProcessors();
 	}
 
-	public ThreadData GetThreadData()
+	public ThreadData getThreadData()
 	{
-		return commandManager.DumpThreadData();
+		return commandManager.dumpThreadData();
 	}
 	
-	public int GetGuildCount()
+	public int getGuildCount()
 	{
-		return ObjectBuilderFactory.GetGuildCount();
+		return ObjectBuilderFactory.getGuildCount();
 	}
 	
-	public int GetUserCount()
+	public int getUserCount()
 	{
-		return ObjectBuilderFactory.GetUserCount();
+		return ObjectBuilderFactory.getUserCount();
 	}
 	
-	public ArrayList<Command> GetAllCommands()
+	public ArrayList<Command> getAllCommands()
 	{
-		return commandManager.GetAllRegisteredCommands();
+		return commandManager.getAllRegisteredCommands();
 	}
 	
-	public String GetHelpText(String commandName)
+	public String getHelpText(String commandName)
 	{
-		return commandManager.GetCommandHelpText(commandName);
+		return commandManager.getCommandHelpText(commandName);
 	}
 }

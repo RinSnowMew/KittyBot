@@ -18,7 +18,7 @@ public class RPGInput
 			return;
 		
 		raw = raw.trim();
-		int whitespacePos = StringUtils.FindFirstWhitespace(raw);
+		int whitespacePos = StringUtils.findFirstWhitespace(raw);
 		
 		if(whitespacePos == -1)
 		{

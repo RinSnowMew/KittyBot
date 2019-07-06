@@ -4,7 +4,7 @@ package core;
 // have their data populated from database entries.
 public abstract class DatabaseTrackedObject
 {
-	private boolean isDirty;
+	private Boolean isDirty;
 	public final String identifier;
 	
 	public DatabaseTrackedObject(String identifier)
@@ -13,23 +13,32 @@ public abstract class DatabaseTrackedObject
 		this.identifier = identifier;
 	}
 	
-	public final boolean IsDirty()
+	public final boolean isDirty()
 	{
-		return isDirty;
+		synchronized(isDirty)
+		{
+			return isDirty;
+		}
 	}
 	
-	public final void MarkDirty()
+	public final void markDirty()
 	{
-		isDirty = true;
+		synchronized(isDirty)
+		{
+			isDirty = true;
+		}
 	}
 	
-	public final void Resolve()
+	public final void resolve()
 	{
-		isDirty = false;
+		synchronized(isDirty)
+		{
+			isDirty = false;
+		}
 	}
 	
 	// Consider an object factory instead of dedicated serialization methods
 	// if this starts to become impractical. For now, it works.
-	public abstract String Serialize();
-	public abstract void DeSerialzie(String string);
+	public abstract String serialize();
+	public abstract void deSerialzie(String string);
 }

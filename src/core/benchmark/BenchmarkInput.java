@@ -19,7 +19,7 @@ public class BenchmarkInput
 			return;
 		
 		raw = raw.trim();
-		int whitespacePos = StringUtils.FindFirstWhitespace(raw);
+		int whitespacePos = StringUtils.findFirstWhitespace(raw);
 		
 		if(whitespacePos == -1)
 		{
@@ -30,7 +30,5 @@ public class BenchmarkInput
 		key = raw.substring(0, whitespacePos).trim();
 		value = raw.substring(whitespacePos).trim();
 	}
-	
-
 }
 

@@ -7,7 +7,7 @@ import core.rpg.RPGState;
 public class RPGCommandBattleFight extends RPGCommand
 {
 	@Override
-	public String OnRun(RPGState state, RPGInput input)
+	public String onRun(RPGState state, RPGInput input)
 	{
 		if(state.battleContext == null)
 			return "```There's nothing to fight!```";
@@ -19,7 +19,7 @@ public class RPGCommandBattleFight extends RPGCommand
 		reward = "+150xp";
 		
 		state.battleContext = null;
-		state.player.ApplyEXP(150);
+		state.player.applyEXP(150);
 		
 		if(out != null && reward != null)
 		{
