@@ -353,7 +353,7 @@ public class ObjectBuilderFactory
 	{
 		lazyInit();
 		
-		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
+		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.Token).buildBlocking();
 		kitty.getPresence().setGame(Game.playing("with digital yarn"));
 		kitty.addEventListener(new Main());
 		

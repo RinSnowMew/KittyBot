@@ -1,4 +1,4 @@
-package commands;
+package commands.general;
 
 import core.Command;
 import core.LocStrings;
@@ -21,10 +21,10 @@ public class CommandDerpi extends Command
 	public CommandDerpi(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Will search derpibooru for the tags entered, if KittyBot's content filter allows it"; }
+	public String getHelpText() { return "Will search derpibooru for the tags entered, if KittyBot's content filter allows it"; }
 	
 	@Override
-	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
+	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		if(guild.contentRating == KittyRating.Filtered)
 		{
@@ -32,28 +32,28 @@ public class CommandDerpi extends Command
 			try 
 			{
 				response = searcher.getDerpi(input.args + " safe").output();
-				res.CallEmbed(response);
+				res.send(response);
 			}
 			catch(Exception e)
 			{
-				res.Call(LocStrings.Stub("DerpiError"));
+				res.send(LocStrings.stub("DerpiError"));
 			}
 			
 		}
 		else
 		{
 			if(input.args == null || input.args.length() == 0)
-				res.Call("DerpiNoSearchError");
+				res.send("DerpiNoSearchError");
 			else
 			{
 				response = searcher.getDerpi(input.args).output();
 				try 
 				{
-					res.CallEmbed(response);
+					res.send(response);
 				}
 				catch(Exception e)
 				{
-					res.Call(LocStrings.Stub("DerpiError"));
+					res.send(LocStrings.stub("DerpiError"));
 				}
 			}
 		}
@@ -63,11 +63,11 @@ public class CommandDerpi extends Command
 			response = searcher.getDerpiByID(input.args.substring(input.args.indexOf(':'))).output();
 			try 
 			{
-				res.CallEmbed(response);
+				res.send(response);
 			}
 			catch(Exception e)
 			{
-				res.Call(LocStrings.Stub("DerpiError"));
+				res.send(LocStrings.stub("DerpiError"));
 			}
 		}
 	}

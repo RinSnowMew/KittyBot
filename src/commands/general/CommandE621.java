@@ -1,4 +1,4 @@
-package commands;
+package commands.general;
 
 import core.Command;
 import core.LocStrings;
@@ -13,37 +13,37 @@ public class CommandE621 extends Command
 	public CommandE621(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "Will search e621 for the tags entered, if KittyBot's content filter allows it"; }
+	public String getHelpText() { return "Will search e621 for the tags entered, if KittyBot's content filter allows it"; }
 	
 	@Override
-	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
+	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		if(guild.contentRating == KittyRating.Filtered)
 		{
 			response = searcher.getE621(input.args + " rating:safe").output();
 			try 
 			{
-				res.CallEmbed(response);
+				res.send(response);
 			}
 			catch(Exception e)
 			{
-				res.Call(LocStrings.Stub("E621Error"));
+				res.send(LocStrings.stub("E621Error"));
 			}
 		}
 		else
 		{
 			if(input.args == null || input.args.length() == 0)
-				res.Call("E621NoSearchError");
+				res.send("E621NoSearchError");
 			else
 			{
 				try 
 				{
 					response = searcher.getE621(input.args).output();
-					res.CallEmbed(response);
+					res.send(response);
 				}
 				catch(Exception e)
 				{
-					res.Call(LocStrings.Stub("E621Error"));
+					res.send(LocStrings.stub("E621Error"));
 				}
 			}
 		}

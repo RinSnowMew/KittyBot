@@ -1,4 +1,4 @@
-package commands;
+package commands.general;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +23,11 @@ public class CommandDefaultDance  extends Command
 	private static Long num = 0l;
 	
 	@Override
-	public String HelpText() { return LocStrings.Stub("DefaultDanceInfo"); }
+	public String getHelpText() { return LocStrings.stub("DefaultDanceInfo"); }
 	
 	// Called when the command is run!
 	@Override 
-	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
+	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
 		String name = null;
 		File dancerFile = null;
@@ -48,13 +48,13 @@ public class CommandDefaultDance  extends Command
 			else
 				person = input.mentions[0];
 				
-			String yeeteeFilename = ImageUtils.DownloadFromURL(person.avatarID, ".png");
+			String yeeteeFilename = ImageUtils.downloadFromURL(person.avatarID, ".png");
 			if(yeeteeFilename == null)
 				return;
 			
 			danceeFile = new File(yeeteeFilename);
 			ImageOverlayBuilder builder = new ImageOverlayBuilder("assets/dance/default/", "defaultDance ", 118, 18);
-			builder.Overlay(ImageIO.read(danceeFile), name);
+			builder.overlay(ImageIO.read(danceeFile), name);
 		} 
 		catch (IOException e) 
 		{
@@ -62,10 +62,10 @@ public class CommandDefaultDance  extends Command
 		}
 		
 		dancerFile = new File (name);
-		res.CallFile(dancerFile, "gif");
+		res.sendFile(dancerFile, "gif");
 
 		// Thread cleanup...
-		ImageUtils.BlockingFileDelete(dancerFile);
-		ImageUtils.BlockingFileDelete(danceeFile);
+		ImageUtils.blockingFileDelete(dancerFile);
+		ImageUtils.blockingFileDelete(danceeFile);
 	}
 }

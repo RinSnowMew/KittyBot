@@ -98,7 +98,7 @@ public class NetworkDerpi
     	String res;
     	try
     	{
-    		 res = HTTPUtils.SendGETRequest("https://derpibooru.org/" + id + ".json");
+    		 res = HTTPUtils.sendGETRequest("https://derpibooru.org/" + id + ".json");
     	}
     	catch(Exception e)
     	{

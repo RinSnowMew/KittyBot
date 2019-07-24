@@ -1,4 +1,4 @@
-package commands;
+package commands.general;
 
 import core.Command;
 import dataStructures.KittyChannel;
@@ -15,11 +15,11 @@ public class CommandTesting extends Command
 	public CommandTesting(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public String HelpText() { return "LOUDSCREEHING"; }
+	public String getHelpText() { return "LOUDSCREEHING"; }
 	
 	@Override
-	public void OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
+	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
-		res.CallToChannel("AHHH", channel.uniqueID);
+		res.sendToChannel("AHHH", channel.uniqueID);
 	}
 }
