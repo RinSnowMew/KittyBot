@@ -42,7 +42,7 @@ public abstract class SubCommand
 	
 	// Called by the Command manager - this will run the command 
 	// if the issuing user has the permission to do so!
-	protected final SubCommandFormattable Invoke(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	protected final SubCommandFormattable Invoke(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		if(!CanCall(guild, channel, user))
 			return null;
@@ -60,5 +60,5 @@ public abstract class SubCommand
 		return roleLevel;
 	}
 	
-	public abstract SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input);
+	public abstract SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input);
 }

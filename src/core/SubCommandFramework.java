@@ -5,6 +5,7 @@ import java.util.HashMap;
 import dataStructures.KittyChannel;
 import dataStructures.KittyGuild;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 import utils.GlobalLog;
 
 public class SubCommandFramework 
@@ -25,18 +26,25 @@ public class SubCommandFramework
 		GlobalLog.log("Registered SubCommand " + name);
 	}
 	
-	public SubCommandFormattable run(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable run(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		SubCommandFormattable res = null;
-		try
+		SubCommand res = commands.get(input.args.split(" ")[0].toLowerCase());
+		try 
 		{
-			res = commands.get(input.split(" ")[0].toLowerCase()).Invoke(guild, channel, user, input.substring(input.indexOf(" ")));
+			input.args = input.args.substring(input.args.indexOf(' ')).trim();
+		}
+		catch(Exception e){}
+		
+		try 
+		{
+			return res.Invoke(guild, channel, user, input);
 		}
 		catch(Exception e)
 		{
-			res = commands.get(input.split(" ")[0].toLowerCase()).Invoke(guild, channel, user, "");
+			String help = Stats.instance.getHelpText(input.key);
+			if(help != null)
+				return new SubCommandFormattable(help);
+			return new SubCommandFormattable("Something has gone very wrong.");
 		}
-		
-		return res;
 	}
 }

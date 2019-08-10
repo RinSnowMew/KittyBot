@@ -1,325 +1,315 @@
-Type,Key,Value
-Localized Commands,beans,
-Localized Commands,"benchmark, bench",
-Localized Commands,bet,
-Localized Commands,bethistory,
-Localized Commands,blur,
-Localized Commands,boop,
-Localized Commands,buildHelp,
-Localized Commands,"c++, g++, cplus, cpp",
-Localized Commands,catch,
-Localized Commands,character,
-Localized Commands,charactercreate,
-Localized Commands,charactereditbio,
-Localized Commands,charactereditname,
-Localized Commands,charactereditURL,
-Localized Commands,choose,
-Localized Commands,"color, colour",
-Localized Commands,crouton,
-Localized Commands,dbflush,
-Localized Commands,dbstats,
-Localized Commands,defaultdance,
-Localized Commands,derp,
-Localized Commands,e621,
-Localized Commands,"eightball, 8ball",
-Localized Commands,fetch,
-Localized Commands,givebeans,
-Localized Commands,guildroleadd,
-Localized Commands,guildroleallowed,
-Localized Commands,guildrolelist,
-Localized Commands,guildrolenotallowed,"guildrolenotallowed, rolelistremove"
-Localized Commands,guildroleremove,
-Localized Commands,help,
-Localized Commands,indicator,
-Localized Commands,"info, about",
-Localized Commands,invite,
-Localized Commands,"java, jdoodle",
-Localized Commands,kittyrole,
-Localized Commands,leaderboard,
-Localized Commands,map,
-Localized Commands,"perish, thenperish",
-Localized Commands,ping,
-Localized Commands,poll,
-Localized Commands,raffle,
-Localized Commands,raffleend,
-Localized Commands,rafflejoin,
-Localized Commands,rafflespin,
-Localized Commands,rafflestart,
-Localized Commands,rating,
-Localized Commands,remind,
-Localized Commands,results,
-Localized Commands,role,
-Localized Commands,roll,
-Localized Commands,rpend,
-Localized Commands,rpg,
-Localized Commands,rpstart,
-Localized Commands,searchcharacter,
-Localized Commands,showpoll,
-Localized Commands,shutdown,
-Localized Commands,stats,
-Localized Commands,teey,
-Localized Commands,"tony, stark, dontfeelgood, dontfeelsogood","tony, stark, dontfeelgood, dontfeelsogood, snap"
-Localized Commands,tweet,
-Localized Commands,vote,
-Localized Commands,wolfram,
-Localized Commands,work,
-Localized Commands,yeet,
-Localized Strings,AddGuildRoleFailure,Failed to add %s to %s
-Localized Strings,BeansShowDisplay,You have %s beans!
-Localized Strings,BeansShowInfo,Displays how many beans you have
-Localized Strings,BeansShowMentioned,I took a look and %sbeans!
-Localized Strings,BenchmarkInfo,Allows you to lookup PC component benchmarks from UserBenchmark! You can use `bench find <name-snippet>
-Localized Strings,BenchmarkInvalid,The benchmark operation you were trying to perform was invalid!
-Localized Strings,BetBeansInfo,"Allows you to bet your beans, set your amount after the command! Warning! House always wins!nSets of 3 will get 2x, 4 will get 10x, and 5 will get 1000x"
-Localized Strings,BetBeansLose,"Sorry, you didn't win, try again!"
-Localized Strings,BetBeansLowBet,Please bet with at least 20 beans!
-Localized Strings,BetBeansNotEnough,You don't have enough beans!
-Localized Strings,BetBeansNotValid,That's not a valid bet!
-Localized Strings,BetBeansWin,You won %s beans!
-Localized Strings,BetHistoryInfo,Gives how many beans I've ~~stolen~~ won from your bets!
-Localized Strings,BetHistoryOutput,I have %s treats from betting!
-Localized Strings,BlurryInfo,Blurs your icon or the icon of a friend you mentioned
-Localized Strings,BoopInfo,Kitty will react with a counter
-Localized Strings,BoopMultiple,%s booped several others - %s!
-Localized Strings,BoopPerson,%s booped %s!
-Localized Strings,BoopStandard,Woah! %s booped me! That's %s total! 
-Localized Strings,CatchInfo,Play catch with yourself or with a friend with @!
-Localized Strings,ChangeIndicatorChanged,Indicator changed to `%s`
-Localized Strings,ChangeIndicatorError,Please specify a letter or symbol to use!
-Localized Strings,ChangeIndicatorInfo,"Changes the command indicator to any single character. By default, it's '!'. If more than one character is provided, the first one is used!"
-Localized Strings,CharacterCreateDuplicate,You can’t create a character with the same name! 
-Localized Strings,CharacterCreateInfo,
-Localized Strings,CharacterCreateNullInfo,"You have to have three fields `name, bio, URL`! "
-Localized Strings,CharacterCreateSuccess,You successfully created a character! 
-Localized Strings,CharacterEditBioInfo,
-Localized Strings,CharacterEditBioNotAuth,You're not authorized to change that character! 
-Localized Strings,CharacterEditBioNotValid,
-Localized Strings,CharacterEditBioSuccess,Successfully changed your bio! 
-Localized Strings,CharacterEditNameInfo,Change your character's name!
-Localized Strings,CharacterEditNameNotAuth,You're not authorized to change that character! 
-Localized Strings,CharacterEditNameNotValid,That's not a vaild name!
-Localized Strings,CharacterEditNameSuccess,Successfully changed your name!
-Localized Strings,CharacterEditURLInfo,Change the image URL for your character's reference! 
-Localized Strings,CharacterEditURLNotAuth,You're not authorized to change that character! 
-Localized Strings,CharacterEditURLNotValid,That's not a valid url! 
-Localized Strings,CharacterEditURLSuccess,Successfully changed your reference! 
-Localized Strings,CharacterInfo,
-Localized Strings,CharacterSearchInfo,Find a character with their name or Unique ID! `charactersearch name` or `charactersearch UniqueID`
-Localized Strings,CharacterSearchMultipleCharacter,%s is owned by %s. Unique ID is `%s`
-Localized Strings,CharacterSearchMultipleCharacterHeader,"I found a couple characters with that name, use `charactersearch UniqueID` with their Unique ID to find them!"
-Localized Strings,CharacterSearchNoCharacterFound,Couldn't find a character with that name or ID!
-Localized Strings,CharacterSearchOneCharacter,I found one character with that name! n Owner: %s | Name: %s | Bio: %s | Ref: <%s> | Unique ID: `%s`
-Localized Strings,ChooseChoice,I chooooooose %s!
-Localized Strings,ChooseInfo,"With an input of x,y,z where x y and z are all choices, kitty will choose one"
-Localized Strings,ChooseOne,I can't choose from *one* thing!
-Localized Strings,ColiruError,Please provide some c++ code to attempt to compile!
-Localized Strings,ColiruInfo,"Will try to compile any c++ code you put in! Supports up to C++14 standard, uses g++."
-Localized Strings,ColorInfo,"Looks up the provided hex color and outputs it as hex, rgb, hsl, hsv, xyz, and cmyk. Also attempts to name the color, and provies a sample of it! Usage example: `!color #365345` (the # can be omitted)"
-Localized Strings,ColorNotSearchable,Your color couldn't be parsed! Make sure it's in hex format. Try this! `!color 3F5D54`
-Localized Strings,CroutonInfo,Crouton
-Localized Strings,DBFlushInfo,"Takes all objects queued for the database and writes them to the database, then says how many were written."
-Localized Strings,DBStatsInfo,Shows current statistics for the database
-Localized Strings,DefaultDanceInfo,"y'all know forknife, get ready to dance, or make a friend dance with @!"
-Localized Strings,DerpiError,I’m not sure what went wrong! 
-Localized Strings,DoWorkFinished,I finished with my work! :D
-Localized Strings,DoWorkInfo,Occupies a core for a few seconds
-Localized Strings,E621Error,I’m not sure what went wrong! 
-Localized Strings,EightBallError,Hmm? You'll need to ask a question!
-Localized Strings,EightBallInfo,"Answers a yes or no question! Warning: Kitty can not actually tell the future, she claims no responsibility for any lion mauling, lack of lottery wins, or felony charges."
-Localized Strings,EightBallMaybe1,"Reply hazy, try again."
-Localized Strings,EightBallMaybe2,Ask again later.
-Localized Strings,EightBallMaybe3,Better not tell you now.
-Localized Strings,EightBallMaybe4,Cannot predict now.
-Localized Strings,EightBallMaybe5,Concentrate and ask again.
-Localized Strings,EightBallNo1,Don't count on it.
-Localized Strings,EightBallNo2,My reply is no.
-Localized Strings,EightBallNo3,My sources say no.
-Localized Strings,EightBallNo4,Outlook not so good.
-Localized Strings,EightBallNo5,Very doubtful.
-Localized Strings,EightBallYes1,It is certain.
-Localized Strings,EightBallYes10,Signs point to yes.
-Localized Strings,EightBallYes2,It is decidedly so.
-Localized Strings,EightBallYes3,Without a doubt.
-Localized Strings,EightBallYes4,Yes - definitely.
-Localized Strings,EightBallYes5,You may rely on it.
-Localized Strings,EightBallYes6,"As I see it, yes."
-Localized Strings,EightBallYes7,Most likely.
-Localized Strings,EightBallYes8,Outlook good.
-Localized Strings,EightBallYes9,Yes.
-Localized Strings,FetchBringBack,Got it! %s
-Localized Strings,FetchBringBackWrong,Got it! %s
-Localized Strings,FetchCatchRun,*Catches and runs away with %s*
-Localized Strings,FetchEat,Mine now! *munches on %s*
-Localized Strings,FetchError,That's not a custom emote!
-Localized Strings,FetchInfo,Throw a custom emote and I'll try to bring it back.... maybe
-Localized Strings,FetchRunAway,*Runs away and doesn't return for a long time*
-Localized Strings,FetchStare,*Stares at %s*
-Localized Strings,GiveBeansInfo,Gives beans to the mentioned users!
-Localized Strings,GiveBeansInvalid,That's not a valid number!
-Localized Strings,GiveBeansNoneMentioned,You didn't mention anyone!
-Localized Strings,GiveBeansSuccess,Gave %s %s beans!
-Localized Strings,GuildRoleAddFailure,You may already have that role! 
-Localized Strings,GuildRoleAddInfo,Add a role to yourself!
-Localized Strings,GuildRoleAddNotAllowed,You are not allowed to add %s!
-Localized Strings,GuildRoleAddSuccess,Added %s to %s
-Localized Strings,GuildRoleAllowedDuplicate,Can't add the same role twice!
-Localized Strings,GuildRoleAllowedInfo,Adds role to the list of roles users are allowed to add to themselves.
-Localized Strings,GuildRoleAllowedSuccess,Added %s to the allowed roles!
-Localized Strings,GuildRoleInfo,
-Localized Strings,GuildRoleListEmpty,There aren’t any roles you can add! 
-Localized Strings,GuildRoleListOutput,You can add these roles! %s
-Localized Strings,GuildRoleNotAllowedFailure,Unable to remove %s from the list!
-Localized Strings,GuildRoleNotAllowedInfo,Removes a role from the list that users are allowed to add to themselves.
-Localized Strings,GuildRoleNotAllowedNoArgs,No role given.
-Localized Strings,GuildRoleNotAllowedSuccess,Removed %s from the allowed roles!
-Localized Strings,GuildRoleRemoveFailure,I wasn't able to remove %s from %s!
-Localized Strings,GuildRoleRemoveInfo,Removes a role from you! Just remember to spell it right!
-Localized Strings,GuildRoleRemoveNotAllowed,You're not allowed to add %s!
-Localized Strings,GuildRoleRemoveSuccess,Removed %s from %s!
-Localized Strings,HelpBuilderInfo,Emit help for all commands as formatted HTML
-Localized Strings,HelpDisplay,"You can get help with a specific command by typing `!help command`! General Commands: `boop, roll, choose, help, info, vote, results, showpoll, wolfram, cplus, java, beans, role, bet, yeet`"
-Localized Strings,HelpInfo,"Lets you look up specific commands, or get a link to a list of all commands."
-Localized Strings,InfoInfo,Provides author info and a link to Kitty's website
-Localized Strings,InfoResponse,I'm made by `Rin#8904` and `Reverie Wisp#3703`! You can find more info about me along with a Patreon link to support us and GitHub link for filing bugs https://kittybot.net
-Localized Strings,InviteInfo,Provides a direct invite link for KittyBot
-Localized Strings,JDoodleError,Please provide some java code to get it compiled!
-Localized Strings,JDoodleInfo,Will compile any java code you put in! Supports Java 1.8
-Localized Strings,LeaderboardInfo,Shows you the 10 users with the most beans on the server
-Localized Strings,LeaderboardTitle,Server Leaderboard
-Localized Strings,MapHeight,
-Localized Strings,MapInfo,"Generates a map! You can pass additional information if you want with the flags `-s<seed>`. If one of the fields isn't provided, its default will be used. Note that adjusting the width and height impacts the map outcomes.\n\n**Defaults**\nDefault Seed: Random,\nDefault Width: 35(max %s),\nDefault Height: 25(max %s)\n\n**Key**\nLand: ~\nMountain: \u25B2\nBeach: =\nTrees: \u00A5\nVolcano: #"
-Localized Strings,MapInvalid,Invalid arguments provided!
-Localized Strings,MapSeed,Seed
-Localized Strings,MapVersion,Using mapgen v0.1
-Localized Strings,MapWidth,
-Localized Strings,PerishInfo,"Adds a red, 'a n g e r y' overlay to your icon or the icon of a friend you mentioned"
-Localized Strings,PingInfo,Will respond with Pong!
-Localized Strings,PingResponse,Pong!
-Localized Strings,PollManageInfo,"'start' will start a new poll with the query of the line you put after, 'choice' will add a choice to the poll, 'stop' will end the poll"
-Localized Strings,PollResultsInfo,Will show current results of a poll and percentages of votes per choice
-Localized Strings,PollResultsResponse,%s people voted for `%s` with `%s%%` 
-Localized Strings,PollShowChoices,And the choices are:n
-Localized Strings,PollShowInfo,Will show the current poll running
-Localized Strings,PollShowNoPoll,There is no poll running!
-Localized Strings,PollShowPoll,The current poll is `%s`
-Localized Strings,PollVoteAlreadyVoted,You already voted
-Localized Strings,PollVoteInfo,"Vote in a poll with the choice number, won't work if no poll is running, you can't change your vote once you have cast it! Be careful!"
-Localized Strings,PollVoteNoPoll,There is no poll running!
-Localized Strings,PollVoteNotValidNumber,That's not a valid number!
-Localized Strings,PollVoteNotValidVote,%s That's not a valid vote!
-Localized Strings,PollVoteSuccess,You successfully voted for %s!
-Localized Strings,RaffleEndFailure,I don’t there's one going!
-Localized Strings,RaffleEndInfo,
-Localized Strings,RaffleEndSuccess,
-Localized Strings,RaffleJoinFailure,
-Localized Strings,RaffleJoinInfo,
-Localized Strings,RaffleJoinSuccess,You entered the raffle! Hope you win! 
-Localized Strings,RaffleSpinFailure,I can't choose a winner D:
-Localized Strings,RaffleSpinInfo,
-Localized Strings,RaffleSpinSuccess,The winner issssssss %s!
-Localized Strings,RaffleStartFailure,I think there’s already a raffle going! 
-Localized Strings,RaffleStartInfo,
-Localized Strings,RaffleStartSuccess,You started a raffle with an entry fee of %s beans!
-Localized Strings,RatingChanged,Kittybot content set to %s
-Localized Strings,RatingInfo,"'0' is fully sfw (Derpi and e621 searches are disabled), '1' is filtered (kitty auto appends a sfw tag on any searches), '2' is nsfw (any search will go through). Some other words are supported for setting filter as well."
-Localized Strings,RatingInvalid,Invalid content rating
-Localized Strings,RatingWarning,"Warning: NSFW may slip through, images are only based on tags on their respective sites!"
-Localized Strings,RemindInfo,I’ll remind you to do something after however many minutes you tell me! Like `remind 10 pet the kitty!` 
-Localized Strings,RoleChanged,Changed %s to role `%s`!
-Localized Strings,RoleError,You aren't allowed to do that! You must have the KittyRole '%' or higher!
-Localized Strings,RoleInfo,"Will show the current role you have, Admins can change others roles with input of 'role x @y' with x being blacklist, general, mod, or admin. Blacklist will not allow the user to interact with kitty anymore, general mod and admin will give the user access to those commands."
-Localized Strings,RoleNeededRole,"Please enter `general`, `mod`, or `admin`!"
-Localized Strings,RoleStandardResponse,Your role is %s
-Localized Strings,RollError,Didn't work ;3;
-Localized Strings,RollInfo,"Based on input of xdy where x is number of dice and y is faces kitty will roll that amount of dice, display the individual rolls and total"
-Localized Strings,RPEndError,You can't end this RP!
-Localized Strings,RPEndFileOut,Here's your file!
-Localized Strings,RPEndInfo,Ends RP in channel and gives you a .txt file!
-Localized Strings,RPGInfo,Admin+ command only right now - experimental text RPG! Format is !rpg <rpg command>
-Localized Strings,RPGInvalid,Invalid RPG Command!
-Localized Strings,RPStartInfo,"Starts an rp, add people to it by mentioning them!"
-Localized Strings,ShutdownInfo,Stops kitty. `-s` or `safe` as an argument attempts to sync off the database before shutdown.
-Localized Strings,ShutdownSafe,Shutdown after serialization. 
-Localized Strings,ShutdownUnsafe,"Abandoned threads, unsafe shutdown. "
-Localized Strings,StarkInfo,Snaps your icon or the icon of a friend you mentioned
-Localized Strings,StatsInfo,Displays the actively running KittyBot application information
-Localized Strings,TeeyInfo,"Teey yourself back into existance, or teey a friend with @!"
-Localized Strings,TradeBeansInfo,Give your friends some of your beans! Just don't forget to @ them!
-Localized Strings,TradeBeansIntParseError,That's not a real number! D:
-Localized Strings,TradeBeansNoTargetError,Don't forget to tag who you want to give the beans to!
-Localized Strings,TradeBeansNotEnoughError,You can't give more beans than you have!
-Localized Strings,TradeBeansStealingBeans,Hey %s! Stealing is wrong! Let's see how you like it! *steals 10 beans*
-Localized Strings,TradeBeansSuccess,%s gave %s %s beans!
-Localized Strings,TweetError,Tweet command failed!
-Localized Strings,TweetInfo,Kitty will tweet to her personal twitter account
-Localized Strings,WolframError,Something went wrong!
-Localized Strings,WolframInfo,Will query wolframalpha with your question and give a full image output of the answer
-Localized Strings,WolframNoArgs,You need to provide some arguments!
-Localized Strings,YeetInfo,Yeet yourself or yeet a friend with @!
-Command Enabler,addguildrole,1
-Command Enabler,allowedguildrole,1
-Command Enabler,beans,1
-Command Enabler,"benchmark, bench",1
-Command Enabler,bet,1
-Command Enabler,bethistory,1
-Command Enabler,blur,1
-Command Enabler,boop,1
-Command Enabler,buildhelp,1
-Command Enabler,"c++, g++, cplus, cpp",1
-Command Enabler,catch,1
-Command Enabler,character,1
-Command Enabler,charactercreate,1
-Command Enabler,charactereditbio,1
-Command Enabler,charactereditname,1
-Command Enabler,characterediturl,1
-Command Enabler,choose,1
-Command Enabler,"color, colour",1
-Command Enabler,crouton,1
-Command Enabler,dbflush,1
-Command Enabler,dbstats,1
-Command Enabler,defaultdance,1
-Command Enabler,derp,1
-Command Enabler,e621,1
-Command Enabler,"eightball, 8ball",1
-Command Enabler,fetch,1
-Command Enabler,givebeans,1
-Command Enabler,guildroleadd,1
-Command Enabler,guildroleallowed,1
-Command Enabler,guildrolelist,1
-Command Enabler,guildrolenotallowed,1
-Command Enabler,guildroleremove,1
-Command Enabler,help,1
-Command Enabler,indicator,1
-Command Enabler,"info, about",1
-Command Enabler,invite,1
-Command Enabler,"java, jdoodle",1
-Command Enabler,kittyrole,1
-Command Enabler,leaderboard,1
-Command Enabler,map,1
-Command Enabler,"perish, thenperish",1
-Command Enabler,ping,1
-Command Enabler,poll,1
-Command Enabler,raffle,1
-Command Enabler,raffleend,1
-Command Enabler,rafflejoin,1
-Command Enabler,rafflespin,1
-Command Enabler,rafflestart,1
-Command Enabler,rating,1
-Command Enabler,remind,1
-Command Enabler,results,1
-Command Enabler,role,1
-Command Enabler,roll,1
-Command Enabler,rpend,1
-Command Enabler,rpg,1
-Command Enabler,rpstart,1
-Command Enabler,searchcharacter,1
-Command Enabler,showpoll,1
-Command Enabler,shutdown,1
-Command Enabler,stats,1
-Command Enabler,teey,1
-Command Enabler,"tony, stark, dontfeelgood, dontfeelsogood",1
-Command Enabler,tweet,1
-Command Enabler,vote,1
-Command Enabler,wolfram,1
-Command Enabler,work,1
-Command Enabler,yeet,1
+"Type","Key","Value"
+"Localized Commands","beans",""
+"Localized Commands","benchmark, bench",""
+"Localized Commands","bet",""
+"Localized Commands","bethistory",""
+"Localized Commands","blur",""
+"Localized Commands","boop",""
+"Localized Commands","buildHelp",""
+"Localized Commands","c++, g++, cplus, cpp",""
+"Localized Commands","catch",""
+"Localized Commands","character",""
+"Localized Commands","choose",""
+"Localized Commands","color, colour",""
+"Localized Commands","crouton",""
+"Localized Commands","dbflush",""
+"Localized Commands","dbstats",""
+"Localized Commands","defaultdance",""
+"Localized Commands","derp",""
+"Localized Commands","e621",""
+"Localized Commands","eightball, 8ball",""
+"Localized Commands","fetch",""
+"Localized Commands","givebeans",""
+"Localized Commands","help",""
+"Localized Commands","indicator",""
+"Localized Commands","info, about",""
+"Localized Commands","invite",""
+"Localized Commands","java, jdoodle",""
+"Localized Commands","kittyrole",""
+"Localized Commands","leaderboard",""
+"Localized Commands","map",""
+"Localized Commands","mod",""
+"Localized Commands","music",""
+"Localized Commands","perish, thenperish",""
+"Localized Commands","ping",""
+"Localized Commands","poll",""
+"Localized Commands","raffle",""
+"Localized Commands","rating",""
+"Localized Commands","remind",""
+"Localized Commands","results",""
+"Localized Commands","role",""
+"Localized Commands","roll",""
+"Localized Commands","rpend",""
+"Localized Commands","rpg",""
+"Localized Commands","rpstart",""
+"Localized Commands","shutdown",""
+"Localized Commands","stats",""
+"Localized Commands","teey",""
+"Localized Commands","tony, stark, dontfeelgood, dontfeelsogood","tony, stark, dontfeelgood, dontfeelsogood, snap"
+"Localized Commands","tweet",""
+"Localized Commands","vote",""
+"Localized Commands","wolfram",""
+"Localized Commands","work",""
+"Localized Commands","yeet",""
+"Localized Strings","AddGuildRoleFailure","Failed to add %s to %s"
+"Localized Strings","BeansShowDisplay","You have %s beans!"
+"Localized Strings","BeansShowInfo","Displays how many beans you have"
+"Localized Strings","BeansShowMentioned","I took a look and %sbeans!"
+"Localized Strings","BenchmarkInfo","Allows you to lookup PC component benchmarks from UserBenchmark! You can use `bench find <name-snippet>"
+"Localized Strings","BenchmarkInvalid","The benchmark operation you were trying to perform was invalid!"
+"Localized Strings","BetBeansInfo","Allows you to bet your beans, set your amount after the command! Warning! House always wins!nSets of 3 will get 2x, 4 will get 10x, and 5 will get 1000x"
+"Localized Strings","BetBeansLose","Sorry, you didn't win, try again!"
+"Localized Strings","BetBeansLowBet","Please bet with at least 20 beans!"
+"Localized Strings","BetBeansNotEnough","You don't have enough beans!"
+"Localized Strings","BetBeansNotValid","That's not a valid bet!"
+"Localized Strings","BetBeansWin","You won %s beans!"
+"Localized Strings","BetHistoryInfo","Gives how many beans I've ~~stolen~~ won from your bets!"
+"Localized Strings","BetHistoryOutput","I have %s treats from betting!"
+"Localized Strings","BlurryInfo","Blurs your icon or the icon of a friend you mentioned"
+"Localized Strings","BoopInfo","Kitty will react with a counter"
+"Localized Strings","BoopMultiple","%s booped several others - %s!"
+"Localized Strings","BoopPerson","%s booped %s!"
+"Localized Strings","BoopStandard","Woah! %s booped me! That's %s total! "
+"Localized Strings","CatchInfo","Play catch with yourself or with a friend with @!"
+"Localized Strings","ChangeIndicatorChanged","Indicator changed to `%s`"
+"Localized Strings","ChangeIndicatorError","Please specify a letter or symbol to use!"
+"Localized Strings","ChangeIndicatorInfo","Changes the command indicator to any single character. By default, it's '!'. If more than one character is provided, the first one is used!"
+"Localized Strings","CharacterCreateDuplicate","You can't create a character with the same name!"
+"Localized Strings","CharacterCreateInfo",""
+"Localized Strings","CharacterCreateNullInfo","You have to put info in!"
+"Localized Strings","CharacterCreateSuccess","I'll store that character for you!"
+"Localized Strings","CharacterEditBioInfo","Change the short bio for your character! "
+"Localized Strings","CharacterEditBioNotAuth","You're not authorized to change that character! "
+"Localized Strings","CharacterEditBioNotValid",""
+"Localized Strings","CharacterEditBioSuccess","Successfully changed your bio! "
+"Localized Strings","CharacterEditNameInfo","Change your character's name!"
+"Localized Strings","CharacterEditNameNotAuth","You're not authorized to change that character! "
+"Localized Strings","CharacterEditNameNotValid","That's not a vaild name!"
+"Localized Strings","CharacterEditNameSuccess","Successfully changed your name!"
+"Localized Strings","CharacterEditURLInfo","Change the image URL for your character's reference! "
+"Localized Strings","CharacterEditURLNotAuth","You're not authorized to change that character! "
+"Localized Strings","CharacterEditURLNotValid","That's not a valid url! "
+"Localized Strings","CharacterEditURLSuccess","Successfully changed your reference! "
+"Localized Strings","CharacterInfo","Character is a super command!\n\t`character create \""name\"", \""bio\"", \""ref url\""` will create a new character with those details!\n\t`character editbio \""uniqueID\"", \""new bio\""` will make a new bio for your character!\n\t`character editname \""uniqueID\"", \""new name\""` will make a new name for your character!\n\t`character editbio \""uniqueID\"", \""new refurl\""` will make a new url for your character!\n\t`character search \""name\"" OR \""uniqueID\""` will search for that character!"
+"Localized Strings","CharacterSearchInfo","Find a character with their name or Unique ID! `charactersearch name` or `charactersearch UniqueID`"
+"Localized Strings","CharacterSearchMultipleCharacter","%s is owned by %s. Unique ID is `%s`"
+"Localized Strings","CharacterSearchMultipleCharacterHeader","I found a couple characters with that name, use `charactersearch UniqueID` with their Unique ID to find them!"
+"Localized Strings","CharacterSearchNoCharacterFound","Couldn't find a character with that name or ID!"
+"Localized Strings","CharacterSearchOneCharacter","I found one character with that name! \n Owner: %s | Name: %s | Bio: %s | Ref: <%s> | Unique ID: `%s`"
+"Localized Strings","ChooseChoice","I chooooooose %s!"
+"Localized Strings","ChooseInfo","With an input of x,y,z where x y and z are all choices, kitty will choose one"
+"Localized Strings","ChooseOne","I can't choose from *one* thing!"
+"Localized Strings","ColiruError","Please provide some c++ code to attempt to compile!"
+"Localized Strings","ColiruInfo","Will try to compile any c++ code you put in! Supports up to C++14 standard, uses g++."
+"Localized Strings","ColorInfo","Looks up the provided hex color and outputs it as hex, rgb, hsl, hsv, xyz, and cmyk. Also attempts to name the color, and provies a sample of it! Usage example: `!color #365345` (the # can be omitted)"
+"Localized Strings","ColorNotSearchable","Your color couldn't be parsed! Make sure it's in hex format. Try this! `!color 3F5D54`"
+"Localized Strings","CroutonInfo","Crouton"
+"Localized Strings","DBFlushInfo","Takes all objects queued for the database and writes them to the database, then says how many were written."
+"Localized Strings","DBStatsInfo","Shows current statistics for the database"
+"Localized Strings","DefaultDanceInfo","y'all know forknife, get ready to dance, or make a friend dance with @!"
+"Localized Strings","DoWorkFinished","I finished with my work! :D"
+"Localized Strings","DoWorkInfo","Occupies a core for a few seconds"
+"Localized Strings","EightBallError","Hmm? You'll need to ask a question!"
+"Localized Strings","EightBallInfo","Answers a yes or no question! Warning: Kitty can not actually tell the future, she claims no responsibility for any lion mauling, lack of lottery wins, or felony charges."
+"Localized Strings","EightBallMaybe1","Reply hazy, try again."
+"Localized Strings","EightBallMaybe2","Ask again later."
+"Localized Strings","EightBallMaybe3","Better not tell you now."
+"Localized Strings","EightBallMaybe4","Cannot predict now."
+"Localized Strings","EightBallMaybe5","Concentrate and ask again."
+"Localized Strings","EightBallNo1","Don't count on it."
+"Localized Strings","EightBallNo2","My reply is no."
+"Localized Strings","EightBallNo3","My sources say no."
+"Localized Strings","EightBallNo4","Outlook not so good."
+"Localized Strings","EightBallNo5","Very doubtful."
+"Localized Strings","EightBallYes1","It is certain."
+"Localized Strings","EightBallYes10","Signs point to yes."
+"Localized Strings","EightBallYes2","It is decidedly so."
+"Localized Strings","EightBallYes3","Without a doubt."
+"Localized Strings","EightBallYes4","Yes - definitely."
+"Localized Strings","EightBallYes5","You may rely on it."
+"Localized Strings","EightBallYes6","As I see it, yes."
+"Localized Strings","EightBallYes7","Most likely."
+"Localized Strings","EightBallYes8","Outlook good."
+"Localized Strings","EightBallYes9","Yes."
+"Localized Strings","FetchBringBack","Got it! %s"
+"Localized Strings","FetchBringBackWrong","Got it! %s"
+"Localized Strings","FetchCatchRun","*Catches and runs away with %s*"
+"Localized Strings","FetchEat","Mine now! *munches on %s*"
+"Localized Strings","FetchError","That's not a custom emote!"
+"Localized Strings","FetchInfo","Throw a custom emote and I'll try to bring it back.... maybe"
+"Localized Strings","FetchRunAway","*Runs away and doesn't return for a long time*"
+"Localized Strings","FetchStare","*Stares at %s*"
+"Localized Strings","GiveBeansInfo","Gives beans to the mentioned users!"
+"Localized Strings","GiveBeansInvalid","That's not a valid number!"
+"Localized Strings","GiveBeansNoneMentioned","You didn't mention anyone!"
+"Localized Strings","GiveBeansSuccess","Gave %s %s beans!"
+"Localized Strings","GuildRoleAddFailure","I can't add %s to %s."
+"Localized Strings","GuildRoleAddInfo","Add a role to yourself!"
+"Localized Strings","GuildRoleAddNotAllowed","You are not allowed to add %s!"
+"Localized Strings","GuildRoleAddSuccess","Added %s to you!"
+"Localized Strings","GuildRoleAllowedDuplicate","Can't add the same role twice!"
+"Localized Strings","GuildRoleAllowedInfo","Adds role to the list of roles users are allowed to add to themselves."
+"Localized Strings","GuildRoleAllowedSuccess","Added %s to the allowed roles!"
+"Localized Strings","GuildRoleInfo","Role is a super command!\n\t`role add \""role\""` will add a role to you!\n\t`role remove \""role\""` will remove a role!\n\t`role list` will list all the roles you're allowed to add to yourself!\n`ADMIN COMMANDS`\n\t`role allowed \""role\""` will add a role to the list of roles users are allowed to add\n\t`role unallowed \""role\""` will remove a role from the list of roles that users are allowed to add"
+"Localized Strings","GuildRoleListEmpty","There are no roles you can add to yourself."
+"Localized Strings","GuildRoleListOutput","You can add these roles! %s"
+"Localized Strings","GuildRoleNotAllowedFailure","Unable to remove %s from the list!"
+"Localized Strings","GuildRoleNotAllowedInfo","Removes a role from the list that users are allowed to add to themselves."
+"Localized Strings","GuildRoleNotAllowedNoArgs",""
+"Localized Strings","GuildRoleNotAllowedSuccess","Removed %s from the allowed roles!"
+"Localized Strings","GuildRoleRemoveFailure","I wasn't able to remove %s from %s!"
+"Localized Strings","GuildRoleRemoveInfo","Removes a role from you! Just remember to spell it right!"
+"Localized Strings","GuildRoleRemoveNotAllowed","You're not allowed to add %s!"
+"Localized Strings","GuildRoleRemoveSuccess","Removed %s from %s!"
+"Localized Strings","HelpBuilderInfo","Emit help for all commands as formatted HTML"
+"Localized Strings","HelpDisplay","You can get help with a specific command by typing `!help command`! General Commands: `boop, roll, choose, help, info, vote, results, showpoll, wolfram, cplus, java, beans, role, bet, yeet`"
+"Localized Strings","HelpInfo","Lets you look up specific commands, or get a link to a list of all commands."
+"Localized Strings","InfoInfo","Provides author info and a link to Kitty's website"
+"Localized Strings","InfoResponse","I'm made by `Rin#8904` and `Reverie Wisp#3703`! You can find more info about me along with a Patreon link to support us and GitHub link for filing bugs https://kittybot.net"
+"Localized Strings","InviteInfo","Provides a direct invite link for KittyBot"
+"Localized Strings","JDoodleError","Please provide some java code to get it compiled!"
+"Localized Strings","JDoodleInfo","Will compile any java code you put in! Supports Java 1.8"
+"Localized Strings","LeaderboardInfo","Shows you the 10 users with the most beans on the server"
+"Localized Strings","LeaderboardTitle","Server Leaderboard"
+"Localized Strings","MapHeight",""
+"Localized Strings","MapInfo","Generates a map! You can pass additional information if you want with the flags `-s<seed>`. If one of the fields isn't provided, its default will be used. Note that adjusting the width and height impacts the map outcomes.\n\n**Defaults**\nDefault Seed: Random,\nDefault Width: 35(max %s),\nDefault Height: 25(max %s)\n\n**Key**\nLand: ~\nMountain: \u25B2\nBeach: =\nTrees: \u00A5\nVolcano: #"
+"Localized Strings","MapInvalid","Invalid arguments provided!"
+"Localized Strings","MapSeed","Seed"
+"Localized Strings","MapVersion","Using mapgen v0.1"
+"Localized Strings","MapWidth",""
+"Localized Strings","ModInfo","Mod is a super command for admin or mod use only!\n\t`mod ban @user` will ban a user from the server\n\t`mod kick @user` will kick the user from the server"
+"Localized Strings","MusicInfo",""
+"Localized Strings","PerishInfo","Adds a red, 'a n g e r y' overlay to your icon or the icon of a friend you mentioned"
+"Localized Strings","PingInfo","Will respond with Pong!"
+"Localized Strings","PingResponse","Pong!"
+"Localized Strings","PollManageInfo","'start' will start a new poll with the query of the line you put after, 'choice' will add a choice to the poll, 'stop' will end the poll"
+"Localized Strings","PollResultsInfo","Will show current results of a poll and percentages of votes per choice"
+"Localized Strings","PollResultsResponse","%s people voted for `%s` with `%s%%` "
+"Localized Strings","PollShowChoices","And the choices are:n"
+"Localized Strings","PollShowInfo","Will show the current poll running"
+"Localized Strings","PollShowNoPoll","There is no poll running!"
+"Localized Strings","PollShowPoll","The current poll is `%s`"
+"Localized Strings","PollVoteAlreadyVoted","You already voted"
+"Localized Strings","PollVoteInfo","Vote in a poll with the choice number, won't work if no poll is running, you can't change your vote once you have cast it! Be careful!"
+"Localized Strings","PollVoteNoPoll","There is no poll running!"
+"Localized Strings","PollVoteNotValidNumber","That's not a vaild number!"
+"Localized Strings","PollVoteNotValidVote","%s That's not a vaild vote!"
+"Localized Strings","PollVoteSuccess","You successfully voted for"
+"Localized Strings","RaffleEndFailure","I don't think there's one going!"
+"Localized Strings","RaffleEndInfo",""
+"Localized Strings","RaffleEndSuccess","You ended the raffle!"
+"Localized Strings","RaffleInfo","Raffle is a super command!\n\t`raffle start \"# of beans\"` will start a raffle with an entrance fee of the number of beans! Defaults to 100.\n\t`raffle end` will stop the raffle!\n\t`raffle spin` will choose a winner, you can only win once!\n\t`raffle join` will add you to the raffle!"
+"Localized Strings","RaffleJoinFailure","You can't join again!"
+"Localized Strings","RaffleJoinInfo",""
+"Localized Strings","RaffleJoinSuccess","You joined the raffle! Good luck!"
+"Localized Strings","RaffleSpinFailure","I can't choose a winner D:"
+"Localized Strings","RaffleSpinInfo",""
+"Localized Strings","RaffleSpinSuccess","The winner issssssss %s!"
+"Localized Strings","RaffleStartFailure","I can't start another raffle, try ending the first!"
+"Localized Strings","RaffleStartInfo",""
+"Localized Strings","RaffleStartSuccess","Started a raffle with %s as the cost!"
+"Localized Strings","RatingChanged","Kittybot content set to %s"
+"Localized Strings","RatingInfo","'0' is fully sfw (Derpi and e621 searches are disabled)\n'1' is filtered (kitty auto appends a sfw tag on any searches)\n'2' is nsfw (any search will go through). Some other words are supported for setting filter as well."
+"Localized Strings","RatingInvalid","Invalid content rating"
+"Localized Strings","RatingWarning","Warning: NSFW may slip through, images are only based on tags on their respective sites!"
+"Localized Strings","RemindInfo","`remind \"# of mins\" \"reminder\"` I'll remind you to do something!"
+"Localized Strings","RoleChanged","Changed %s to role `%s`!"
+"Localized Strings","RoleError","You aren't allowed to do that! You must have the KittyRole '%' or higher!"
+"Localized Strings","RoleInfo","Will show the current role you have, Admins can change others roles with input of 'role x @y' with x being blacklist, general, mod, or admin.\nBlacklist will not allow the user to interact with kitty anymore, general mod and admin will give the user access to those commands."
+"Localized Strings","RoleNeededRole","Please enter `general`, `mod`, or `admin`!"
+"Localized Strings","RoleStandardResponse","Your role is %s"
+"Localized Strings","RollError","Didn't work ;3;"
+"Localized Strings","RollInfo","Based on input of xdy where x is number of dice and y is faces kitty will roll that amount of dice, display the individual rolls and total"
+"Localized Strings","RPEndError","You can't end this RP!"
+"Localized Strings","RPEndFileOut","Here's your file!"
+"Localized Strings","RPEndInfo","Ends RP in channel and gives you a .txt file!"
+"Localized Strings","RPGInfo","Admin+ command only right now - experimental text RPG! Format is !rpg <rpg command>"
+"Localized Strings","RPGInvalid","Invalid RPG Command!"
+"Localized Strings","RPStartInfo","Starts an rp, add people to it by mentioning them!"
+"Localized Strings","ShutdownInfo","Stops kitty. `-s` or `safe` as an argument attempts to sync off the database before shutdown."
+"Localized Strings","ShutdownSafe",""
+"Localized Strings","ShutdownUnsafe",""
+"Localized Strings","StarkInfo","Snaps your icon or the icon of a friend you mentioned"
+"Localized Strings","StatsInfo","Displays the actively running KittyBot application information"
+"Localized Strings","TeeyInfo","Teey yourself back into existance, or teey a friend with @!"
+"Localized Strings","TradeBeansInfo","Give your friends some of your beans! Just don't forget to @ them!"
+"Localized Strings","TradeBeansIntParseError","That's not a real number! D:"
+"Localized Strings","TradeBeansNoTargetError","Don't forget to tag who you want to give the beans to!"
+"Localized Strings","TradeBeansNotEnoughError","You can't give more beans than you have!"
+"Localized Strings","TradeBeansStealingBeans","Hey %s! Stealing is wrong! Let's see how you like it! *steals 10 beans*"
+"Localized Strings","TradeBeansSuccess","%s gave %s %s beans!"
+"Localized Strings","TweetError","Tweet command failed!"
+"Localized Strings","TweetInfo","Kitty will tweet to her personal twitter account"
+"Localized Strings","WolframError","Something went wrong!"
+"Localized Strings","WolframInfo","Will query wolframalpha with your question and give a full image output of the answer"
+"Localized Strings","WolframNoArgs","You need to provide some arguments!"
+"Localized Strings","YeetInfo","Yeet yourself or yeet a friend with @!"
+"Command Enabler","addguildrole","1"
+"Command Enabler","allowedguildrole","1"
+"Command Enabler","beans","1"
+"Command Enabler","benchmark, bench","1"
+"Command Enabler","bet","1"
+"Command Enabler","bethistory","1"
+"Command Enabler","blur","1"
+"Command Enabler","boop","1"
+"Command Enabler","buildhelp","1"
+"Command Enabler","c++, g++, cplus, cpp","1"
+"Command Enabler","catch","1"
+"Command Enabler","character","1"
+"Command Enabler","charactercreate","1"
+"Command Enabler","charactereditbio","1"
+"Command Enabler","charactereditname","1"
+"Command Enabler","characterediturl","1"
+"Command Enabler","choose","1"
+"Command Enabler","color, colour","1"
+"Command Enabler","crouton","1"
+"Command Enabler","dbflush","1"
+"Command Enabler","dbstats","1"
+"Command Enabler","defaultdance","1"
+"Command Enabler","derp","1"
+"Command Enabler","e621","1"
+"Command Enabler","eightball, 8ball","1"
+"Command Enabler","fetch","1"
+"Command Enabler","givebeans","1"
+"Command Enabler","guildroleadd","1"
+"Command Enabler","guildroleallowed","1"
+"Command Enabler","guildrolelist","1"
+"Command Enabler","guildrolenotallowed","1"
+"Command Enabler","guildroleremove","1"
+"Command Enabler","help","1"
+"Command Enabler","indicator","1"
+"Command Enabler","info, about","1"
+"Command Enabler","invite","1"
+"Command Enabler","java, jdoodle","1"
+"Command Enabler","kittyrole","1"
+"Command Enabler","leaderboard","1"
+"Command Enabler","map","1"
+"Command Enabler","mod","1"
+"Command Enabler","music","1"
+"Command Enabler","perish, thenperish","1"
+"Command Enabler","ping","1"
+"Command Enabler","poll","1"
+"Command Enabler","raffle","1"
+"Command Enabler","raffleend","1"
+"Command Enabler","rafflejoin","1"
+"Command Enabler","rafflespin","1"
+"Command Enabler","rafflestart","1"
+"Command Enabler","rating","1"
+"Command Enabler","remind","1"
+"Command Enabler","results","1"
+"Command Enabler","role","1"
+"Command Enabler","roll","1"
+"Command Enabler","rpend","1"
+"Command Enabler","rpg","1"
+"Command Enabler","rpstart","1"
+"Command Enabler","searchcharacter","1"
+"Command Enabler","showpoll","1"
+"Command Enabler","shutdown","1"
+"Command Enabler","stats","1"
+"Command Enabler","teey","1"
+"Command Enabler","tony, stark, dontfeelgood, dontfeelsogood","1"
+"Command Enabler","tweet","1"
+"Command Enabler","vote","1"
+"Command Enabler","wolfram","1"
+"Command Enabler","work","1"
+"Command Enabler","yeet","1"

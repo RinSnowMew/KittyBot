@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import core.DatabaseManager;
 import core.DatabaseTrackedObject;
 import utils.AdminControl;
+import utils.AudioUtils;
 
 // Context for a given guild for kittybot. Primarily designed to hold guild-specific settings.
 public class KittyGuild extends DatabaseTrackedObject
@@ -21,6 +22,7 @@ public class KittyGuild extends DatabaseTrackedObject
 	public ArrayList<String> emoji = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
 	public AdminControl control;
+	public AudioUtils audio; 
 	public ArrayList <KittyUser> raffleUsersUnchosen = new ArrayList<KittyUser>();
 	public ArrayList <KittyUser> raffleUsersChosen = new ArrayList<KittyUser>();
 	

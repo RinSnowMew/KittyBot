@@ -12,15 +12,16 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandSearch extends SubCommand
 {
 	public SubCommandSearch(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		ArrayList <KittyCharacter> characters = CharacterManager.instance.searchCharacter(input);
+		ArrayList <KittyCharacter> characters = CharacterManager.instance.searchCharacter(input.args);
 		if(characters.size() < 1)
 		{
 			return new SubCommandFormattable (LocStrings.stub("CharacterSearchNoCharacterFound"));

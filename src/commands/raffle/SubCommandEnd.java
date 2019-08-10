@@ -8,13 +8,14 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandEnd extends SubCommand
 {
 	public SubCommandEnd(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		if(guild.endRaffle())
 		{

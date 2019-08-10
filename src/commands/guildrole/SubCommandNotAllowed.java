@@ -8,28 +8,36 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandNotAllowed extends SubCommand
 {
 	public SubCommandNotAllowed(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		input = input.toLowerCase();
-		String [] roles = input.split(",");
+		String lowerInput = input.args.toLowerCase();
+		String [] roles = lowerInput.split(",");
+		String formatted = "";
+		
+		if(roles.length < 1)
+		{
+			return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleNotAllowedNoArgs")));
+		}
+		
 		for(String role:roles)
 		{
 			if(guild.roleList.contains(role.trim()))
 			{
 				guild.roleList.remove(role);
-				return new SubCommandFormattable(LocStrings.stub("GuildRoleNotAllowedSuccess"));
+				formatted += String.format(LocStrings.stub("GuildRoleNotAllowedSuccess"), role);
 			}
 			else
 			{
-				return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleNotAllowedFailure"), role));
+				formatted += String.format(LocStrings.stub("GuildRoleNotAllowedFailure"), role);
 			}
 		}
-		return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleNotAllowedNoArgs")));
+		return new SubCommandFormattable(formatted);
 	}
 }

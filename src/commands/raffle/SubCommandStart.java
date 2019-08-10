@@ -3,7 +3,12 @@ package commands.raffle;
 import core.LocStrings;
 import core.SubCommand;
 import core.SubCommandFormattable;
-import dataStructures.*;
+import dataStructures.KittyChannel;
+import dataStructures.KittyGuild;
+import dataStructures.KittyRating;
+import dataStructures.KittyRole;
+import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandStart extends SubCommand
 {
@@ -12,11 +17,11 @@ public class SubCommandStart extends SubCommand
 	public int beanCost;
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		try
 		{
-			beanCost = Integer.parseInt(input);
+			beanCost = Integer.parseInt(input.args);
 		}
 		catch(Exception e)
 		{
@@ -29,7 +34,7 @@ public class SubCommandStart extends SubCommand
 		}
 		else
 		{
-			return new SubCommandFormattable (LocStrings.stub("RaffleStartFailure"));
+			return new SubCommandFormattable (String.format(LocStrings.stub("RaffleStartFailure"), beanCost));
 		}
 	}
 }

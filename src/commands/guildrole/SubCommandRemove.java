@@ -10,9 +10,9 @@ public class SubCommandRemove extends SubCommand
 	public SubCommandRemove(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		String role = input.split(" ")[0];
+		String role = input.args.split(" ")[0];
 		String formatted = "";
 		if(guild.roleList.contains(role))
 		{

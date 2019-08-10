@@ -8,15 +8,16 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandAllowed extends SubCommand
 {
 	public SubCommandAllowed(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		String [] roles = input.split(",");
+		String [] roles = input.args.split(",");
 		String role;
 		String formatted = "";
 		for(int i = 0; i < roles.length; i++)

@@ -9,13 +9,14 @@ import dataStructures.KittyPoll;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandVote extends SubCommand
 {
 	public SubCommandVote(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		if(guild.polling)
 		{
@@ -25,7 +26,7 @@ public class SubCommandVote extends SubCommand
 			}
 			try 
 			{
-				int voteNum = Integer.parseInt(input.substring(input.indexOf(" ")).trim())-1;
+				int voteNum = Integer.parseInt(input.args.substring(input.args.indexOf(" ")).trim())-1;
 				if(voteNum >= guild.choices.size() || voteNum < 0)
 				{
 					return new SubCommandFormattable (String.format(LocStrings.stub("PollVoteNotValidVote"), voteNum));
