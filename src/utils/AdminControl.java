@@ -39,4 +39,43 @@ public class AdminControl
 		}
 		return true;
 	}
+	
+	public boolean kickMember(String memberID)
+	{
+		try
+		{
+			guildCon.kick(guild.getMemberById(memberID)).complete();
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean muteMember(String memberID)
+	{
+		try
+		{
+			guildCon.setMute(guild.getMemberById(memberID), true);
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
+	
+	public boolean banMember(String memberID)
+	{
+		try
+		{
+			guildCon.ban(guild.getMemberById(memberID), 0).complete();
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
 }

@@ -8,6 +8,7 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandList extends SubCommand
 {
@@ -15,10 +16,10 @@ public class SubCommandList extends SubCommand
 	public SubCommandList(KittyRole level, KittyRating rating) { super(level, rating);}
 
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		String roles = ""; 
-		if(guild.roleList.isEmpty())
+		if(guild.roleList.size() < 2)
 		{
 			return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleListEmpty")));
 		}

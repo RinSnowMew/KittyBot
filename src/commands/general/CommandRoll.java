@@ -1,15 +1,12 @@
 package commands.general;
 
+import java.awt.Color;
+import java.util.Random;
 import java.util.Stack;
 
-import core.*;
-import dataStructures.KittyChannel;
-import dataStructures.KittyGuild;
-import dataStructures.KittyRating;
-import dataStructures.KittyRole;
-import dataStructures.KittyUser;
-import dataStructures.Response;
-import dataStructures.UserInput;
+import core.Command;
+import core.LocStrings;
+import dataStructures.*;
 
 public class CommandRoll extends Command
 {
@@ -23,7 +20,15 @@ public class CommandRoll extends Command
 	{
 		try 
 		{
-			res.send(rollDice(input.args));
+			KittyEmbed embed = new KittyEmbed();
+			embed.title = user.name +"'s roll!";
+			embed.descriptionText = rollDice(input.args);
+			Random numGen = new Random(user.name.hashCode());
+			float hue = numGen.nextFloat();
+			float sat = .7f;
+			float bright = .7f;
+			embed.color = Color.getHSBColor(hue, sat, bright);
+			res.send(embed);
 		}
 		catch(Exception e)
 		{
@@ -35,6 +40,7 @@ public class CommandRoll extends Command
 	{
 		Stack<Integer> values = new Stack<Integer>();
 		Stack<Character> operators = new Stack<Character>();
+		String steps = ""; 
 		for(int i = 0; i < thing.length(); i ++)
 		{
 			char current = thing.charAt(i);
@@ -49,7 +55,7 @@ public class CommandRoll extends Command
 						operators.add(current);
 					else
 					{
-						calculate(values, operators);
+						steps += "\n" + calculate(values, operators);
 						operators.add(current); 
 					}
 						
@@ -65,7 +71,7 @@ public class CommandRoll extends Command
 					else
 					{
 						i --;
-						calculate(values, operators);
+						steps += "\n" + calculate(values, operators);
 					}
 					continue;
 					
@@ -73,7 +79,7 @@ public class CommandRoll extends Command
 					if(operators.isEmpty() || operators.peek() == '(' || !hasPrecendence(operators.peek(), current))
 						operators.add(current);
 					else
-						calculate(values, operators);
+						steps += "\n" + calculate(values, operators);
 					continue;
 					
 				case ' ':
@@ -114,19 +120,22 @@ public class CommandRoll extends Command
 		
 		while(operators.size() > 0)
 		{
-			calculate(values, operators);
+			steps += "\n" + calculate(values, operators);
 		}
 		
-		return "" + values.pop();
+		return "Roll```" + thing + "```" + "Steps```" + steps + "```" + "Final value ```" + values.pop() +"```";
 	}
 	
-	private void calculate(Stack<Integer> nums, Stack<Character> operators)
+	
+	private String calculate(Stack<Integer> nums, Stack<Character> operators)
 	{
 		int second = nums.pop();
 		int first = nums.pop();
+		int rolls[] = null;
 		int value = 0;
+		char op = operators.pop();
 		
-		switch(operators.pop())
+		switch(op)
 		{
 			case '+':
 				value = first + second;
@@ -141,27 +150,39 @@ public class CommandRoll extends Command
 				value = first / second;
 				break;
 			case 'd': 
-				value = roll(first, second);
+				rolls = roll(first, second);
+				for(int i= 0; i < first; i++)
+				{
+					value += rolls[i];
+				}
+				
 		}
-		
 		nums.add(value);
+		if(rolls == null)
+			return (first + "" + op + "" + second + "=" + value);
+		String rollValues = "";
+		for(int i= 0; i < first; i++)
+		{
+			rollValues += "\uD83C\uDFB2"  + rolls[i] + " ";
+		}
+		return (first + "" + op + "" + second + "=" + value + "(" + rollValues.trim() + ")");
 	}
 
-	private int roll(int first, int second) 
+	private int[] roll(int first, int second) 
 	{
-		int total = 0;
 		int roll = 0;
 		int dice = first;
 		int sides = second;
+		int [] rolls = new int [sides];
 		
 		if(dice < 1)
-			return 0; 
+			return new int[0];
 		for(int i = 0; dice > i; i ++)
 		{
 			roll = (int)(Math.random() * sides) + 1;
-			total += roll;
+			rolls[i] = roll;
 		}
-		return total;
+		return rolls;
 	}
 
 	private boolean hasPrecendence(char op1, char op2)

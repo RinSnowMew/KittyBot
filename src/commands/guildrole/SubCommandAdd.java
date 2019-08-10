@@ -1,5 +1,6 @@
 package commands.guildrole;
 
+import core.LocStrings;
 import core.SubCommand;
 import core.SubCommandFormattable;
 import dataStructures.KittyChannel;
@@ -7,30 +8,38 @@ import dataStructures.KittyGuild;
 import dataStructures.KittyRating;
 import dataStructures.KittyRole;
 import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandAdd extends SubCommand
 {
 	public SubCommandAdd(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		String role = input.split(" ")[0];
-		if(guild.roleList.contains(role))
+		String [] roles = input.args.split(",");
+		String role;
+		String formatted = "";
+		for(int i = 0; i < roles.length; i++)
 		{
-			if(guild.control.addRole(user.discordID, role))
+			role = roles[i].trim();
+			if(guild.roleList.contains(role))
 			{
-				 return new SubCommandFormattable("ADDED  RIN YOU NEED TO FIX THIS"); 
+				if(guild.control.addRole(user.discordID, role))
+				{
+					 formatted += String.format(LocStrings.stub("GuildRoleAddSuccess"), role, user.name); 
+				}
+				else
+				{
+					formatted += String.format(LocStrings.stub("GuildRoleAddFailure"), role, user.name);
+				}
 			}
 			else
 			{
-				return new SubCommandFormattable("FAILED RIN YOU NEED TO FIX THIS TOO");
+				formatted += String.format(LocStrings.stub("GuildRoleAddNotAllowed"), role);
 			}
 		}
-		else
-		{
-			return new SubCommandFormattable("NOT ALLOWED FIX THIS ONE TOO SNEP FACE");
-		}
+		return new SubCommandFormattable(formatted);
 	}
 	
 }

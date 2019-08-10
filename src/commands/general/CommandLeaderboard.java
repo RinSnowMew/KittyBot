@@ -83,13 +83,17 @@ public class CommandLeaderboard extends Command
 		embed.title = LocStrings.stub("LeaderboardTitle");
 		embed.descriptionText = "";
 		
-		for(int i = 0; i < listSize && i < users.size(); ++i)
+		int indexToDisplay = 1;
+		for(int i = 0; indexToDisplay <= listSize && i < users.size(); ++i)
 		{
 			// Only now that we've sorted do we do the full construction and caching of users
 			Pair<Long, String> userPair = users.get(i);
 			KittyUser cachedUser = ObjectBuilderFactory.getKittyUser(guildID, userPair.Second);
 			
-			embed.descriptionText += "**" + (i + 1) + ":** " + userPair.First + " - " + cachedUser.name;
+			if(cachedUser == null)
+				continue; 
+			
+			embed.descriptionText += "**" + (indexToDisplay++) + ":** " + userPair.First + " - " + cachedUser.name;
 			embed.descriptionText += "\n";
 		}
 		

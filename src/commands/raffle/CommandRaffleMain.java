@@ -1,6 +1,7 @@
 package commands.raffle;
 
 import core.Command;
+import core.LocStrings;
 import core.SubCommandFramework;
 import dataStructures.*;
 
@@ -17,8 +18,11 @@ public class CommandRaffleMain extends Command
 	}
 	
 	@Override
+	public String getHelpText() { return LocStrings.stub("RaffleInfo"); }
+	
+	@Override
 	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res) 
 	{
-		framework.run(guild, channel, user, input.args).Call(res);
+		framework.run(guild, channel, user, input).Call(res);
 	}
 }

@@ -10,7 +10,7 @@ public class SubCommandResults extends SubCommand
 	public SubCommandResults(KittyRole level, KittyRating rating) { super(level, rating); }
 	
 	@Override
-	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, String input)
+	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
 		String results = "";
 		int totalVotes = 0; 

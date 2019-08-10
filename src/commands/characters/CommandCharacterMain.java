@@ -1,6 +1,5 @@
 package commands.characters;
 
-import commands.guildrole.*;
 import core.Command;
 import core.LocStrings;
 import core.SubCommandFramework;
@@ -12,7 +11,7 @@ public class CommandCharacterMain extends Command
 	public CommandCharacterMain(KittyRole level, KittyRating rating) 
 	{ 
 		super(level, rating); 
-		framework.addCommand("add", new SubCommandAdd(KittyRole.General, KittyRating.Safe));
+		framework.addCommand("create", new SubCommandCreate(KittyRole.General, KittyRating.Safe));
 		framework.addCommand("editbio", new SubCommandEditBio(KittyRole.General, KittyRating.Safe));
 		framework.addCommand("editname", new SubCommandEditName(KittyRole.General, KittyRating.Safe));
 		framework.addCommand("editurl", new SubCommandEditURL(KittyRole.General, KittyRating.Safe));
@@ -25,6 +24,6 @@ public class CommandCharacterMain extends Command
 	@Override
 	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
-		framework.run(guild, channel, user, input.args).Call(res);
+		framework.run(guild, channel, user, input).Call(res);
 	}
 }
