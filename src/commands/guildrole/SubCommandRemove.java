@@ -12,23 +12,29 @@ public class SubCommandRemove extends SubCommand
 	@Override
 	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		String role = input.args.split(" ")[0];
+		String [] roles = input.args.split(",");
+		String role;
 		String formatted = "";
-		if(guild.roleList.contains(role))
+		for(int i = 0; i < roles.length; i ++)
 		{
-			if(guild.control.removeRole(user.discordID, role))
+			role = roles[i].trim().toLowerCase();
+			if(guild.roleList.contains(role))
 			{
-				formatted += (String.format(LocStrings.stub("GuildRoleRemoveSuccess"), role, user.name));
+				if(guild.control.removeRole(user.discordID, role))
+				{
+					formatted += (String.format(LocStrings.stub("GuildRoleRemoveSuccess"), role, user.name)) + "\n";
+				}
+				else
+				{
+					formatted += (String.format(LocStrings.stub("GuildRoleRemoveFailure"), role, user.name)) + "\n";
+				}
 			}
 			else
 			{
-				formatted += (String.format(LocStrings.stub("GuildRoleRemoveFailure"), role, user.name));
+				formatted += (String.format(LocStrings.stub("GuildRoleRemoveNotAllowed"), role)) + "\n";
 			}
 		}
-		else
-		{
-			formatted += (String.format(LocStrings.stub("GuildRoleRemoveNotAllowed"), role));
-		}
+		
 		
 		return new SubCommandFormattable(formatted);
 	}

@@ -22,21 +22,21 @@ public class SubCommandAdd extends SubCommand
 		String formatted = "";
 		for(int i = 0; i < roles.length; i++)
 		{
-			role = roles[i].trim();
+			role = roles[i].trim().toLowerCase();
 			if(guild.roleList.contains(role))
 			{
 				if(guild.control.addRole(user.discordID, role))
 				{
-					 formatted += String.format(LocStrings.stub("GuildRoleAddSuccess"), role, user.name); 
+					 formatted += String.format(LocStrings.stub("GuildRoleAddSuccess"), role, user.name) + "\n"; 
 				}
 				else
 				{
-					formatted += String.format(LocStrings.stub("GuildRoleAddFailure"), role, user.name);
+					formatted += String.format(LocStrings.stub("GuildRoleAddFailure"), role, user.name) + "\n";
 				}
 			}
 			else
 			{
-				formatted += String.format(LocStrings.stub("GuildRoleAddNotAllowed"), role);
+				formatted += String.format(LocStrings.stub("GuildRoleAddNotAllowed"), role) + "\n";
 			}
 		}
 		return new SubCommandFormattable(formatted);
