@@ -19,7 +19,9 @@ import commands.general.CommandColor;
 import commands.general.CommandCrouton;
 import commands.general.CommandDBFlush;
 import commands.general.CommandDBStats;
+import commands.general.CommandDerpi;
 import commands.general.CommandDoWork;
+import commands.general.CommandE621;
 import commands.general.CommandEightBall;
 import commands.general.CommandFetch;
 import commands.general.CommandGiveBeans;
@@ -154,6 +156,9 @@ public class CommandManager
 		this.register(LocCommands.stub("raffle"), new CommandRaffleMain(KittyRole.General, KittyRating.Safe));
 		this.register(LocCommands.stub("poll"), new CommandPollMain(KittyRole.General, KittyRating.Safe));
 		this.register(LocCommands.stub("music"), new CommandMusicMain(KittyRole.General, KittyRating.Safe));
+		
+		this.register(LocCommands.stub("e621"), new CommandE621(KittyRole.General, KittyRating.Explicit));
+		this.register(LocCommands.stub("derpi"), new CommandDerpi(KittyRole.General, KittyRating.Explicit));
 	}
 	
 	// Allows the command manager to keep track of a command. Takes a pair (the un-localized and localzied commands)
