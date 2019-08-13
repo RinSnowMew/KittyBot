@@ -29,6 +29,6 @@ public class SubCommandList extends SubCommand
 				roles += "\n"; 
 			roles += guild.roleList.get(i);
 		}
-		return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleListOutput"), roles));
+		return new SubCommandFormattable(String.format(LocStrings.stub("GuildRoleListOutput") + "\n", roles));
 	}
 }
