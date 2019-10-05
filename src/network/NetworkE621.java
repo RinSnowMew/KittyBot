@@ -27,6 +27,7 @@ public class NetworkE621
 	private static final String API_ROOT = "https://e621.net/post/index.json?";
 	private static int maxSearchResults_ = 10;
 	private static String[] blacklist = Ref.e621Blacklist;
+	
 	private class E621ResponseObject
 	{
 		// public varaibles matching the case and the type we want for JSON.
@@ -36,6 +37,7 @@ public class NetworkE621
 		public String id;
 		public String tags;
 		public String [] artist;
+		public String [] sources;
 		public String score; 
 	}
 
@@ -47,7 +49,6 @@ public class NetworkE621
 	// Requests a specific image, then returns a few.
 	public GenericImage getE621(String input)
 	{
-
 		GenericImage image = new GenericImage("","","");
 		boolean blacklisted;
 		// Clean up request and replace problematic characters for the query string.
@@ -58,8 +59,9 @@ public class NetworkE621
 		// Configure and send request. Note: Random ordering added as first
 		// tag by default. User-provided tags, therefore, will override it. 
 		// If order:score is provided, that will be honored over order:random.
-		String res = HTTPUtils.sendPOSTRequest(API_ROOT
+		String res = HTTPUtils.SendPOSTRequest(API_ROOT
 			, "tags=order:random%20" + input + "&limit=" + maxSearchResults_);
+		
 		
 		
 		if(res != null)
@@ -99,7 +101,37 @@ public class NetworkE621
 						image.editArtist("Artist Not Found!");
 					
 					image.editAuthorImage("https://e621.net/favicon.ico");
-					image.editDescriptionText("Score: " + imageObj[i].score);
+					
+					String sources = "";
+					
+					if(imageObj[i].sources != null)
+					{
+						for(int k = 0; k < imageObj[i].sources.length; k ++)
+						{
+							if(!imageObj[i].sources[k].endsWith(imageObj[i].file_url.substring(imageObj[i].file_url.lastIndexOf('.'))))
+							{
+								String source = imageObj[i].sources[k];
+								if(source.contains("//www."))
+								{
+									source = source.substring(source.indexOf(".") + 1);
+									source = source.substring(0, source.indexOf('.'));
+								}
+								else 
+								{
+									source = source.substring(source.indexOf("/") + 2);
+									source = source.substring(0, source.indexOf('.'));
+								}
+								sources += " [" + source + "](" + imageObj[i].sources[k] + ") "; 
+							}
+						}
+						image.editDescriptionText("Score: " + imageObj[i].score + "\n**Source:**" + sources);
+					}
+					else
+					{
+						image.editDescriptionText("Score: " + imageObj[i].score);
+					}
+					
+					
 					
 					if(imageObj[i].tags.split(" ").length > 15)
 					{

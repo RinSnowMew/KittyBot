@@ -27,7 +27,7 @@ public class NetworkDerpi
     	GenericImage image = new GenericImage(" ", " ", " ");
     	query = query.trim();
 		query = query.replace(" ", ",");
-        String res = HTTPUtils.sendGETRequest(mainURL + query + "&random_image=1&key=" + Ref.derpiKey);
+        String res = HTTPUtils.SendGETRequest(mainURL + query + "&random_image=1&key=" + Ref.derpiKey);
         if(res != null)
         {
         	InitialRequest obj;
@@ -44,8 +44,8 @@ public class NetworkDerpi
             if(res != null)
             {
             	
-                String res2 = HTTPUtils.sendGETRequest("https://derpibooru.org/" + obj.id + ".json");
-                image.editPostURL("<https://derpibooru.org/" + obj.id +">");
+                String res2 = HTTPUtils.SendGETRequest("https://derpibooru.org/" + obj.id + ".json");
+                image.editPostURL("https://derpibooru.org/" + obj.id);
                 DerpiResponseObject imageObj = jsonParser_.fromJson(res2, DerpiResponseObject.class);
                 
                 image.editImageURL("https:" + imageObj.image.substring(0, imageObj.image.indexOf('_')) + 
@@ -98,7 +98,7 @@ public class NetworkDerpi
     	String res;
     	try
     	{
-    		 res = HTTPUtils.sendGETRequest("https://derpibooru.org/" + id + ".json");
+    		 res = HTTPUtils.SendGETRequest("https://derpibooru.org/" + id + ".json");
     	}
     	catch(Exception e)
     	{

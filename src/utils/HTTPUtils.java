@@ -21,7 +21,7 @@ public class HTTPUtils
 
 	
 	// Sends a GET request for the specified URL.
-	public static String sendGETRequest(String url)
+	public static String SendGETRequest(String url)
 	{
 		try
 		{
@@ -45,8 +45,8 @@ public class HTTPUtils
 	
 	// Sends a POST request to the desired URL.
 	// There are two forms of this function, one of which takes 
-	public static String sendPOSTRequest(String url) { return sendPOSTRequest(url, ""); }
-	public static String sendPOSTRequest(String url, String params) 
+	public static String SendPOSTRequest(String url) { return SendPOSTRequest(url, ""); }
+	public static String SendPOSTRequest(String url, String params) 
 	{	
 		try
 		{
@@ -103,9 +103,7 @@ public class HTTPUtils
 			// Close and return our data
 			in.close();
 			return new String(String.toString());
-		}
-		else
-		{
+		} else {
 			GlobalLog.error(LogFilter.Network, con.getRequestMethod() + " responded with " + responseCode + " instead of 200.");
 			return Integer.toString(responseCode);
 		}

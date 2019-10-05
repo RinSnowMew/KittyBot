@@ -31,7 +31,7 @@ public class CommandDerpi extends Command
 			
 			try 
 			{
-				response = searcher.getDerpi(input.args + " safe").output();
+				response = searcher.getDerpi(input.args.replace(',', ' ') + " safe").output();
 				res.send(response);
 			}
 			catch(Exception e)

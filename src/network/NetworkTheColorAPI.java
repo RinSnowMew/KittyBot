@@ -76,7 +76,7 @@ public class NetworkTheColorAPI
 		try
 		{
 			hex = hex.replace("#", "");
-			String response = HTTPUtils.sendGETRequest("https://www.thecolorapi.com/id?hex=" + hex);
+			String response = HTTPUtils.SendGETRequest("https://www.thecolorapi.com/id?hex=" + hex);
 			
 			ColorData data = jsonParser.fromJson(response, ColorData.class);
 			return data;

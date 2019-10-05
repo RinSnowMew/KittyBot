@@ -15,7 +15,7 @@ public class NetworkColiru
 		query = query.replace("\t", "\\t");
 		
 		// Send the compilation request!
-		String result = HTTPUtils.sendPOSTRequest("http://coliru.stacked-crooked.com/compile"
+		String result = HTTPUtils.SendPOSTRequest("http://coliru.stacked-crooked.com/compile"
 				, "{ \"cmd\": \"g++ main.cpp && ./a.out\", \"src\": \"" + query + "\" }");
 		
 		// If we got a valid response...

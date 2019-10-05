@@ -18,6 +18,15 @@ public class CommandE621 extends Command
 	@Override
 	public void onRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input, Response res)
 	{
+		String userMessage = null;
+		input.args = input.args.trim();
+		if(input.args.startsWith("md5:") && input.args.contains(" "))
+		{
+			userMessage = input.args.substring(input.args.indexOf(" "));
+			input.args = input.args.substring(0, input.args.indexOf("."));
+		}
+		
+		System.out.println("LOOKING FOR: " + input.args);
 		if(guild.contentRating == KittyRating.Filtered)
 		{
 			response = searcher.getE621(input.args + " rating:safe").output();
