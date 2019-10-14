@@ -157,8 +157,8 @@ public class CommandManager
 		this.register(LocCommands.stub("poll"), new CommandPollMain(KittyRole.General, KittyRating.Safe));
 		this.register(LocCommands.stub("music"), new CommandMusicMain(KittyRole.General, KittyRating.Safe));
 		
-		this.register(LocCommands.stub("e621"), new CommandE621(KittyRole.General, KittyRating.Explicit));
-		this.register(LocCommands.stub("derpi"), new CommandDerpi(KittyRole.General, KittyRating.Explicit));
+		this.register(LocCommands.stub("e621"), new CommandE621(KittyRole.General, KittyRating.Filtered));
+		this.register(LocCommands.stub("derpi"), new CommandDerpi(KittyRole.General, KittyRating.Filtered));
 	}
 	
 	// Allows the command manager to keep track of a command. Takes a pair (the un-localized and localzied commands)

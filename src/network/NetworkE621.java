@@ -84,13 +84,14 @@ public class NetworkE621
 					{
 						if(imageObj[i].tags.contains(blacklist[j]))
 						{
+							System.out.println("BLACKLISTED " + blacklist[j]);
 							blacklisted = true;
 						}
 					}
 					
 					if(blacklisted)
 					{
-						continue;
+						return null;
 					}
 					// We will always have a file URL. That's a given.
 					image.editImageURL(imageObj[i].file_url);
