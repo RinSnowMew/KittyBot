@@ -24,6 +24,7 @@ import commands.general.CommandDoWork;
 import commands.general.CommandE621;
 import commands.general.CommandEightBall;
 import commands.general.CommandFetch;
+import commands.general.CommandGetSauce;
 import commands.general.CommandGiveBeans;
 import commands.general.CommandHelp;
 import commands.general.CommandHelpBuilder;
@@ -156,6 +157,7 @@ public class CommandManager
 		this.register(LocCommands.stub("raffle"), new CommandRaffleMain(KittyRole.General, KittyRating.Safe));
 		this.register(LocCommands.stub("poll"), new CommandPollMain(KittyRole.General, KittyRating.Safe));
 		this.register(LocCommands.stub("music"), new CommandMusicMain(KittyRole.General, KittyRating.Safe));
+		this.register(LocCommands.stub("getsauce"), new CommandGetSauce(KittyRole.General, KittyRating.Safe));
 		
 		this.register(LocCommands.stub("e621"), new CommandE621(KittyRole.General, KittyRating.Filtered));
 		this.register(LocCommands.stub("derpi"), new CommandDerpi(KittyRole.General, KittyRating.Filtered));
