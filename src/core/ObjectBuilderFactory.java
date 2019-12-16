@@ -7,23 +7,36 @@ import java.util.concurrent.Semaphore;
 
 import javax.security.auth.login.LoginException;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+
 //import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 //import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 
 import core.lua.PluginManager;
-import dataStructures.*;
+import dataStructures.KittyChannel;
+import dataStructures.KittyCore;
+import dataStructures.KittyGuild;
+import dataStructures.KittyRating;
+import dataStructures.KittyRole;
+import dataStructures.KittyUser;
 import main.Main;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import offline.Ref;
 import utils.AdminControl;
-import utils.AudioUtils;
 //import utils.AudioUtils;
 import utils.GlobalLog;
 import utils.LogFilter;
+import utils.audio.AudioUtils;
 
 // NOTE(wisp): Isolated factory to assist with storage and caching if needed.
 // This also minimizes the number of places JDA interacts with our codebase.
@@ -56,7 +69,7 @@ public class ObjectBuilderFactory
 	private static CommandManager commandManager;
 	
 	//Audio track manager
-//	private static AudioPlayerManager audioPlayer = new DefaultAudioPlayerManager();
+	private static AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 	
 	// Localization classes - these are singletons, but should be initialized before almost all other 
 	// things so their inclusion in the factory is to ensure they're started at the correct time.
@@ -90,6 +103,9 @@ public class ObjectBuilderFactory
 				channelCache = new HashMap<String, KittyChannel>();
 				database = null;
 				stats = null;
+				
+				AudioSourceManagers.registerRemoteSources(playerManager);
+				AudioSourceManagers.registerLocalSource(playerManager);
 				
 				// Start by reading from things that are external. Because
 				// we require these things to be resolved before the rest of the application,
@@ -148,7 +164,7 @@ public class ObjectBuilderFactory
 			else
 			{
 				// Construct a new guild with defaults
-				guild = new KittyGuild(uid, new AdminControl(event.getGuild()), emotesString, new AudioUtils(event.getGuild()));
+				guild = new KittyGuild(uid, new AdminControl(event.getGuild()), emotesString, new AudioUtils(event.getGuild(), playerManager));
 				DatabaseManager.instance.globalRegister(guild);
 				guildCache.put(uid, guild);
 			}
@@ -366,8 +382,9 @@ public class ObjectBuilderFactory
 	{
 		lazyInit();
 		
-		kitty = new JDABuilder(AccountType.BOT).setToken(Ref.TestToken).buildBlocking();
-		kitty.getPresence().setGame(Game.playing("with a laser pointer"));
+		kitty = new JDABuilder(AccountType.BOT)
+				.setToken(Ref.TestToken).buildBlocking();
+		kitty.getPresence().setGame(Game.playing("with digital yarn"));
 		kitty.addEventListener(new Main());
 		
 		return new KittyCore(kitty);

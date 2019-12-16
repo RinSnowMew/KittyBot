@@ -20,8 +20,13 @@ public class SubCommandAddTrack extends SubCommand
 	@Override
 	public SubCommandFormattable OnRun(KittyGuild guild, KittyChannel channel, KittyUser user, UserInput input)
 	{
-		
-		String response = YT.getYT(input.args);
-		return new SubCommandFormattable(response);
+		//Get track from Youtube 
+		String video = input.args;
+		if(!(video.startsWith("https://www.youtube") || video.startsWith("https://www.youtu.be")))
+		{
+			video =  YT.getYT(video);
+		}
+		guild.audio.playVideo(video);
+		return new SubCommandFormattable(video);
 	}
 }

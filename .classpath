@@ -24,8 +24,8 @@
 	<classpathentry kind="lib" path="lib/commons-collections4-4.3.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.9.jar"/>
 	<classpathentry kind="lib" path="lib/commons-text-1.6.jar"/>
-	<classpathentry kind="lib" path="F:/Shared/Coding/Java/workspace/ProKitty/lib/google-http-client-1.32.0.jar"/>
-	<classpathentry kind="lib" path="F:/Shared/Coding/Java/workspace/ProKitty/lib/google-api-services-youtube-v3-rev212-1.25.0.jar"/>
-	<classpathentry kind="lib" path="F:/Shared/Coding/Java/workspace/ProKitty/lib/LavaPlayerJar-0.0.1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/google-http-client-1.32.0.jar"/>
+	<classpathentry kind="lib" path="lib/google-api-services-youtube-v3-rev212-1.25.0.jar"/>
+	<classpathentry kind="lib" path="lib/LavaPlayerJar-0.0.1-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

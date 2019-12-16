@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import core.DatabaseManager;
 import core.DatabaseTrackedObject;
 import utils.AdminControl;
-import utils.AudioUtils;
+import utils.audio.AudioUtils;
 
 // Context for a given guild for kittybot. Primarily designed to hold guild-specific settings.
 public class KittyGuild extends DatabaseTrackedObject
@@ -44,6 +44,7 @@ public class KittyGuild extends DatabaseTrackedObject
 	// Default content for a guild
 	public KittyGuild(String uniqueID, AdminControl adminControl, ArrayList <String> emoji, AudioUtils audio)
 	{
+		
 		super(uniqueID);
 		this.uniqueID = uniqueID;
 		roleList = new KittyTrackedVector(roleListName, uniqueID);
