@@ -141,8 +141,10 @@ public class ObjectBuilderFactory
 		
 		List<Emote> emotes = event.getGuild().getEmotes();
 		ArrayList<String> emotesString = new ArrayList<String>();
+		HashMap<Long, KittyChannel> channels = new HashMap<Long, KittyChannel>();
 		String emote;
 		String emoteFix; 
+		channels.put(Long.getLong(uid), extractChannel(event));
 		for(int i = 0; i < emotes.size(); i++)
 		{
 			emote = emotes.get(i).toString();
@@ -163,8 +165,8 @@ public class ObjectBuilderFactory
 			}
 			else
 			{
-				// Construct a new guild with defaults
-				guild = new KittyGuild(uid, new AdminControl(event.getGuild()), emotesString, new AudioUtils(event.getGuild(), playerManager));
+				// Construct a new guild with defaults				
+				guild = new KittyGuild(uid, new AdminControl(event.getGuild()), emotesString, new AudioUtils(event.getGuild(), playerManager), channels);
 				DatabaseManager.instance.globalRegister(guild);
 				guildCache.put(uid, guild);
 			}
@@ -222,14 +224,13 @@ public class ObjectBuilderFactory
 	public static KittyChannel extractChannel(GuildMessageReceivedEvent event)
 	{
 		lazyInit();
-		
 		String channelID = event.getChannel().getId();
-		String guildID = event.getGuild().getId();
 		KittyChannel channel = null;
 		
 		synchronized(channelCache)
 		{
 			KittyChannel cachedChannel = channelCache.get(channelID);
+			boolean mature; 
 			
 			if(cachedChannel != null)
 			{
@@ -237,8 +238,8 @@ public class ObjectBuilderFactory
 			}
 			else
 			{
-				KittyGuild cachedGuild = guildCache.get(guildID);
-				channel = new KittyChannel(channelID, cachedGuild);
+				mature = event.getChannel().isNSFW();
+				channel = new KittyChannel(channelID, mature);
 				channelCache.put(channelID, channel);
 			}
 		}

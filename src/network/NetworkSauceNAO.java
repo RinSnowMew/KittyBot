@@ -33,7 +33,7 @@ public class NetworkSauceNAO
 		input = input.replace("+", "%2B");
 		input = input.replace(" ", "%20");
 		
-		String res = HTTPUtils.sendGETRequest(API_ROOT + input);
+		String res = HTTPUtils.SendGETRequest(API_ROOT + input);
 		
 		SauceNAOResponseObject sauce = jsonParser_.fromJson(res, SauceNAOResponseObject.class);
 		String sauceUrl = sauce.results.get(0).data.ext_urls[0];

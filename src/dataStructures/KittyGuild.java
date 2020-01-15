@@ -1,6 +1,7 @@
 package dataStructures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import core.DatabaseManager;
 import core.DatabaseTrackedObject;
@@ -21,6 +22,7 @@ public class KittyGuild extends DatabaseTrackedObject
 	public ArrayList<String> hasVoted = new ArrayList<String>();
 	public ArrayList<String> emoji = new ArrayList<String>();
 	public ArrayList <KittyPoll> choices = new ArrayList<KittyPoll>();
+	public HashMap <Long, KittyChannel> channels;
 	public AdminControl control;
 	public AudioUtils audio;
 	public ArrayList <KittyUser> raffleUsersUnchosen = new ArrayList<KittyUser>();
@@ -42,7 +44,7 @@ public class KittyGuild extends DatabaseTrackedObject
 	}
 	
 	// Default content for a guild
-	public KittyGuild(String uniqueID, AdminControl adminControl, ArrayList <String> emoji, AudioUtils audio)
+	public KittyGuild(String uniqueID, AdminControl adminControl, ArrayList <String> emoji, AudioUtils audio, HashMap<Long, KittyChannel> channels)
 	{
 		
 		super(uniqueID);
@@ -56,11 +58,12 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.polling = false;
 		this.emoji = emoji;
 		this.audio = audio;
+		this.channels = channels;
 		setCommandIndicator("!");
 	}
 	
 	// Explicit constructor
-	public KittyGuild(String commandIndicator, KittyRating contentRating, KittyUser guildOwner, String uniqueID, AudioUtils audio)
+	public KittyGuild(String commandIndicator, KittyRating contentRating, KittyUser guildOwner, String uniqueID, AudioUtils audio, HashMap<Long, KittyChannel> channels)
 	{
 		super(uniqueID);
 		this.uniqueID = uniqueID;
@@ -73,6 +76,7 @@ public class KittyGuild extends DatabaseTrackedObject
 		this.polling = false;
 		this.guildOwner = guildOwner;
 		this.audio = audio;
+		this.channels = channels;
 	}
 	
 	public String startPoll(String poll)

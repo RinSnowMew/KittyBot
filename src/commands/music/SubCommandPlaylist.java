@@ -1,12 +1,13 @@
 package commands.music;
 
-import java.util.ArrayList;
-
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
 import core.SubCommand;
 import core.SubCommandFormattable;
-import dataStructures.*;
+import dataStructures.KittyChannel;
+import dataStructures.KittyGuild;
+import dataStructures.KittyRating;
+import dataStructures.KittyRole;
+import dataStructures.KittyUser;
+import dataStructures.UserInput;
 
 public class SubCommandPlaylist extends SubCommand 
 {

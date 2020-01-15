@@ -62,6 +62,8 @@ public class Main extends ListenerAdapter
 	// Initialization and setup
 	public static void main(String[] args) throws InterruptedException, LoginException, Exception
 	{
+
+		System.out.println("STARTING");
 		// Factory startup. The ordering is intentional.
 		GlobalLog.initialize();
 		databaseManager = ObjectBuilderFactory.constructDatabaseManager();
@@ -73,6 +75,7 @@ public class Main extends ListenerAdapter
 		
 		// Bot startup
 		kittyCore = ObjectBuilderFactory.constructKittyCore();
+		
 	}
 
 	// When a message is sent in a server that kitty is in, this is what's called.

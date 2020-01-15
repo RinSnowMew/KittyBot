@@ -48,7 +48,7 @@ public class NetworkYoutube
 		input = input.replace("+", "%2B");
 		input = input.replace(" ", "%20");
 		
-		String res = HTTPUtils.sendGETRequest(API_ROOT + input + "&order=viewCount&type=video&topicId=%2Fm%2F04rlf&videoDefinition=high&key=" + Ref.youtube);
+		String res = HTTPUtils.SendGETRequest(API_ROOT + input + "&order=viewCount&type=video&topicId=%2Fm%2F04rlf&videoDefinition=high&key=" + Ref.youtube);
 		YTOuter videoObj = jsonParser_.fromJson(res, YTOuter.class);
 		return "https://www.youtube.com/watch?v=" + videoObj.items.get(0).id.videoId;
 	}
