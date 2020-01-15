@@ -1,5 +1,4 @@
 package utils.audio;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -139,6 +138,11 @@ public class AudioUtils
 	
 	public String getPlaylist(AudioPlayer player)
 	{
-		return player.getPlayingTrack().getInfo().title;
+		String response ="";
+		for(AudioTrack track:playlist)
+		{
+			response += track.getInfo().title;
+		}
+		return response;
 	}
 }
